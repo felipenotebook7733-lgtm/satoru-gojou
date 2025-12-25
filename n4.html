@@ -2,46 +2,64 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>JLPT N4 – Curso Dinâmico</title>
+<title>JLPT N4 | Japonês</title>
 
 <style>
+:root {
+    --bg: #f7f7f7;
+    --white: #ffffff;
+    --text: #222;
+    --muted: #666;
+    --accent: #1f6feb;
+    --border: #ddd;
+}
+
+* {
+    box-sizing: border-box;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background: #eef1f5;
+    margin: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+header {
+    background: var(--white);
+    border-bottom: 1px solid var(--border);
+}
+
+.container {
     max-width: 1100px;
     margin: auto;
     padding: 20px;
-    line-height: 1.8;
 }
 
-h1, h2 {
-    color: #222;
-}
-
-.tabs {
+nav {
     display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
+    gap: 25px;
 }
 
-.tab {
-    padding: 10px 20px;
-    background: #ddd;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
+nav a {
+    text-decoration: none;
+    color: var(--muted);
+    font-weight: 500;
+    padding-bottom: 10px;
+    border-bottom: 2px solid transparent;
 }
 
-.tab.active {
-    background: #007bff;
-    color: white;
+nav a.active {
+    color: var(--accent);
+    border-color: var(--accent);
+}
+
+main {
+    margin-top: 30px;
 }
 
 .section {
     display: none;
-    background: white;
-    padding: 20px;
-    border-radius: 8px;
 }
 
 .section.active {
@@ -49,75 +67,86 @@ h1, h2 {
 }
 
 .card {
-    border: 1px solid #ddd;
-    padding: 15px;
-    margin-bottom: 15px;
-    border-radius: 6px;
+    background: var(--white);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
 }
 
 .jp {
     font-size: 20px;
-    font-weight: bold;
+    font-weight: 600;
 }
 
-.read {
-    color: #007bff;
+.reading {
+    color: var(--muted);
+    margin-top: 4px;
 }
 
 .pt {
-    color: #333;
+    margin-top: 10px;
 }
 
-button {
-    margin-top: 10px;
-    padding: 6px 12px;
+.toggle {
+    margin-top: 12px;
+    background: none;
+    border: none;
+    color: var(--accent);
     cursor: pointer;
+    font-size: 14px;
+    padding: 0;
 }
-.explanation {
+
+.details {
     display: none;
-    background: #f3f3f3;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 5px;
+    margin-top: 12px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 15px;
 }
 </style>
 
 <script>
-function openTab(id) {
+function openSection(id, el) {
     document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('nav a').forEach(a => a.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    event.target.classList.add('active');
+    el.classList.add('active');
 }
 
-function toggleExp(id) {
-    const el = document.getElementById(id);
-    el.style.display = el.style.display === "block" ? "none" : "block";
+function toggleDetails(id) {
+    const d = document.getElementById(id);
+    d.style.display = d.style.display === 'block' ? 'none' : 'block';
 }
 </script>
 </head>
 
 <body>
 
-<h1>📘 JLPT N4 – Curso Dinâmico e Interativo</h1>
+<header>
+    <div class="container">
+        <nav>
+            <a href="#" class="active" onclick="openSection('gramatica', this)">Gramática</a>
+            <a href="#" onclick="openSection('vocab', this)">Vocabulário</a>
+            <a href="#" onclick="openSection('leitura', this)">Leitura</a>
+        </nav>
+    </div>
+</header>
 
-<div class="tabs">
-    <div class="tab active" onclick="openTab('gramatica')">Gramática</div>
-    <div class="tab" onclick="openTab('vocab')">Vocabulário</div>
-    <div class="tab" onclick="openTab('leitura')">Leitura</div>
-</div>
+<main class="container">
 
 <!-- ================= GRAMÁTICA ================= -->
-<div id="gramatica" class="section active">
+<section id="gramatica" class="section active">
 
 <div class="card">
     <div class="jp">～ようになる</div>
-    <div class="pt">Passar a conseguir / mudança gradual</div>
-    <button onclick="toggleExp('g1')">Ver explicação</button>
-    <div id="g1" class="explanation">
-        📌 Forma: verbo dicionário + ようになる<br>
-        🔎 Expressa mudança ao longo do tempo.<br><br>
-        Exemplo:<br>
+    <div class="reading">Mudança gradual</div>
+    <div class="pt">Expressa algo que passou a ser possível com o tempo.</div>
+    <button class="toggle" onclick="toggleDetails('g1')">Ver explicação</button>
+    <div id="g1" class="details">
+        Forma: verbo dicionário + ようになる<br><br>
         日本語が分かるようになりました。<br>
         Passei a entender japonês.
     </div>
@@ -125,60 +154,62 @@ function toggleExp(id) {
 
 <div class="card">
     <div class="jp">～てしまう</div>
-    <div class="pt">Algo feito sem querer / completamente</div>
-    <button onclick="toggleExp('g2')">Ver explicação</button>
-    <div id="g2" class="explanation">
-        📌 Forma: verbo て + しまう<br><br>
-        宿題を忘れてしまいました。<br>
-        Acabei esquecendo o dever.
+    <div class="reading">Conclusão / arrependimento</div>
+    <div class="pt">Indica algo feito sem intenção ou completamente.</div>
+    <button class="toggle" onclick="toggleDetails('g2')">Ver explicação</button>
+    <div id="g2" class="details">
+        Forma: verbo て + しまう<br><br>
+        財布を忘れてしまいました。<br>
+        Acabei esquecendo a carteira.
     </div>
 </div>
 
-</div>
+</section>
 
 <!-- ================= VOCAB ================= -->
-<div id="vocab" class="section">
+<section id="vocab" class="section">
 
 <div class="card">
     <div class="jp">続ける</div>
-    <div class="read">つづける</div>
+    <div class="reading">つづける</div>
     <div class="pt">Continuar</div>
 </div>
 
 <div class="card">
     <div class="jp">決める</div>
-    <div class="read">きめる</div>
+    <div class="reading">きめる</div>
     <div class="pt">Decidir</div>
 </div>
 
 <div class="card">
     <div class="jp">増える / 減る</div>
-    <div class="read">ふえる / へる</div>
+    <div class="reading">ふえる / へる</div>
     <div class="pt">Aumentar / Diminuir</div>
 </div>
 
-</div>
+</section>
 
 <!-- ================= LEITURA ================= -->
-<div id="leitura" class="section">
+<section id="leitura" class="section">
 
 <div class="card">
     <div class="jp">
         私は毎日日本語を勉強しています。<br>
-        最初はとても難しかったですが、<br>
+        最初は難しかったですが、<br>
         今は少しずつ分かるようになりました。
     </div>
 
-    <button onclick="toggleExp('l1')">Ver tradução</button>
-
-    <div id="l1" class="explanation">
+    <button class="toggle" onclick="toggleDetails('l1')">Ver tradução</button>
+    <div id="l1" class="details">
         Eu estudo japonês todos os dias.<br>
-        No começo era muito difícil,<br>
-        mas agora estou entendendo aos poucos.
+        No começo era difícil,<br>
+        mas agora entendo aos poucos.
     </div>
 </div>
 
-</div>
+</section>
+
+</main>
 
 </body>
 </html>
