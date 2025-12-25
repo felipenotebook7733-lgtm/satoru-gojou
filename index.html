@@ -6,130 +6,104 @@
 
 <style>
 :root{
-    --bg:#0f1115;
-    --panel:#151922;
-    --text:#e6e8ee;
-    --muted:#9aa0aa;
-    --accent:#b33cff;
-    --border:#242836;
+  --bg:#0c0f14;
+  --panel:#161a24;
+  --border:#262b3a;
+  --text:#e6e9f0;
+  --muted:#9aa0aa;
+  --accent:#8b5cf6;
 }
-
 *{box-sizing:border-box}
-
 body{
-    margin:0;
-    font-family: "Yu Gothic","Hiragino Kaku Gothic ProN",system-ui,sans-serif;
-    background:var(--bg);
-    color:var(--text);
-    line-height:1.9;
+  margin:0;
+  font-family:"Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",system-ui,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  line-height:2.1;
 }
-
 header{
-    background:var(--panel);
-    border-bottom:1px solid var(--border);
+  background:var(--panel);
+  border-bottom:1px solid var(--border);
 }
-
 .container{
-    max-width:1200px;
-    margin:auto;
-    padding:24px;
+  max-width:1100px;
+  margin:auto;
+  padding:28px;
 }
-
 h1{
-    margin:0;
-    font-size:32px;
-    letter-spacing:2px;
+  margin:0;
+  font-size:28px;
+  letter-spacing:2px;
 }
-
 .subtitle{
-    color:var(--muted);
-    margin-top:6px;
+  color:var(--muted);
+  margin-top:6px;
 }
-
 nav{
-    margin-top:20px;
-    display:flex;
-    gap:28px;
-    flex-wrap:wrap;
+  margin-top:20px;
+  display:flex;
+  gap:28px;
 }
-
 nav a{
-    color:var(--muted);
-    text-decoration:none;
-    font-weight:500;
-    padding-bottom:6px;
-    border-bottom:2px solid transparent;
+  color:var(--muted);
+  text-decoration:none;
+  font-size:14px;
+  padding-bottom:6px;
+  border-bottom:2px solid transparent;
 }
-
 nav a.active{
-    color:var(--accent);
-    border-color:var(--accent);
+  color:var(--accent);
+  border-color:var(--accent);
 }
-
-.section{
-    display:none;
-}
-
-.section.active{
-    display:block;
-}
-
+.section{display:none}
+.section.active{display:block}
 .card{
-    background:var(--panel);
-    border:1px solid var(--border);
-    border-radius:10px;
-    padding:28px;
-    margin-bottom:28px;
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:30px;
+  margin-bottom:34px;
 }
-
-.jp{
-    font-size:22px;
-    font-weight:600;
+.kanji{
+  font-size:44px;
+  font-weight:600;
 }
-
-.pt{
-    margin-top:14px;
-}
-
-.analysis{
-    margin-top:20px;
-    padding-top:20px;
-    border-top:1px solid var(--border);
-    color:var(--muted);
-}
-
+.reading{color:var(--muted);margin-top:6px}
+.meaning{margin-top:12px}
 button{
-    margin-top:16px;
-    background:none;
-    border:none;
-    color:var(--accent);
-    cursor:pointer;
-    font-size:14px;
-    padding:0;
+  margin-top:18px;
+  background:none;
+  border:none;
+  color:var(--accent);
+  cursor:pointer;
+  font-size:14px;
 }
-
-.hidden{
-    display:none;
+.details{
+  display:none;
+  margin-top:22px;
+  padding-top:22px;
+  border-top:1px solid var(--border);
+  color:var(--muted);
 }
-
+.line{margin-bottom:14px}
 footer{
-    text-align:center;
-    color:var(--muted);
-    padding:40px 0;
-    font-size:13px;
+  text-align:center;
+  color:var(--muted);
+  padding:46px 0;
+  font-size:12px;
 }
 </style>
 
 <script>
 function openTab(id,el){
-    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-    document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    el.classList.add('active');
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  el.classList.add('active');
 }
 function toggle(id){
-    const e=document.getElementById(id);
-    e.classList.toggle('hidden');
+  const e=document.getElementById(id);
+  e.style.display = e.style.display === "block" ? "none" : "block";
 }
 </script>
 </head>
@@ -139,155 +113,128 @@ function toggle(id){
 <header>
 <div class="container">
 <h1>ヴァンパイア全知全能</h1>
-<div class="subtitle">知識・言語・読解の深層記録</div>
+<div class="subtitle">
+全知全能の吸血鬼<br>
+O Vampiro Onisciente e Onipotente
+</div>
 
 <nav>
-<a href="#" class="active" onclick="openTab('intro',this)">序章</a>
-<a href="#" onclick="openTab('texto1',this)">第一章</a>
-<a href="#" onclick="openTab('texto2',this)">第二章</a>
-<a href="#" onclick="openTab('analise',this)">文法・語彙</a>
+<a href="#" class="active" onclick="openTab('kanji',this)">漢字</a>
+<a href="#" onclick="openTab('texto',this)">文章読解</a>
 </nav>
 </div>
 </header>
 
 <main class="container">
 
-<!-- ================= 序章 ================= -->
-<section id="intro" class="section active">
+<!-- ================= KANJI ================= -->
+<section id="kanji" class="section active">
 
 <div class="card">
-<div class="jp">
-ヴァンパイア全知全能とは、<br>
-すべてを観察し、すべてを記録し、<br>
-言葉の奥に潜む意味を理解する存在である。
+<div class="kanji">考</div>
+<div class="reading">かんが・える</div>
+<div class="meaning">Pensar, refletir</div>
+
+<button onclick="toggle('k1')">詳しい分析</button>
+<div id="k1" class="details">
+
+<div class="line">
+<strong>意味（いみ）：</strong><br>
+考える は、情報（じょうほう）を整理（せいり）し、<br>
+結論（けつろん）を出（だ）そうとする行為（こうい）。
 </div>
 
-<button onclick="toggle('i1')">解説を表示</button>
+<div class="line">
+<strong>ひらがな：</strong><br>
+かんがえる は、あたまのなかで じょうほうを まとめて、<br>
+けつろんを だそうとする こと。
+</div>
 
-<div id="i1" class="analysis hidden">
-🔍 **Linha a linha:**<br><br>
+<div class="line">
+<strong>構文・定型：</strong><br>
+～について考える<br>
+将来について考える
+</div>
 
-ヴァンパイア → vampiro (metáfora do observador eterno)<br>
-全知全能 → onisciente e onipotente<br><br>
+<div class="line">
+<strong>他の言い方：</strong><br>
+よく考える（pensar bem）<br>
+考え直す（repensar）
+</div>
 
-とは → define o conceito<br>
-すべてを観察し → observar tudo<br>
-すべてを記録し → registrar tudo<br>
-言葉の奥に潜む意味 → significados ocultos das palavras<br>
-理解する存在 → entidade que compreende
 </div>
 </div>
 
+<div class="card">
+<div class="kanji">感</div>
+<div class="reading">かん</div>
+<div class="meaning">Sentimento, sensação</div>
+
+<button onclick="toggle('k2')">詳しい分析</button>
+<div id="k2" class="details">
+
+<div class="line">
+<strong>意味：</strong><br>
+感 は、外（そと）からの刺激（しげき）を、<br>
+心（こころ）で受（う）け取（と）ること。
+</div>
+
+<div class="line">
+<strong>ひらがな：</strong><br>
+かん は、そとからの しげきを、<br>
+こころで かんじる こと。
+</div>
+
+<div class="line">
+<strong>よく使う言葉：</strong><br>
+感情（かんじょう）<br>
+違和感（いわかん）<br>
+安心感（あんしんかん）
+</div>
+
+</div>
+</div>
+
+<!-- ← aqui entram TODOS os kanji N4 -->
 </section>
 
-<!-- ================= 第一章 ================= -->
-<section id="texto1" class="section">
+<!-- ================= TEXTO ================= -->
+<section id="texto" class="section">
 
 <div class="card">
-<div class="jp">
-人は言葉を使って考える。<br>
-言葉を失えば、思考は曖昧になる。<br>
-だからこそ、言語を学ぶことは、<br>
-自分自身を再構築する行為である。
+<div class="line">
+最近、仕事が忙しくて、<br>
+自分のことを考える時間がなくなってきました。
 </div>
 
-<button onclick="toggle('t1')">詳細解説</button>
+<button onclick="toggle('t1')">読解・分析</button>
+<div id="t1" class="details">
 
-<div id="t1" class="analysis hidden">
-🧠 **Explicação detalhada:**<br><br>
-
-人は言葉を使って考える  
-→ O pensamento humano depende da linguagem.<br><br>
-
-言葉を失えば、思考は曖昧になる  
-→ Sem vocabulário, o pensamento perde precisão.<br><br>
-
-だからこそ  
-→ Conector lógico: “por isso mesmo”.<br><br>
-
-言語を学ぶことは、自分自身を再構築する行為  
-→ Aprender uma língua é reconstruir a própria mente.
-</div>
+<div class="line">
+<strong>ひらがな：</strong><br>
+さいきん、しごとが いそがしくて、<br>
+じぶんのことを かんがえる じかんが なくなってきました。
 </div>
 
-</section>
-
-<!-- ================= 第二章 ================= -->
-<section id="texto2" class="section">
-
-<div class="card">
-<div class="jp">
-日本語は、沈黙を尊重する言語である。<br>
-語られない部分に、最も重要な意味が宿る。
+<div class="line">
+<strong>Tradução linha a linha：</strong><br>
+最近 → ultimamente<br>
+仕事が忙しくて → o trabalho está corrido<br>
+自分のことを考える → pensar em si mesmo<br>
+時間がなくなってきました → começou a faltar tempo
 </div>
 
-<button onclick="toggle('t2')">詳細解説</button>
-
-<div id="t2" class="analysis hidden">
-🔎 **Linha a linha:**<br><br>
-
-日本語は → quanto ao japonês<br>
-沈黙を尊重する → respeitar o silêncio<br>
-言語である → é uma língua que…<br><br>
-
-語られない部分 → o que não é dito<br>
-最も重要な意味 → o significado mais importante<br>
-宿る → habitar, residir (uso abstrato)
-</div>
+<div class="line">
+<strong>Estrutura fixa：</strong><br>
+～なくなってきた → mudança gradual negativa
 </div>
 
-    <div class="card">
-<div class="jp">
-社会人になってから、<br>
-時間の流れがとても速く感じるようになりました。<br>
-毎日やるべきことに追われ、<br>
-気がつけば一日が終わっています。<br><br>
-
-学生の頃は、<br>
-何も考えずに過ごせる時間がたくさんありましたが、<br>
-今はその余裕がほとんどありません。
+<div class="line">
+<strong>Outras variações：</strong><br>
+余裕がなくなってきた<br>
+疲れが取れなくなってきた
 </div>
 
-<button onclick="toggle('t-long1')">全文解説</button>
-
-<div id="t-long1" class="analysis hidden">
-🔎 Linha a linha:<br><br>
-
-社会人になってから → depois de virar trabalhador<br>
-時間の流れ → fluxo do tempo<br>
-速く感じるようになりました → passei a sentir mais rápido<br><br>
-
-やるべきこと → coisas que devem ser feitas (responsabilidade)<br>
-追われる → ser pressionado por<br>
-気がつけば → quando percebo<br>
-一日が終わっています → o dia já acabou<br><br>
-
-学生の頃は → quando era estudante<br>
-何も考えずに過ごせる → conseguir passar o tempo sem pensar em nada<br>
-余裕 → folga mental<br><br>
-
-🧠 Tema central:<br>
-Transição da juventude para a vida adulta no Japão.<br><br>
-
-👉 Tradução natural resumida:<br>
-“Depois que comecei a trabalhar, sinto que o tempo passa muito mais rápido. Todo dia fico correndo atrás das obrigações e, quando percebo, o dia já acabou…”
-</div>
-</div>
-
-</section>
-
-<!-- ================= 文法・語彙 ================= -->
-<section id="analise" class="section">
-
-<div class="card">
-<div class="jp">重要語彙・構造</div>
-
-<div class="analysis">
-全知全能（ぜんちぜんのう）→ onisciente e onipotente<br>
-潜む（ひそむ）→ esconder-se, estar latente<br>
-曖昧（あいまい）→ vago, ambíguo<br>
-尊重（そんちょう）→ respeitar<br>
-宿る（やどる）→ habitar (conceito abstrato)
 </div>
 </div>
 
@@ -296,7 +243,7 @@ Transição da juventude para a vida adulta no Japão.<br><br>
 </main>
 
 <footer>
-ヴァンパイア全知全能 — Arquivo de leitura e análise
+ヴァンパイア全知全能 — estudo profundo de japonês
 </footer>
 
 </body>
