@@ -9,264 +9,466 @@
 :root{
   --bg:#0b0f14;
   --panel:#151822;
+  --panel2:#0f1320;
   --border:#252a36;
   --text:#e6e8ee;
   --muted:#9aa0aa;
+  --muted2:#7b8192;
+
   --accent:#7b5cff;
   --accent2:#36d1dc;
-  --radius:14px;
+  --accent3:#fb7185;
+
+  --radius:16px;
+  --shadow: 0 18px 65px rgba(0,0,0,.45);
 }
+
+*{box-sizing:border-box}
+
 body{
-  background:var(--bg);
+  background:
+    radial-gradient(1200px 700px at 10% 10%, rgba(123,92,255,.22), transparent 55%),
+    radial-gradient(900px 600px at 90% 15%, rgba(54,209,220,.16), transparent 55%),
+    radial-gradient(900px 650px at 20% 90%, rgba(251,113,133,.12), transparent 55%),
+    var(--bg);
   color:var(--text);
   font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",system-ui,sans-serif;
   margin:0;
-  line-height:1.8;
+  line-height:1.95;
 }
+
 header{
   position:sticky;
   top:0;
-  background:rgba(15,17,25,.8);
-  backdrop-filter:blur(14px);
-  border-bottom:1px solid var(--border);
   z-index:10;
+  background: rgba(11,15,20,.72);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom:1px solid var(--border);
 }
+
+.topbar{
+  max-width:1150px;
+  margin:auto;
+  padding:18px 18px 12px;
+  display:flex;
+  gap:18px;
+  align-items:flex-start;
+  justify-content:space-between;
+  flex-wrap:wrap;
+}
+
+.brand{
+  min-width:280px;
+}
+.brand .t{
+  font-size:20px;
+  font-weight:800;
+  letter-spacing:1.4px;
+}
+.brand .s{
+  margin-top:6px;
+  color:var(--muted);
+  font-size:13px;
+}
+.brand .s span{
+  color:var(--muted2);
+}
+
 nav{
   display:flex;
-  justify-content:center;
-  gap:20px;
-  padding:18px;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+  justify-content:flex-end;
 }
-nav a{
+
+.tabbtn{
+  cursor:pointer;
+  border:1px solid var(--border);
+  background: rgba(255,255,255,.05);
   color:var(--muted);
-  text-decoration:none;
-  font-size:15px;
-  padding:8px 14px;
-  border-radius:8px;
-  transition:all .2s;
+  padding:9px 12px;
+  border-radius:999px;
+  font-size:13px;
+  user-select:none;
+  transition: transform .08s ease, background .2s ease, color .2s ease, border-color .2s ease;
+  box-shadow: var(--shadow);
 }
-nav a.active{
-  color:var(--accent2);
-  background:rgba(255,255,255,.05);
-}
-.container{
-  max-width:1100px;
-  margin:auto;
-  padding:40px 20px 100px;
-}
-.searchbox{
-  display:flex;
-  justify-content:center;
-  margin-bottom:40px;
-}
-input{
-  width:100%;
-  max-width:480px;
-  font-size:18px;
-  padding:14px 18px;
-  border-radius:12px;
-  border:1px solid var(--border);
-  background:var(--panel);
+.tabbtn:active{ transform: translateY(1px); }
+
+.tabbtn.active{
   color:var(--text);
+  border-color: rgba(54,209,220,.35);
+  background:
+    linear-gradient(90deg,
+      rgba(123,92,255,.18),
+      rgba(54,209,220,.15),
+      rgba(251,113,133,.12)
+    );
 }
-.card{
-  background:var(--panel);
+
+.container{
+  max-width:1150px;
+  margin:auto;
+  padding:34px 18px 90px;
+}
+
+.section{ display:none; }
+.section.active{ display:block; }
+
+.grid{
+  display:grid;
+  grid-template-columns: 1.15fr .85fr;
+  gap:16px;
+}
+@media (max-width: 980px){
+  .grid{ grid-template-columns: 1fr; }
+}
+
+.panel{
+  background: rgba(255,255,255,.06);
   border:1px solid var(--border);
-  border-radius:var(--radius);
-  padding:24px;
-  margin-bottom:24px;
+  border-radius:22px;
+  padding:16px;
+  box-shadow: var(--shadow);
 }
+
+.panel h2{
+  margin: 0 0 8px;
+  font-size: 15px;
+  letter-spacing:.6px;
+}
+.hint{
+  color:var(--muted);
+  font-size:13px;
+  margin-top:0;
+}
+
+.searchbox{
+  margin-top:12px;
+  display:flex;
+  gap:10px;
+}
+.searchbox input{
+  width:100%;
+  padding:12px 14px;
+  border-radius:14px;
+  border:1px solid var(--border);
+  background: rgba(255,255,255,.06);
+  color:var(--text);
+  outline:none;
+}
+.searchbox input::placeholder{ color:var(--muted2); }
+
+.card{
+  background: rgba(255,255,255,.07);
+  border:1px solid var(--border);
+  border-radius: var(--radius);
+  padding:16px;
+  margin-top:12px;
+}
+
 .jp{
-  font-size:28px;
-  font-weight:700;
+  font-size:22px;
+  font-weight:900;
+  letter-spacing:.5px;
   color:var(--accent2);
 }
 .hira{
-  font-size:15px;
-  color:var(--muted);
   margin-top:6px;
+  color:var(--muted);
+  font-size:13px;
 }
 .mean{
-  font-size:16px;
-  margin-top:10px;
+  margin-top:8px;
+  font-size:14px;
+  color:var(--text);
   font-weight:600;
 }
-.tag{
-  font-size:12px;
-  color:var(--muted);
-  border:1px solid var(--border);
-  padding:2px 8px;
-  border-radius:999px;
-  display:inline-block;
+
+.badges{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
   margin-top:10px;
 }
+.badge{
+  font-size:11px;
+  border:1px solid var(--border);
+  padding:3px 8px;
+  border-radius:999px;
+  color:var(--muted);
+}
+.badge.n5{ border-color: rgba(52,211,153,.35); color: rgba(52,211,153,.95); }
+.badge.n4{ border-color: rgba(123,92,255,.45); color: rgba(123,92,255,.95); }
+.badge.tag{ border-color: rgba(54,209,220,.35); color: rgba(54,209,220,.95); }
+
 .ex{
-  margin-top:18px;
+  margin-top:14px;
   padding-top:12px;
-  border-top:1px solid var(--border);
+  border-top:1px solid rgba(255,255,255,.08);
 }
 .ex h4{
-  font-size:14px;
+  margin:0 0 6px;
+  font-size:13px;
   color:var(--accent2);
-  margin-bottom:8px;
 }
 .exline{
-  margin-bottom:8px;
+  margin:10px 0 10px;
 }
-.exline b{
-  color:var(--text);
-}
+.exline b{ color:var(--text); }
+.exline .k{ color:var(--accent2); }
 .exp{
-  font-size:13px;
-  color:var(--muted);
-  margin-top:4px;
-}
-footer{
-  text-align:center;
-  padding:40px 0;
   color:var(--muted);
   font-size:13px;
+  margin-top:6px;
 }
+
+.mini{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  margin-top:10px;
+}
+.btn{
+  cursor:pointer;
+  border:1px solid var(--border);
+  background: rgba(255,255,255,.05);
+  color:var(--text);
+  padding:8px 10px;
+  border-radius:12px;
+  font-size:12px;
+  user-select:none;
+}
+.btn.primary{
+  border-color: rgba(54,209,220,.35);
+  background: rgba(54,209,220,.12);
+}
+.btn.danger{
+  border-color: rgba(251,113,133,.35);
+  background: rgba(251,113,133,.10);
+}
+
 .kanjigrid{
   display:grid;
-  grid-template-columns:repeat(auto-fill,minmax(80px,1fr));
-  gap:16px;
+  grid-template-columns:repeat(auto-fill, minmax(92px, 1fr));
+  gap:12px;
+  margin-top:12px;
 }
 .kanjiitem{
-  background:var(--panel);
+  background: rgba(255,255,255,.06);
   border:1px solid var(--border);
-  border-radius:var(--radius);
+  border-radius: 16px;
+  padding:12px 10px;
   text-align:center;
-  padding:16px;
   cursor:pointer;
-  transition:transform .2s;
+  transition: transform .12s ease, border-color .2s ease;
 }
-.kanjiitem:hover{transform:scale(1.05);}
+.kanjiitem:hover{
+  transform: translateY(-1px);
+  border-color: rgba(54,209,220,.28);
+}
 .kanjiitem .k{
   font-size:28px;
+  font-weight:900;
   color:var(--accent2);
 }
-.kanjiitem .l{
-  font-size:13px;
-  color:var(--muted);
+.kanjiitem .lvl{
   margin-top:6px;
+  font-size:11px;
+  color:var(--muted);
+}
+.kanjiitem .lvl b{
+  color:var(--text);
+}
+.footer{
+  text-align:center;
+  padding:40px 0 0;
+  color:var(--muted);
+  font-size:12px;
+}
+hr.sep{
+  border:none;
+  border-top:1px solid rgba(255,255,255,.08);
+  margin:14px 0;
+}
+.small{
+  color:var(--muted);
+  font-size:13px;
 }
 </style>
 </head>
 
 <body>
+
 <header>
-<nav>
-<a href="#" class="active" onclick="openTab('dic',this)">📖 Dicionário</a>
-<a href="#" onclick="openTab('kanji',this)">🈶 Ordem dos Kanji</a>
-<a href="#" onclick="openTab('about',this)">ℹ️ Sobre</a>
-</nav>
+  <div class="topbar">
+    <div class="brand">
+      <div class="t">ヴァンパイア全知全能 辞典</div>
+      <div class="s">
+        ヴァンパイア = vampiro <span>（observador eterno）</span> / 全知 = onisciente / 全能 = onipotente
+      </div>
+    </div>
+
+    <nav>
+      <div class="tabbtn active" id="tab-dic" onclick="openTab('dic')">📖 Dicionário</div>
+      <div class="tabbtn" id="tab-kanji" onclick="openTab('kanji')">🈶 Kanji (N5→N4)</div>
+      <div class="tabbtn" id="tab-about" onclick="openTab('about')">ℹ️ Sobre</div>
+    </nav>
+  </div>
 </header>
 
 <div class="container">
 
-<section id="dic" class="section active">
-  <div class="searchbox">
-    <input id="q" type="text" placeholder="Digite uma palavra japonesa (ex: 食べる, 元気, 大丈夫...)" />
-  </div>
-  <div id="results"></div>
-</section>
+  <!-- ====================== DICIONÁRIO ====================== -->
+  <section id="dic" class="section active">
+    <div class="grid">
+      <div class="panel">
+        <h2>Dicionário (JP → PT-BR)</h2>
+        <p class="hint">Digite uma palavra em japonês (kanji/kana) ou português. Ex.: 食べる / げんき / “tranquilo”.</p>
 
-<section id="kanji" class="section" style="display:none">
-  <h2>🈶 Ordem dos Kanji (N5→N4)</h2>
-  <p style="color:var(--muted);font-size:14px;">Clique em um kanji para ver seu significado e exemplos.</p>
-  <div class="kanjigrid" id="kanjigrid"></div>
-</section>
+        <div class="searchbox">
+          <input id="q" type="text" placeholder="Buscar palavra..." autocomplete="off" />
+          <div class="btn danger" onclick="clearSearch()">Limpar</div>
+        </div>
 
-<section id="about" class="section" style="display:none">
-  <h2>ヴァンパイア全知全能 辞典</h2>
-  <p>Um dicionário interativo japonês–português criado para estudos de JLPT N5 e N4.<br>
-  Busque por palavras, veja exemplos, explicações detalhadas e estrutura de frases reais.<br><br>
-  📚 Desenvolvido para autoestudo — sem distrações, com contexto e gramática integrada.<br>
-  Criador: <b>あなた (Você)</b></p>
-</section>
+        <div id="results"></div>
+      </div>
 
+      <div class="panel">
+        <h2>Como estudar (método simples)</h2>
+        <p class="small">
+          1) Busque uma palavra → leia o significado.<br>
+          2) Leia as 3 frases em japonês (sem PT).<br>
+          3) Revele hiragana, depois a tradução.<br>
+          4) Compare as estruturas (partículas, tempos, padrão).<br>
+        </p>
+        <hr class="sep">
+        <div class="mini">
+          <div class="btn primary" onclick="randomWord()">Palavra aleatória</div>
+          <div class="btn" onclick="openTab('kanji')">Ver kanji (N5→N4)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== KANJI LISTA ====================== -->
+  <section id="kanji" class="section">
+    <div class="panel">
+      <h2>Kanji — ordem N5 → N4</h2>
+      <p class="hint">Clique em um kanji para abrir o Dicionário e ver significado + exemplos. (N5 aparece primeiro, depois N4)</p>
+      <div class="kanjigrid" id="kanjigrid"></div>
+    </div>
+  </section>
+
+  <!-- ====================== SOBRE ====================== -->
+  <section id="about" class="section">
+    <div class="panel">
+      <h2>Sobre — ヴァンパイア全知全能</h2>
+      <p class="small">
+        Este site é o <b>辞典 (dicionário)</b> do projeto <b>ヴァンパイア全知全能</b>.<br>
+        A proposta é estudo prático (N5→N4): palavra → frases reais → explicação detalhada em PT-BR.<br><br>
+
+        <b>Por que “ヴァンパイア全知全能”?</b><br>
+        “Vampiro” como metáfora do observador eterno: coleta, registra, compara e entende padrões na linguagem.<br>
+        “全知全能” como disciplina: aprender sistematicamente, sem pular fundamentos.
+      </p>
+      <hr class="sep">
+      <p class="small">
+        Conteúdo e estrutura: <b>ヴァンパイア全知全能</b><br>
+        Objetivo: tornar o japonês do cotidiano estudável com precisão.
+      </p>
+    </div>
+  </section>
+
+  <div class="footer">ヴァンパイア全知全能 © 2025 — 辞典 / Kanji / Estudo do cotidiano</div>
 </div>
 
-<footer>ヴァンパイア全知全能 © 2025 — Dicionário Japonês Interativo</footer>
-
 <script>
+/* =========================
+   DADOS: PALAVRAS (DICIONÁRIO)
+   Adicione aqui para expandir.
+   ========================= */
 const WORDS = [
   {
     jp:"食べる",
     hira:"たべる",
     tipo:"verbo (ichidan)",
     mean:"comer",
+    tags:["N5","cotidiano"],
     examples:[
       {
         jp:"朝ごはんを食べました。",
         hira:"あさごはん を たべました。",
         pt:"Comi café da manhã.",
-        exp:"朝ごはん = café da manhã; を marca o objeto; 〜ました = passado polido."
+        exp:"朝ごはん = café da manhã; を marca objeto; 〜ました = passado polido."
       },
       {
         jp:"何を食べたいですか？",
         hira:"なに を たべたい です か？",
         pt:"O que você quer comer?",
-        exp:"〜たい = querer fazer algo; pergunta educada."
+        exp:"〜たい = querer; ですか = pergunta educada; padrão de restaurante/conversa."
       },
       {
-        jp:"友だちと昼ごはんを食べに行く。",
-        hira:"ともだち と ひるごはん を たべ に いく。",
+        jp:"友だちと昼ごはんを食べに行きます。",
+        hira:"ともだち と ひるごはん を たべ に いきます。",
         pt:"Vou almoçar com um amigo.",
-        exp:"〜に行く = ir para fazer algo; estrutura fixa muito usada."
+        exp:"〜に行く = ir para fazer algo; estrutura fixa: V辞書+に行く / Vます-stem+に行く."
       }
     ]
   },
   {
     jp:"元気",
     hira:"げんき",
-    tipo:"adjetivo (な形容詞)",
-    mean:"saudável / animado / bem",
+    tipo:"な-adjetivo / substantivo",
+    mean:"bem, saudável, animado",
+    tags:["N5","cotidiano"],
     examples:[
       {
         jp:"元気ですか？",
         hira:"げんき です か？",
         pt:"Tudo bem?",
-        exp:"Pergunta-padrão. ですか = pergunta educada."
+        exp:"Pergunta padrão. です = polido; か = interrogativa."
       },
       {
         jp:"今日は元気がないね。",
         hira:"きょう は げんき が ない ね。",
-        pt:"Você não parece bem hoje.",
-        exp:"〜がない = não ter (aqui, energia)."
+        pt:"Hoje você não parece bem.",
+        exp:"〜がない = não ter; ね suaviza e pede concordância (tom de conversa)."
       },
       {
         jp:"子どもたちは元気に走っています。",
         hira:"こどもたち は げんき に はしって います。",
         pt:"As crianças estão correndo cheias de energia.",
-        exp:"〜に + verbo = com (modo). 元気に = com energia."
+        exp:"元気に = 'com energia' (advérbio); 〜ている = ação em andamento."
       }
     ]
   },
   {
     jp:"大丈夫",
     hira:"だいじょうぶ",
-    tipo:"adjetivo (な形容詞)",
-    mean:"tudo bem / sem problemas / tranquilo",
+    tipo:"な-adjetivo / expressão",
+    mean:"tudo bem; tranquilo; sem problemas",
+    tags:["N5","cotidiano"],
     examples:[
       {
         jp:"大丈夫ですか？",
         hira:"だいじょうぶ です か？",
         pt:"Você está bem?",
-        exp:"Frase básica para checar alguém."
+        exp:"Padrão de checagem/atenção. Pode ser saúde, situação, entendimento."
       },
       {
         jp:"大丈夫、間に合うよ。",
         hira:"だいじょうぶ、まにあう よ。",
         pt:"Tranquilo, vai dar tempo.",
-        exp:"間に合う = dar tempo; よ dá segurança."
+        exp:"間に合う = dar tempo/chegar a tempo; よ = afirmação confiante."
       },
       {
         jp:"この服で大丈夫？",
         hira:"この ふく で だいじょうぶ？",
-        pt:"Essa roupa tá boa assim?",
-        exp:"で marca condição; tom casual."
+        pt:"Essa roupa tá ok assim?",
+        exp:"で = condição/estado ('com isso'); pergunta casual."
       }
     ]
   },
@@ -274,98 +476,242 @@ const WORDS = [
     jp:"見る",
     hira:"みる",
     tipo:"verbo (ichidan)",
-    mean:"ver / assistir / olhar",
+    mean:"ver; assistir; olhar",
+    tags:["N5","cotidiano"],
     examples:[
       {
         jp:"テレビを見ます。",
         hira:"てれび を みます。",
-        pt:"Eu assisto TV.",
-        exp:"を marca o objeto direto."
+        pt:"Assisto TV.",
+        exp:"を marca o objeto; ます = polidez."
       },
       {
-        jp:"映画を見に行く。",
-        hira:"えいが を みに いく。",
-        pt:"Vou ao cinema (assistir filme).",
-        exp:"〜に行く = ir para fazer algo."
+        jp:"映画を見に行きます。",
+        hira:"えいが を み に いきます。",
+        pt:"Vou assistir um filme (vou ao cinema).",
+        exp:"Vます-stem + に行く = ir para fazer algo. (見ます→見)."
       },
       {
         jp:"ちょっと見てもいいですか？",
         hira:"ちょっと みても いい です か？",
         pt:"Posso dar uma olhada?",
-        exp:"〜てもいいですか = pedir permissão de forma educada."
+        exp:"〜てもいいですか = pedir permissão; ちょっと suaviza o pedido."
+      }
+    ]
+  },
+
+  /* Kanji como entradas também ajuda na busca por 1 caractere */
+  {
+    jp:"行",
+    hira:"いく / おこなう",
+    tipo:"kanji (base)",
+    mean:"ir; realizar",
+    tags:["N5","kanji"],
+    examples:[
+      {
+        jp:"駅まで歩いて行きます。",
+        hira:"えき まで あるいて いきます。",
+        pt:"Vou até a estação caminhando.",
+        exp:"まで = até; 〜て行く = ir fazendo (aqui literal: ir)."
+      },
+      {
+        jp:"来週、病院に行く予定です。",
+        hira:"らいしゅう、びょういん に いく よてい です。",
+        pt:"Semana que vem, planejo ir ao hospital.",
+        exp:"予定です = plano (N4); estrutura: V辞書 + 予定です."
+      },
+      {
+        jp:"会議を行います。",
+        hira:"かいぎ を おこないます。",
+        pt:"Vamos realizar a reunião.",
+        exp:"行う (おこなう) é leitura/uso mais formal: realizar, executar."
       }
     ]
   }
 ];
 
-// funções
-const results = document.getElementById("results");
-const grid = document.getElementById("kanjigrid");
+/* =========================
+   DADOS: KANJI (ORDEM N5→N4)
+   Clique no kanji = abre o dicionário e busca.
+   ========================= */
+const KANJI_ORDER = [
+  // N5 (primeiro)
+  {k:"日", lvl:"N5"}, {k:"一", lvl:"N5"}, {k:"人", lvl:"N5"}, {k:"大", lvl:"N5"}, {k:"本", lvl:"N5"},
+  {k:"中", lvl:"N5"}, {k:"学", lvl:"N5"}, {k:"行", lvl:"N5"}, {k:"見", lvl:"N5"}, {k:"食", lvl:"N5"},
+  {k:"飲", lvl:"N5"}, {k:"来", lvl:"N5"}, {k:"言", lvl:"N5"}, {k:"思", lvl:"N5"}, {k:"会", lvl:"N5"},
+  {k:"今", lvl:"N5"}, {k:"名", lvl:"N5"}, {k:"話", lvl:"N5"}, {k:"何", lvl:"N5"}, {k:"車", lvl:"N5"},
+  {k:"先", lvl:"N5"}, {k:"友", lvl:"N5"}, {k:"書", lvl:"N5"}, {k:"読", lvl:"N5"}, {k:"聞", lvl:"N5"},
+  {k:"買", lvl:"N5"}, {k:"新", lvl:"N5"}, {k:"時", lvl:"N5"}, {k:"住", lvl:"N5"},
+
+  // N4 (depois)
+  {k:"考", lvl:"N4"}, {k:"続", lvl:"N4"}, {k:"困", lvl:"N4"}, {k:"決", lvl:"N4"}, {k:"予", lvl:"N4"},
+  {k:"変", lvl:"N4"}, {k:"遅", lvl:"N4"}, {k:"忘", lvl:"N4"}, {k:"返", lvl:"N4"}, {k:"直", lvl:"N4"},
+  {k:"置", lvl:"N4"}, {k:"起", lvl:"N4"}, {k:"眠", lvl:"N4"}, {k:"乗", lvl:"N4"}, {k:"降", lvl:"N4"},
+  {k:"旅", lvl:"N4"}, {k:"説", lvl:"N4"}, {k:"理", lvl:"N4"}, {k:"由", lvl:"N4"}, {k:"経", lvl:"N4"},
+  {k:"験", lvl:"N4"}, {k:"運", lvl:"N4"}, {k:"合", lvl:"N4"}, {k:"申", lvl:"N4"}, {k:"付", lvl:"N4"}
+];
+
+/* =========================
+   LÓGICA DO SITE
+   ========================= */
+const sections = {
+  dic: document.getElementById("dic"),
+  kanji: document.getElementById("kanji"),
+  about: document.getElementById("about")
+};
+
+const tabs = {
+  dic: document.getElementById("tab-dic"),
+  kanji: document.getElementById("tab-kanji"),
+  about: document.getElementById("tab-about")
+};
+
 const q = document.getElementById("q");
+const results = document.getElementById("results");
+const kanjigrid = document.getElementById("kanjigrid");
 
-function openTab(id,el){
-  document.querySelectorAll('.section').forEach(s=>s.style.display='none');
-  document.getElementById(id).style.display='block';
-  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
-  el.classList.add('active');
-  if(id==="kanji") renderKanji();
-  if(id==="dic") q.focus();
+function openTab(id){
+  // sections
+  Object.values(sections).forEach(s=>s.classList.remove("active"));
+  sections[id].classList.add("active");
+
+  // tabs
+  Object.values(tabs).forEach(t=>t.classList.remove("active"));
+  tabs[id].classList.add("active");
+
+  // per-tab actions
+  if(id === "kanji") renderKanjiGrid();
+  if(id === "dic") setTimeout(()=>q.focus(), 0);
 }
 
-function renderKanji(){
-  grid.innerHTML = "";
-  const all = ["日","一","人","大","本","中","学","行","見","食","飲","来","言","思","住","会","新","時","聞","読","書","買","友","車","先","今","名","話","何"];
-  all.forEach(k=>{
-    const div = document.createElement("div");
-    div.className="kanjiitem";
-    div.innerHTML=`<div class="k">${k}</div><div class="l">N5〜N4</div>`;
-    div.onclick=()=>searchWord(k);
-    grid.appendChild(div);
-  });
+function normalize(s){
+  return (s ?? "").toString().trim().toLowerCase();
 }
 
-function searchWord(term){
-  q.value = term;
-  handleSearch();
-  openTab("dic",document.querySelector('nav a[href="#"]'));
+function matchesWord(word, query){
+  const qn = normalize(query);
+  if(!qn) return true;
+
+  // searchable fields
+  const fields = [
+    word.jp, word.hira, word.tipo, word.mean,
+    ...(word.tags || []),
+    ...(word.examples || []).flatMap(e => [e.jp, e.hira, e.pt, e.exp])
+  ].map(normalize);
+
+  return fields.some(f => f.includes(qn));
 }
 
-q.addEventListener("input", handleSearch);
+function clearSearch(){
+  q.value = "";
+  renderResults("");
+  q.focus();
+}
 
-function handleSearch(){
-  const text = q.value.trim();
-  results.innerHTML="";
+function randomWord(){
+  const pool = WORDS;
+  if(pool.length === 0) return;
+  const pick = pool[Math.floor(Math.random() * pool.length)];
+  q.value = pick.jp;
+  renderResults(pick.jp);
+}
+
+function renderResults(query){
+  const text = (query ?? q.value).trim();
+  results.innerHTML = "";
+
   if(!text){
-    results.innerHTML="<p style='color:var(--muted);text-align:center;'>Digite uma palavra japonesa acima.</p>";
+    results.innerHTML = `<div class="card"><div class="mean" style="color:var(--muted)">Digite algo para buscar. Ex.: 食べる / げんき / “tranquilo”.</div></div>`;
     return;
   }
 
-  const found = WORDS.filter(w=>JSON.stringify(w).includes(text));
-  if(found.length===0){
-    results.innerHTML=`<p style='color:var(--muted);text-align:center;'>Nenhum resultado encontrado para “${text}”.</p>`;
+  const found = WORDS.filter(w => matchesWord(w, text));
+
+  if(found.length === 0){
+    results.innerHTML = `<div class="card"><div class="mean">Nenhum resultado para “${escapeHtml(text)}”.</div><div class="hira">Dica: tente kana (ひらがな), kanji, ou português.</div></div>`;
     return;
   }
 
   found.forEach(w=>{
+    const levelBadges = (w.tags || []).map(t=>{
+      const low = t.toLowerCase();
+      if(low === "n5") return `<span class="badge n5">N5</span>`;
+      if(low === "n4") return `<span class="badge n4">N4</span>`;
+      return `<span class="badge tag">${escapeHtml(t)}</span>`;
+    }).join("");
+
     const card = document.createElement("div");
-    card.className="card";
-    card.innerHTML=`
-      <div class="jp">${w.jp}</div>
-      <div class="hira">${w.hira}</div>
-      <div class="mean">(${w.tipo}) — ${w.mean}</div>
-      <div class="tag">Exemplos:</div>
-      ${w.examples.map(e=>`
-        <div class="ex">
-          <div class="exline"><b>${e.jp}</b><br><span style="color:var(--accent2)">${e.hira}</span><br>${e.pt}</div>
-          <div class="exp">Explicação: ${e.exp}</div>
-        </div>
-      `).join("")}
+    card.className = "card";
+
+    card.innerHTML = `
+      <div class="jp">${escapeHtml(w.jp)}</div>
+      <div class="hira">${escapeHtml(w.hira || "—")}</div>
+      <div class="mean">(${escapeHtml(w.tipo || "—")}) — ${escapeHtml(w.mean || "—")}</div>
+      <div class="badges">${levelBadges}</div>
+
+      ${renderExamples(w.examples || [])}
     `;
     results.appendChild(card);
   });
 }
 
-handleSearch();
+function renderExamples(examples){
+  if(!examples.length){
+    return `<div class="ex"><h4>Exemplos</h4><div class="exp">Sem exemplos ainda. (Você pode adicionar 3 aqui.)</div></div>`;
+  }
+  const exHtml = examples.slice(0,3).map((e, idx)=>`
+    <div class="ex">
+      <h4>Exemplo ${idx+1}</h4>
+      <div class="exline">
+        <b>${escapeHtml(e.jp)}</b><br>
+        <span class="k">${escapeHtml(e.hira || "")}</span><br>
+        ${escapeHtml(e.pt || "")}
+      </div>
+      <div class="exp"><b>Explicação (PT-BR):</b> ${escapeHtml(e.exp || "")}</div>
+    </div>
+  `).join("");
+  return exHtml;
+}
+
+function renderKanjiGrid(){
+  kanjigrid.innerHTML = "";
+
+  // order N5 first then N4 (already arranged), but just in case:
+  const rank = (lvl)=> lvl === "N5" ? 0 : 1;
+  const list = [...KANJI_ORDER].sort((a,b)=> rank(a.lvl) - rank(b.lvl));
+
+  list.forEach(item=>{
+    const div = document.createElement("div");
+    div.className = "kanjiitem";
+    div.innerHTML = `
+      <div class="k">${escapeHtml(item.k)}</div>
+      <div class="lvl"><b>${escapeHtml(item.lvl)}</b> ・ clique</div>
+    `;
+    div.addEventListener("click", ()=>{
+      openTab("dic");
+      q.value = item.k;
+      renderResults(item.k);
+      window.scrollTo({top:0, behavior:"smooth"});
+    });
+    kanjigrid.appendChild(div);
+  });
+}
+
+function escapeHtml(str){
+  return (str ?? "").toString()
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+// Events
+q.addEventListener("input", ()=> renderResults(q.value));
+
+// init
+renderResults("");
 </script>
+
 </body>
 </html>
