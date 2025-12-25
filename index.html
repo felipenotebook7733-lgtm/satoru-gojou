@@ -6,104 +6,141 @@
 
 <style>
 :root{
-  --bg:#0c0f14;
-  --panel:#161a24;
-  --border:#262b3a;
-  --text:#e6e9f0;
-  --muted:#9aa0aa;
-  --accent:#8b5cf6;
+    --bg:#0b0c10;
+    --panel:#141625;
+    --panel2:#1c1f36;
+    --border:#2a2e4a;
+    --text:#e8e9f1;
+    --muted:#9aa0b3;
+    --accent:#a855f7;
+    --accent2:#38bdf8;
+    --danger:#ef4444;
 }
+
 *{box-sizing:border-box}
+
 body{
-  margin:0;
-  font-family:"Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",system-ui,sans-serif;
-  background:var(--bg);
-  color:var(--text);
-  line-height:2.1;
+    margin:0;
+    font-family:"Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",system-ui,sans-serif;
+    background:linear-gradient(180deg,#07080d,#0b0c10);
+    color:var(--text);
+    line-height:2.1;
 }
+
 header{
-  background:var(--panel);
-  border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg,#0f1120,#141625);
+    border-bottom:1px solid var(--border);
 }
+
 .container{
-  max-width:1100px;
-  margin:auto;
-  padding:28px;
+    max-width:1200px;
+    margin:auto;
+    padding:28px;
 }
+
 h1{
-  margin:0;
-  font-size:28px;
-  letter-spacing:2px;
+    margin:0;
+    font-size:28px;
+    letter-spacing:2px;
 }
+
 .subtitle{
-  color:var(--muted);
-  margin-top:6px;
+    color:var(--muted);
+    margin-top:6px;
+    font-size:14px;
 }
+
 nav{
-  margin-top:20px;
-  display:flex;
-  gap:28px;
+    margin-top:22px;
+    display:flex;
+    gap:28px;
 }
+
 nav a{
-  color:var(--muted);
-  text-decoration:none;
-  font-size:14px;
-  padding-bottom:6px;
-  border-bottom:2px solid transparent;
+    color:var(--muted);
+    text-decoration:none;
+    font-size:14px;
+    padding-bottom:8px;
+    border-bottom:2px solid transparent;
 }
+
 nav a.active{
-  color:var(--accent);
-  border-color:var(--accent);
+    color:var(--accent);
+    border-color:var(--accent);
 }
+
 .section{display:none}
 .section.active{display:block}
+
 .card{
-  background:var(--panel);
-  border:1px solid var(--border);
-  border-radius:12px;
-  padding:30px;
-  margin-bottom:34px;
+    background:linear-gradient(180deg,var(--panel),var(--panel2));
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:34px;
+    margin-bottom:36px;
 }
-.kanji{
-  font-size:44px;
-  font-weight:600;
+
+.title-jp{
+    font-size:22px;
+    font-weight:600;
 }
-.reading{color:var(--muted);margin-top:6px}
-.meaning{margin-top:12px}
+
+.hira{
+    margin-top:8px;
+    color:var(--accent2);
+    font-size:15px;
+}
+
+.pt{
+    margin-top:14px;
+    font-size:15px;
+}
+
 button{
-  margin-top:18px;
-  background:none;
-  border:none;
-  color:var(--accent);
-  cursor:pointer;
-  font-size:14px;
+    margin-top:18px;
+    background:none;
+    border:none;
+    color:var(--accent);
+    cursor:pointer;
+    font-size:14px;
+    padding:0;
 }
+
 .details{
-  display:none;
-  margin-top:22px;
-  padding-top:22px;
-  border-top:1px solid var(--border);
-  color:var(--muted);
+    display:none;
+    margin-top:24px;
+    padding-top:24px;
+    border-top:1px solid var(--border);
+    color:var(--muted);
 }
-.line{margin-bottom:14px}
+
+.block{
+    margin-bottom:18px;
+}
+
+.kanji{
+    font-size:44px;
+    font-weight:700;
+}
+
 footer{
-  text-align:center;
-  color:var(--muted);
-  padding:46px 0;
-  font-size:12px;
+    text-align:center;
+    color:var(--muted);
+    padding:50px 0;
+    font-size:12px;
 }
 </style>
 
 <script>
 function openTab(id,el){
-  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
-  document.getElementById(id).classList.add('active');
-  el.classList.add('active');
+    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+    document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    el.classList.add('active');
 }
 function toggle(id){
-  const e=document.getElementById(id);
-  e.style.display = e.style.display === "block" ? "none" : "block";
+    const e=document.getElementById(id);
+    e.style.display = e.style.display === "block" ? "none" : "block";
 }
 </script>
 </head>
@@ -114,13 +151,13 @@ function toggle(id){
 <div class="container">
 <h1>ヴァンパイア全知全能</h1>
 <div class="subtitle">
-全知全能の吸血鬼<br>
-O Vampiro Onisciente e Onipotente
+ヴァンパイア = vampiro (observador eterno)<br>
+全知 = onisciente / 全能 = onipotente
 </div>
 
 <nav>
 <a href="#" class="active" onclick="openTab('kanji',this)">漢字</a>
-<a href="#" onclick="openTab('texto',this)">文章読解</a>
+<a href="#" onclick="openTab('texto',this)">文章分析</a>
 </nav>
 </div>
 </header>
@@ -132,34 +169,28 @@ O Vampiro Onisciente e Onipotente
 
 <div class="card">
 <div class="kanji">考</div>
-<div class="reading">かんが・える</div>
-<div class="meaning">Pensar, refletir</div>
+<div class="hira">かんが・える</div>
+<div class="pt">Pensar, refletir de forma consciente</div>
 
-<button onclick="toggle('k1')">詳しい分析</button>
+<button onclick="toggle('k1')">Análise completa</button>
 <div id="k1" class="details">
 
-<div class="line">
-<strong>意味（いみ）：</strong><br>
-考える は、情報（じょうほう）を整理（せいり）し、<br>
-結論（けつろん）を出（だ）そうとする行為（こうい）。
+<div class="block">
+<strong>Explicação (PT-BR):</strong><br>
+考える não é apenas “pensar”.  
+Implica analisar, comparar possibilidades e assumir responsabilidade pelo pensamento.
 </div>
 
-<div class="line">
-<strong>ひらがな：</strong><br>
-かんがえる は、あたまのなかで じょうほうを まとめて、<br>
-けつろんを だそうとする こと。
+<div class="block">
+<strong>Estruturas fixas:</strong><br>
+将来について考える<br>
+自分なりに考える
 </div>
 
-<div class="line">
-<strong>構文・定型：</strong><br>
-～について考える<br>
-将来について考える
-</div>
-
-<div class="line">
-<strong>他の言い方：</strong><br>
-よく考える（pensar bem）<br>
-考え直す（repensar）
+<div class="block">
+<strong>Variações:</strong><br>
+考え直す (repensar)<br>
+考え続ける (continuar refletindo)
 </div>
 
 </div>
@@ -167,72 +198,75 @@ O Vampiro Onisciente e Onipotente
 
 <div class="card">
 <div class="kanji">感</div>
-<div class="reading">かん</div>
-<div class="meaning">Sentimento, sensação</div>
+<div class="hira">かん</div>
+<div class="pt">Sentimento, percepção interna</div>
 
-<button onclick="toggle('k2')">詳しい分析</button>
+<button onclick="toggle('k2')">Análise completa</button>
 <div id="k2" class="details">
 
-<div class="line">
-<strong>意味：</strong><br>
-感 は、外（そと）からの刺激（しげき）を、<br>
-心（こころ）で受（う）け取（と）ること。
+<div class="block">
+<strong>Explicação (PT-BR):</strong><br>
+感 refere-se ao que é sentido internamente antes de virar palavra.
 </div>
 
-<div class="line">
-<strong>ひらがな：</strong><br>
-かん は、そとからの しげきを、<br>
-こころで かんじる こと。
+<div class="block">
+<strong>Estruturas:</strong><br>
+違和感を感じる<br>
+感情を抑える
 </div>
 
-<div class="line">
-<strong>よく使う言葉：</strong><br>
-感情（かんじょう）<br>
-違和感（いわかん）<br>
-安心感（あんしんかん）
+<div class="block">
+<strong>Variações:</strong><br>
+感覚 (sensação)<br>
+感情 (emoção)
 </div>
 
 </div>
 </div>
 
-<!-- ← aqui entram TODOS os kanji N4 -->
+<!-- aqui entram TODOS os kanji N4 -->
 </section>
 
 <!-- ================= TEXTO ================= -->
 <section id="texto" class="section">
 
 <div class="card">
-<div class="line">
-最近、仕事が忙しくて、<br>
-自分のことを考える時間がなくなってきました。
+<div class="title-jp">
+社会人になってから、<br>
+自分の気持ちを後回しにすることが増えた。
 </div>
 
-<button onclick="toggle('t1')">読解・分析</button>
+<div class="hira">
+しゃかいじん に なってから、<br>
+じぶん の きもち を あとまわし に する こと が ふえた。
+</div>
+
+<button onclick="toggle('t1')">Leitura e análise completa</button>
 <div id="t1" class="details">
 
-<div class="line">
-<strong>ひらがな：</strong><br>
-さいきん、しごとが いそがしくて、<br>
-じぶんのことを かんがえる じかんが なくなってきました。
+<div class="block">
+<strong>Tradução linha a linha (PT-BR):</strong><br>
+社会人になってから → Depois que virei trabalhador<br>
+自分の気持ちを → meus próprios sentimentos<br>
+後回しにする → colocar em segundo plano<br>
+ことが増えた → isso passou a acontecer mais
 </div>
 
-<div class="line">
-<strong>Tradução linha a linha：</strong><br>
-最近 → ultimamente<br>
-仕事が忙しくて → o trabalho está corrido<br>
-自分のことを考える → pensar em si mesmo<br>
-時間がなくなってきました → começou a faltar tempo
+<div class="block">
+<strong>Explicação:</strong><br>
+Expressa amadurecimento forçado e autocontenção emocional típica da vida adulta no Japão.
 </div>
 
-<div class="line">
-<strong>Estrutura fixa：</strong><br>
-～なくなってきた → mudança gradual negativa
+<div class="block">
+<strong>Estruturas fixas:</strong><br>
+～てから + mudança<br>
+～ことが増えた
 </div>
 
-<div class="line">
-<strong>Outras variações：</strong><br>
-余裕がなくなってきた<br>
-疲れが取れなくなってきた
+<div class="block">
+<strong>Variações naturais:</strong><br>
+自分のことを後回しにする<br>
+感情を抑えることが多くなった
 </div>
 
 </div>
@@ -243,7 +277,7 @@ O Vampiro Onisciente e Onipotente
 </main>
 
 <footer>
-ヴァンパイア全知全能 — estudo profundo de japonês
+ヴァンパイア全知全能 — arquivo de estudo profundo
 </footer>
 
 </body>
