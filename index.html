@@ -1,1070 +1,1457 @@
-<!doctype html>
-<html lang="pt-BR">
+<!DOCTYPE html>
+<html lang="ja">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ヴァンパイア全知全能</title>
-  <style>
-    :root{
-      --bg0:#0b0f1a;
-      --bg1:#0f172a;
-      --card:#111b34;
-      --card2:#0c1328;
-      --text:#e7ecff;
-      --muted:#aab6e8;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>ヴァンパイア全知全能 — Kanji & Jogo</title>
 
-      --accent:#7c3aed;
-      --accent2:#22c55e;
-      --danger:#ef4444;
-      --warn:#f59e0b;
+<style>
+:root{
+  --bg:#0b0f14;
+  --border:rgba(255,255,255,.16);
+  --text:#eef2ff;
+  --muted:rgba(238,242,255,.72);
+  --muted2:rgba(238,242,255,.55);
 
-      --line:rgba(255,255,255,.10);
-      --shadow: 0 20px 60px rgba(0,0,0,.35);
+  --moodHue: 195;
+  --accent:  hsl(calc(var(--moodHue) - 25) 90% 60%);
+  --accent2: hsl(var(--moodHue) 90% 58%);
+  --accent3: hsl(calc(var(--moodHue) + 55) 90% 62%);
 
-      --mood:#223055;
-      --mood2:#141c34;
-    }
+  --good:#34d399;
+  --bad:#fb7185;
+  --warn:#fbbf24;
 
-    *{box-sizing:border-box}
-    body{
-      margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--text);
-      background:
-        radial-gradient(1200px 600px at 15% -10%, rgba(124,58,237,.35), transparent 55%),
-        radial-gradient(900px 600px at 85% 0%, rgba(34,197,94,.18), transparent 60%),
-        radial-gradient(1100px 700px at 50% 120%, rgba(239,68,68,.10), transparent 55%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
-      min-height:100vh;
-      transition: background .18s ease;
-    }
+  --radius:18px;
+  --shadow: 0 18px 60px rgba(0,0,0,.55);
 
-    .wrap{max-width:1200px;margin:0 auto;padding:18px;}
-    header{
-      background: linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:18px 18px 12px;
-      box-shadow: var(--shadow);
-      position:sticky;
-      top:10px;
-      z-index:10;
-      backdrop-filter: blur(10px);
-    }
-    .topRow{
-      display:flex;
-      gap:14px;
-      align-items:center;
-      justify-content:space-between;
-      flex-wrap:wrap;
-    }
-    .brand{
-      display:flex; gap:12px; align-items:center;
-    }
-    .logo{
-      width:42px;height:42px;border-radius:14px;
-      background: radial-gradient(circle at 35% 25%, rgba(255,255,255,.35), transparent 45%),
-                  linear-gradient(135deg, var(--accent), #06b6d4);
-      border:1px solid rgba(255,255,255,.22);
-      box-shadow: 0 10px 30px rgba(124,58,237,.25);
-    }
-    h1{
-      margin:0;
-      font-size:16px;
-      letter-spacing:.2px;
-      line-height:1.2;
-    }
-    .sub{
-      margin:2px 0 0;
-      color:var(--muted);
-      font-size:12px;
-    }
-    .pillRow{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
-    .pill{
-      padding:8px 10px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.05);
-      color:var(--muted);
-      font-size:12px;
-      display:flex;gap:8px;align-items:center;
-    }
-    .dot{
-      width:8px;height:8px;border-radius:999px;background:var(--accent);
-      box-shadow:0 0 0 4px rgba(124,58,237,.18);
-    }
+  --selectBg:#0f1826;
+  --selectBorder:rgba(255,255,255,.28);
+}
+*{ box-sizing:border-box; }
 
-    .tabs{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
-    .tabBtn{
-      cursor:pointer;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid var(--line);
-      background: rgba(255,255,255,.04);
-      color:var(--text);
-      font-weight:650;
-      font-size:13px;
-      transition:.15s transform, .15s background, .15s border;
-      user-select:none;
-    }
-    .tabBtn:hover{transform: translateY(-1px);background: rgba(255,255,255,.06)}
-    .tabBtn.active{
-      background: linear-gradient(135deg, rgba(124,58,237,.28), rgba(6,182,212,.14));
-      border-color: rgba(124,58,237,.55);
-    }
+body{
+  margin:0;
+  color:var(--text);
+  font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",system-ui,sans-serif;
+  line-height:1.9;
+  background:
+    radial-gradient(1100px 650px at 12% 10%, hsla(calc(var(--moodHue) - 25), 90%, 60%, .22), transparent 55%),
+    radial-gradient(900px 600px at 92% 15%, hsla(var(--moodHue), 90%, 58%, .18), transparent 55%),
+    radial-gradient(900px 650px at 20% 92%, hsla(calc(var(--moodHue) + 55), 90%, 62%, .14), transparent 55%),
+    var(--bg);
+  transition: background .5s ease;
+}
 
-    main{margin-top:14px;display:grid;gap:14px}
-    .grid2{display:grid;grid-template-columns: 1.1fr .9fr;gap:14px}
-    @media (max-width: 980px){ .grid2{grid-template-columns:1fr} header{position:relative;top:auto} }
+header{
+  position:sticky;
+  top:0;
+  z-index:10;
+  background: rgba(10,14,20,.78);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom:1px solid var(--border);
+}
 
-    .card{
-      border:1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
-      border-radius:22px;
-      box-shadow: var(--shadow);
-      overflow:hidden;
-    }
-    .cardHd{
-      padding:14px 16px;
-      border-bottom:1px solid var(--line);
-      display:flex;align-items:center;justify-content:space-between;gap:12px;
-      background: linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.01));
-    }
-    .cardHd h2{margin:0;font-size:14px;letter-spacing:.2px}
-    .cardBd{padding:14px 16px}
+.topbar{
+  max-width:1180px;
+  margin:auto;
+  padding:18px 18px 12px;
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+  justify-content:space-between;
+  flex-wrap:wrap;
+}
 
-    .kHero{
-      display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;
-    }
-    .kBig{
-      width:90px;height:90px;border-radius:22px;
-      display:grid;place-items:center;
-      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.12), transparent 55%),
-                  linear-gradient(135deg, rgba(124,58,237,.35), rgba(6,182,212,.12));
-      border:1px solid rgba(255,255,255,.15);
-      font-size:44px;font-weight:800;
-      box-shadow: 0 14px 50px rgba(0,0,0,.35);
-    }
+.brand{ min-width:280px; }
+.brand .t{ font-size:20px; font-weight:900; letter-spacing:1.2px; }
+.brand .s{ margin-top:6px; color:var(--muted); font-size:13px; }
+.brand .s b{ color:var(--text); }
 
-    .kMeta{min-width:260px;flex:1}
-    .kLine{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
-    .tag{
-      font-size:12px;
-      padding:7px 10px;border-radius:999px;
-      border:1px solid var(--line);
-      background: rgba(0,0,0,.18);
-      color:var(--muted);
-    }
-    .tag strong{color:var(--text)}
-    .hint{
-      color:var(--muted);
-      font-size:12px;
-      line-height:1.45;
-      margin-top:8px;
-    }
+nav{ display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:flex-end; }
 
-    .strokeBox{
-      width:240px;
-      max-width:100%;
-      background: linear-gradient(180deg, rgba(0,0,0,.20), rgba(0,0,0,.10));
-      border:1px solid var(--line);
-      border-radius:18px;
-      padding:12px;
-    }
-    .strokeTop{
-      display:flex;align-items:center;justify-content:space-between;gap:10px;
-      margin-bottom:8px;
-    }
-    .strokeTop .mini{color:var(--muted);font-size:12px}
-    .btn{
-      cursor:pointer;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(255,255,255,.08);
-      color:var(--text);
-      font-weight:750;
-      font-size:13px;
-      transition: .15s transform, .15s background, .15s border;
-      user-select:none;
-    }
-    .btn:hover{transform: translateY(-1px);background: rgba(255,255,255,.11)}
-    .btn.primary{
-      background: linear-gradient(135deg, rgba(124,58,237,.8), rgba(6,182,212,.55));
-      border-color: rgba(124,58,237,.55);
-    }
-    .btn.good{
-      background: linear-gradient(135deg, rgba(34,197,94,.85), rgba(16,185,129,.45));
-      border-color: rgba(34,197,94,.6);
-    }
-    .btn.bad{
-      background: linear-gradient(135deg, rgba(239,68,68,.85), rgba(244,63,94,.45));
-      border-color: rgba(239,68,68,.6);
-    }
-    .btn.small{padding:8px 10px;border-radius:12px;font-size:12px}
+.container{ max-width:1180px; margin:auto; padding:34px 18px 90px; }
 
-    .controls{
-      display:flex;gap:10px;flex-wrap:wrap;align-items:center;
-    }
-    .select, .input{
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(10,14,30,.85);
-      color:var(--text);
-      padding:10px 12px;
-      border-radius:14px;
-      outline:none;
-      font-weight:650;
-      font-size:13px;
-    }
-    .select option{background:#0b1024;color:var(--text)}
-    .input{min-width:220px;flex:1}
-    .muted{color:var(--muted)}
+.section{ display:none; }
+.section.active{ display:block; }
 
-    .kGrid{
-      display:grid;
-      grid-template-columns: repeat(10, minmax(0,1fr));
-      gap:8px;
-    }
-    @media (max-width: 980px){ .kGrid{grid-template-columns: repeat(8, minmax(0,1fr));} }
-    @media (max-width: 640px){ .kGrid{grid-template-columns: repeat(6, minmax(0,1fr));} }
+.grid{ display:grid; grid-template-columns: 1.2fr .8fr; gap:16px; }
+@media (max-width: 980px){ .grid{ grid-template-columns: 1fr; } }
 
-    .kBtn{
-      cursor:pointer;
-      border:1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(0,0,0,.08));
-      border-radius:16px;
-      padding:10px 0;
-      font-size:22px;
-      font-weight:800;
-      color:var(--text);
-      transition:.14s transform,.14s border,.14s background;
-      user-select:none;
-    }
-    .kBtn:hover{transform: translateY(-1px);border-color: rgba(124,58,237,.45);background: rgba(124,58,237,.12)}
-    .kBtn.active{border-color: rgba(6,182,212,.55);background: rgba(6,182,212,.14)}
+.panel{
+  background: rgba(255,255,255,.06);
+  border:1px solid var(--border);
+  border-radius:22px;
+  padding:16px;
+  box-shadow: var(--shadow);
+}
+.panel h2{ margin:0 0 8px; font-size:15px; letter-spacing:.6px; }
 
-    .list{
-      margin:10px 0 0;
-      padding:0;
-      list-style:none;
-      display:grid;
-      gap:8px;
-    }
-    .li{
-      border:1px solid var(--line);
-      border-radius:16px;
-      padding:10px 12px;
-      background: rgba(0,0,0,.14);
-    }
-    .liTop{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-    .jp{font-weight:850}
-    .fur{color:var(--muted);font-size:12px}
-    .gloss{color:var(--text);opacity:.92;font-size:13px;margin-top:6px}
+.hint{ color:var(--muted); font-size:13px; margin:0; }
 
-    /* quiz */
-    .quizCard{
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.10));
-      border:1px solid var(--line);
-      border-radius:22px;
-      padding:14px 16px;
-      position:relative;
-      overflow:hidden;
-    }
-    .quizCard::before{
-      content:"";
-      position:absolute; inset:-120px -120px auto auto;
-      width:260px;height:260px;border-radius:50%;
-      background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.12), transparent 55%),
-                  radial-gradient(circle at 50% 50%, rgba(124,58,237,.25), transparent 60%);
-      transform: rotate(15deg);
-    }
-    .quizTop{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;position:relative}
-    .score{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
-    .score .pill{background: rgba(0,0,0,.18)}
-    .qMain{display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap;position:relative;margin-top:12px}
-    .qKanji{
-      width:96px;height:96px;border-radius:24px;
-      display:grid;place-items:center;
-      border:1px solid rgba(255,255,255,.14);
-      background: linear-gradient(135deg, rgba(255,255,255,.07), rgba(0,0,0,.12));
-      font-size:48px;font-weight:900;
-      box-shadow: 0 18px 55px rgba(0,0,0,.35);
-    }
-    .qText{flex:1;min-width:240px}
-    .qTitle{margin:0;font-size:14px;color:var(--muted)}
-    .qPrompt{margin:6px 0 0;font-size:18px;font-weight:850;letter-spacing:.2px}
-    .choices{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-      margin-top:12px;
-    }
-    @media (max-width: 640px){ .choices{grid-template-columns:1fr} }
-    .choice{
-      cursor:pointer;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(10,14,30,.75);
-      border-radius:16px;
-      padding:12px 12px;
-      font-weight:850;
-      transition:.14s transform,.14s border,.14s background;
-      user-select:none;
-      text-align:left;
-    }
-    .choice:hover{transform: translateY(-1px);border-color: rgba(124,58,237,.45);background: rgba(124,58,237,.14)}
-    .choice.locked{cursor:default;opacity:.95}
-    .choice.correct{border-color: rgba(34,197,94,.7);background: rgba(34,197,94,.18)}
-    .choice.wrong{border-color: rgba(239,68,68,.7);background: rgba(239,68,68,.18)}
+.row{ display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap; }
 
-    .resultBox{
-      margin-top:14px;
-      border:1px solid var(--line);
-      border-radius:18px;
-      background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.10));
-      padding:12px;
-      position:relative;
-    }
-    .resultHd{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
-    .resultMsg{font-weight:900}
-    .resultSub{color:var(--muted);font-size:12px;margin-top:6px;line-height:1.45}
-    .split{
-      display:grid;
-      grid-template-columns: 1fr 280px;
-      gap:12px;
-      margin-top:12px;
-      align-items:start;
-    }
-    @media (max-width: 980px){ .split{grid-template-columns:1fr} }
+.card{
+  background: rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius: var(--radius);
+  padding:16px;
+  margin-top:12px;
+}
 
-    svg.kvg{
-      width:100%;
-      height:auto;
-      display:block;
-      background: radial-gradient(circle at 30% 20%, rgba(255,255,255,.08), transparent 60%);
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.08);
-    }
-    .kvg path{
-      fill:none;
-      stroke: rgba(255,255,255,.88);
-      stroke-width: 3.6;
-      stroke-linecap: round;
-      stroke-linejoin: round;
-    }
+.jp{ font-size:22px; font-weight:900; color: var(--accent2); letter-spacing:.6px; }
+.hira{ margin-top:6px; color:var(--muted); font-size:13px; }
+.mean{ margin-top:8px; font-size:14px; font-weight:700; }
 
-    .fadeIn{animation:fade .18s ease-out}
-    @keyframes fade{from{opacity:.0;transform:translateY(3px)}to{opacity:1;transform:translateY(0)}}
+.badges{ display:flex; gap:8px; flex-wrap:wrap; margin-top:10px; }
+.badge{
+  font-size:11px;
+  padding:4px 10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.18);
+  color:var(--muted);
+  background: rgba(255,255,255,.06);
+}
+.badge.n5{ border-color: rgba(52,211,153,.45); color: rgba(52,211,153,.95); }
+.badge.n4{ border-color: rgba(59,130,246,.45); color: rgba(147,197,253,.95); }
+.badge.tag{ border-color: rgba(255,255,255,.22); color: var(--text); }
+.badge.warn{ border-color: rgba(251,191,36,.55); color: rgba(251,191,36,.98); }
 
-    footer{
-      margin:16px 0 8px;
-      color: var(--muted);
-      font-size:12px;
-      text-align:center;
-      opacity:.9;
-    }
-  </style>
+.tabbtn{
+  cursor:pointer;
+  border:1px solid rgba(255,255,255,.22);
+  background: rgba(255,255,255,.10);
+  color: rgba(238,242,255,.92);
+  padding:10px 14px;
+  border-radius:999px;
+  font-size:13px;
+  user-select:none;
+  box-shadow: var(--shadow);
+  transition: transform .08s ease, background .18s ease, border-color .18s ease;
+}
+.tabbtn:hover{ background: rgba(255,255,255,.14); }
+.tabbtn:active{ transform: translateY(1px); }
+.tabbtn.active{
+  border-color: hsla(var(--moodHue), 90%, 60%, .60);
+  background: hsla(var(--moodHue), 90%, 55%, .22);
+}
+
+.btn{
+  cursor:pointer;
+  border:1px solid rgba(255,255,255,.28);
+  background: rgba(255,255,255,.12);
+  color: rgba(255,255,255,.98);
+  padding:9px 12px;
+  border-radius:14px;
+  font-size:12px;
+  font-weight:800;
+  user-select:none;
+  transition: transform .08s ease, background .18s ease, border-color .18s ease;
+}
+.btn:hover{ background: rgba(255,255,255,.16); border-color: rgba(255,255,255,.38); }
+.btn:active{ transform: translateY(1px); }
+.btn.primary{
+  border-color: hsla(var(--moodHue), 90%, 60%, .70);
+  background: hsla(var(--moodHue), 90%, 55%, .26);
+}
+.btn.good{ border-color: rgba(52,211,153,.75); background: rgba(52,211,153,.20); }
+.btn.danger{ border-color: rgba(251,113,133,.75); background: rgba(251,113,133,.18); }
+.btn.warn{ border-color: rgba(251,191,36,.75); background: rgba(251,191,36,.18); }
+
+/* selects sólidos e visíveis */
+select{
+  padding:9px 11px;
+  border-radius:12px;
+  border:1px solid var(--selectBorder);
+  background: var(--selectBg);
+  color: rgba(255,255,255,.96);
+  outline:none;
+  font-weight:900;
+}
+select:hover{ border-color: rgba(255,255,255,.40); }
+select:focus-visible,
+.btn:focus-visible,
+.tabbtn:focus-visible,
+.choiceBtn:focus-visible{
+  outline: 3px solid hsla(var(--moodHue), 90%, 60%, .55);
+  outline-offset: 2px;
+}
+
+.kanjigrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill, minmax(92px, 1fr));
+  gap:12px;
+  margin-top:12px;
+}
+
+.kanjiitem{
+  background: rgba(255,255,255,.10);
+  border:1px solid rgba(255,255,255,.20);
+  border-radius: 16px;
+  padding:12px 10px;
+  text-align:center;
+  cursor:pointer;
+  transition: transform .12s ease, border-color .18s ease, background .18s ease;
+}
+.kanjiitem:hover{
+  transform: translateY(-1px);
+  border-color: hsla(var(--moodHue), 90%, 60%, .55);
+  background: rgba(255,255,255,.13);
+}
+.kanjiitem .k{ font-size:28px; font-weight:900; color: var(--accent2); }
+.kanjiitem .lvl{ margin-top:6px; font-size:11px; color: var(--muted); }
+.kanjiitem .lvl b{ color: var(--text); }
+
+.strokeBox{
+  margin-top:12px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:16px;
+  overflow:hidden;
+  background: rgba(255,255,255,.07);
+}
+.strokeHead{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:10px 12px;
+  border-bottom:1px solid rgba(255,255,255,.12);
+}
+.strokeHead .t{ font-size:13px; color: var(--muted); }
+.strokeBody{ padding:12px; }
+.strokeBody svg{ width:100%; height:auto; display:block; }
+.strokeNote{ color: var(--muted2); font-size:12px; margin-top:8px; }
+
+.bigKanji{
+  font-size:86px;
+  font-weight:900;
+  letter-spacing:2px;
+  text-align:center;
+  color: var(--accent2);
+  line-height:1.0;
+  margin: 8px 0 6px;
+}
+
+hr.sep{ border:none; border-top:1px solid rgba(255,255,255,.10); margin:14px 0; }
+
+.small{ color: var(--muted); font-size:13px; }
+.small b{ color: var(--text); }
+
+.footer{ text-align:center; padding:40px 0 0; color: var(--muted2); font-size:12px; }
+
+/* Quiz */
+.mcGrid{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:12px; }
+@media (max-width: 820px){ .mcGrid{ grid-template-columns:1fr; } }
+
+.mcBox{
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:16px;
+  padding:12px;
+  background: rgba(255,255,255,.07);
+}
+.mcBox h3{ margin:0 0 8px; font-size:13px; color: var(--muted); letter-spacing:.6px; }
+
+.choiceList{ display:grid; gap:8px; }
+.choiceBtn{
+  text-align:left;
+  padding:12px 12px;
+  border-radius:14px;
+  border:1px solid rgba(255,255,255,.26);
+  background: rgba(255,255,255,.14);
+  color: rgba(255,255,255,.98);
+  cursor:pointer;
+  font-weight:900;
+  transition: transform .08s ease, border-color .18s ease, background .18s ease;
+}
+.choiceBtn:hover{
+  transform: translateY(-1px);
+  background: rgba(255,255,255,.18);
+  border-color: hsla(var(--moodHue), 90%, 60%, .55);
+}
+.choiceBtn.correct{ border-color: rgba(52,211,153,.85); background: rgba(52,211,153,.22); }
+.choiceBtn.wrong{ border-color: rgba(251,113,133,.85); background: rgba(251,113,133,.20); }
+.choiceBtn:disabled{ opacity:.96; cursor:not-allowed; }
+
+.timerBarWrap{
+  width:100%;
+  height:10px;
+  border-radius:999px;
+  border:1px solid rgba(255,255,255,.16);
+  background: rgba(255,255,255,.08);
+  overflow:hidden;
+  margin-top:10px;
+}
+.timerBar{
+  height:100%;
+  width:100%;
+  background: linear-gradient(90deg,
+    hsla(var(--moodHue), 90%, 60%, .90),
+    hsla(calc(var(--moodHue) - 25), 90%, 60%, .85),
+    hsla(calc(var(--moodHue) + 55), 90%, 62%, .75)
+  );
+  transition: width .12s linear;
+}
+
+/* flash */
+.flash{ position: fixed; inset: 0; pointer-events: none; opacity: 0; z-index: 999; }
+.flash.good{ background: radial-gradient(circle at 50% 35%, rgba(52,211,153,.24), transparent 62%); }
+.flash.bad{  background: radial-gradient(circle at 50% 35%, rgba(251,113,133,.24), transparent 62%); }
+.flash.on{ animation: flash .55s ease-out; }
+@keyframes flash{ 0%{ opacity:0; } 20%{ opacity:1; } 100%{ opacity:0; } }
+</style>
 </head>
+
 <body>
-  <div class="wrap">
-    <header>
-      <div class="topRow">
-        <div class="brand">
-          <div class="logo" aria-hidden="true"></div>
-          <div>
-            <h1>ヴァンパイア全知全能</h1>
-            <div class="sub">N5–N4</div>
-          </div>
-        </div>
+<div id="flash" class="flash"></div>
 
-        <div class="pillRow">
-          <div class="pill"><span class="dot"></span><span id="totalPill">Total: — kanjis</span></div>
-        </div>
-      </div>
+<header>
+  <div class="topbar">
+    <div class="brand">
+      <div class="t">ヴァンパイア全知全能</div>
+      <div class="s">Kanji <b>N5 + N4</b></div>
+    </div>
 
-      <div class="tabs" role="tablist">
-        <div class="tabBtn active" data-tab="kanji" role="tab">Kanjis</div>
-        <div class="tabBtn" data-tab="game" role="tab">Jogo</div>
-      </div>
-    </header>
-
-    <main>
-      <!-- TAB: KANJI -->
-      <section id="tab-kanji" class="grid2">
-        <div class="card">
-          <div class="cardHd">
-            <h2>Detalhes</h2>
-            <div class="controls">
-              <button class="btn small" id="btnReplayStroke">Repetir stroke</button>
-              <button class="btn small primary" id="btnPracticeThis">Praticar</button>
-            </div>
-          </div>
-          <div class="cardBd">
-            <div class="kHero">
-              <div class="kBig" id="kBig">—</div>
-
-              <div class="kMeta">
-                <div class="kLine">
-                  <span class="tag"><strong>Nível:</strong> <span id="kLvl">—</span></span>
-                  <span class="tag"><strong>Kun:</strong> <span id="kKun">—</span></span>
-                  <span class="tag"><strong>On:</strong> <span id="kOn">—</span></span>
-                  <span class="tag"><strong>PT:</strong> <span id="kMean">—</span></span>
-                </div>
-                <div class="hint" id="kHint"></div>
-
-                <ul class="list" id="kWords"></ul>
-              </div>
-
-              <div class="strokeBox">
-                <div class="strokeTop">
-                  <div class="mini">Stroke</div>
-                  <div class="mini" id="strokeStatus">—</div>
-                </div>
-                <div id="strokeSvgWrap"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="cardHd">
-            <h2>Lista</h2>
-            <div class="controls">
-              <select class="select" id="filterLvl">
-                <option value="ALL">N5+N4</option>
-                <option value="N5">N5</option>
-                <option value="N4">N4</option>
-              </select>
-              <input class="input" id="searchKanji" placeholder="Buscar kanji (ex: 学)" />
-            </div>
-          </div>
-          <div class="cardBd">
-            <div class="muted" id="countInfo">—</div>
-            <div style="height:10px"></div>
-            <div class="kGrid" id="kGrid"></div>
-          </div>
-        </div>
-      </section>
-
-      <!-- TAB: GAME -->
-      <section id="tab-game" style="display:none">
-        <div class="card">
-          <div class="cardHd">
-            <h2>Jogo</h2>
-            <div class="controls">
-              <select class="select" id="gameLvl">
-                <option value="ALL">N5+N4</option>
-                <option value="N5">N5</option>
-                <option value="N4">N4</option>
-              </select>
-              <button class="btn good" id="btnStart">Começar</button>
-              <button class="btn" id="btnNext" disabled>Próximo</button>
-            </div>
-          </div>
-
-          <div class="cardBd">
-            <div class="quizCard" id="quizBox">
-              <div class="quizTop">
-                <div class="score">
-                  <div class="pill"><strong>Acertos:</strong> <span id="hit">0</span></div>
-                  <div class="pill"><strong>Erros:</strong> <span id="miss">0</span></div>
-                  <div class="pill"><strong>Streak:</strong> <span id="streak">0</span></div>
-                </div>
-                <div class="pill"><strong>Fase:</strong> <span id="phase">—</span></div>
-              </div>
-
-              <div class="qMain">
-                <div class="qKanji" id="qKanji">—</div>
-                <div class="qText">
-                  <p class="qTitle" id="qTitle"></p>
-                  <p class="qPrompt" id="qPrompt"></p>
-                  <div class="choices" id="choices"></div>
-
-                  <div class="resultBox" id="resultBox" style="display:none">
-                    <div class="resultHd">
-                      <div class="resultMsg" id="resultMsg">—</div>
-                      <div class="controls">
-                        <button class="btn small" id="btnReplayStroke2">Repetir stroke</button>
-                      </div>
-                    </div>
-                    <div class="resultSub" id="resultSub">—</div>
-
-                    <div class="split">
-                      <div>
-                        <ul class="list" id="gameWord"></ul>
-                      </div>
-                      <div class="strokeBox" style="width:auto">
-                        <div class="strokeTop">
-                          <div class="mini">Stroke</div>
-                          <div class="mini" id="strokeStatus2">—</div>
-                        </div>
-                        <div id="strokeSvgWrap2"></div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <footer>ヴァンパイア全知全能</footer>
-    </main>
+    <nav>
+      <div class="tabbtn active" id="tab-kanji">🈶 Kanji</div>
+      <div class="tabbtn" id="tab-quiz">🎮 Jogo</div>
+    </nav>
   </div>
+</header>
+
+<div class="container">
+
+  <!-- ====================== KANJI ====================== -->
+  <section id="kanji" class="section active">
+    <div class="grid">
+      <div class="panel">
+        <div class="row">
+          <div>
+            <h2>Kanji — Lista (N5 + N4)</h2>
+            <p class="hint" id="kanjiCountHint">—</p>
+          </div>
+
+          <div class="row">
+            <div class="small">Filtro</div>
+            <select id="levelFilter">
+              <option value="ALL" selected>ALL (N5+N4)</option>
+              <option value="N5">Somente N5</option>
+              <option value="N4">Somente N4</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="kanjigrid" id="kanjigrid"></div>
+      </div>
+
+      <div class="panel" id="detailPanel">
+        <h2>Detalhe</h2>
+        <p class="hint">Selecione um kanji na lista.</p>
+
+        <div id="kanjiDetail" class="card" style="display:none;">
+          <div class="jp" id="kdKanji"></div>
+          <div class="hira" id="kdReadings"></div>
+          <div class="mean" id="kdMean"></div>
+          <div class="badges" id="kdBadges"></div>
+
+          <div class="strokeBox" id="kdStrokeBox">
+            <div class="strokeHead">
+              <div class="t">Ordem dos traços</div>
+              <div class="row">
+                <div class="btn primary" id="kdReplay">Repetir</div>
+                <select id="kdSpeed" title="Velocidade">
+                  <option value="0.7">Rápido</option>
+                  <option value="1" selected>Normal</option>
+                  <option value="1.35">Lento</option>
+                </select>
+              </div>
+            </div>
+            <div class="strokeBody" id="kdStroke"></div>
+            <div class="strokeNote">Fonte: KanjiVG (SVG).</div>
+          </div>
+
+          <hr class="sep">
+          <div class="row">
+            <div class="btn good" id="kdTrain">Treinar no Jogo</div>
+          </div>
+        </div>
+
+        <div id="kanjiDetailEmpty" class="card">
+          <div class="mean" style="color:var(--muted);">Clique em um kanji para ver detalhes aqui.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================== QUIZ ====================== -->
+  <section id="quiz" class="section">
+    <div class="grid">
+      <div class="panel">
+        <div class="row">
+          <div>
+            <h2>Jogo</h2>
+          </div>
+
+          <div class="row">
+            <label class="toggle" title="Repete mais os que você erra">
+              <input type="checkbox" id="quizSmart" checked />
+              modo inteligente
+            </label>
+            <label class="toggle" title="Reinicia automaticamente a cada questão">
+              <input type="checkbox" id="quizAuto" checked />
+              auto-run
+            </label>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="row" style="align-items:flex-end;">
+            <div style="flex:1;">
+              <div class="bigKanji" id="quizKanji">一</div>
+              <div class="badges" style="justify-content:center;">
+                <span class="badge" id="quizScore">Acertos: 0 · Erros: 0 · Streak: 0</span>
+                <span class="badge warn" id="quizTimerText">⏱️ 12s</span>
+                <span class="badge tag" id="quizMoodText">Mood: —</span>
+              </div>
+              <div class="timerBarWrap">
+                <div class="timerBar" id="timerBar"></div>
+              </div>
+            </div>
+
+            <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
+              <div class="small">Nível</div>
+              <select id="quizLevel">
+                <option value="ALL" selected>ALL</option>
+                <option value="N5">N5</option>
+                <option value="N4">N4</option>
+              </select>
+
+              <div class="small">Tempo</div>
+              <select id="quizTime">
+                <option value="8">8s</option>
+                <option value="12" selected>12s</option>
+                <option value="18">18s</option>
+                <option value="25">25s</option>
+              </select>
+
+              <div class="btn good" id="quizStart">Start</div>
+              <div class="btn warn" id="quizPause">Pausar</div>
+              <div class="btn primary" id="quizNext">Próximo</div>
+              <div class="btn danger" id="quizReset">Zerar sessão</div>
+            </div>
+          </div>
+
+          <hr class="sep">
+
+          <div class="mcGrid">
+            <div class="mcBox">
+              <h3>Leitura</h3>
+              <div class="choiceList" id="readingChoices"></div>
+            </div>
+
+            <div class="mcBox">
+              <h3>Significado</h3>
+              <div class="choiceList" id="meaningChoices"></div>
+            </div>
+          </div>
+
+          <div id="quizFeedback" class="card" style="display:none;">
+            <div class="mean" id="quizFeedbackTitle"></div>
+            <div class="hira" id="quizFeedbackDetail"></div>
+
+            <div class="strokeBox" style="margin-top:12px;">
+              <div class="strokeHead">
+                <div class="t">Ordem dos traços</div>
+                <div class="row">
+                  <div class="btn primary" id="quizReplay">Repetir</div>
+                  <select id="quizSpeed" title="Velocidade">
+                    <option value="0.7">Rápido</option>
+                    <option value="1" selected>Normal</option>
+                    <option value="1.35">Lento</option>
+                  </select>
+                </div>
+              </div>
+              <div class="strokeBody" id="quizStroke"></div>
+              <div class="strokeNote">Fonte: KanjiVG.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Ranking + Estatísticas</h2>
+        <p class="hint">Salvo no navegador.</p>
+
+        <div class="card">
+          <div class="mean">🏆 Melhores marcas</div>
+          <div class="small" id="bestStats">—</div>
+
+          <hr class="sep">
+          <div class="mean">📊 Kanji mais errados</div>
+          <div class="small" id="worstKanjis">—</div>
+
+          <hr class="sep">
+          <div class="row">
+            <div class="btn danger" id="resetHistory">Resetar histórico</div>
+            <div class="btn good" id="goKanji">Voltar ao Kanji</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">ヴァンパイア全知全能 © 2025</div>
+</div>
 
 <script>
 /* =========================
-   LISTAS
-========================= */
-const N5 = "一 七 万 三 上 下 中 九 二 五 人 今 休 何 先 入 八 六 円 出 分 前 北 十 千 午 半 南 友 右 名 四 国 土 外 大 天 女 子 学 小 山 川 左 年 後 日 時 書 月 木 本 来 東 校 母 毎 気 水 火 父 生 男 白 百 聞 行 西 見 話 語 読 車 金 長 間 雨 電 食 高"
-  .split(/\s+/).filter(Boolean);
-
-const N4 = "不 世 主 事 京 仕 代 以 会 住 体 作 使 借 元 兄 公 写 冬 切 別 力 勉 動 医 去 口 古 台 同 味 品 員 問 図 地 堂 場 売 夏 夕 多 夜 妹 姉 始 字 安 室 家 少 屋 工 帰 広 店 度 建 弟 強 待 心 思 急 悪 意 手 持 教 文 料 新 方 旅 族 早 明 映 春 昼 曜 有 服 朝 業 楽 歌 止 正 歩 死 注 洋 海 漢 牛 物 特 犬 理 用 田 町 画 界 病 発 的 目 真 着 知 研 社 私 秋 究 空 立 答 紙 終 習 考 者 肉 自 色 花 英 茶 親 言 計 試 買 貸 質 赤 走 起 足 転 近 送 通 週 運 道 重 野 銀 開 院 集 青 音 題 風 飯 飲 館 駅 験 魚 鳥 黒"
-  .split(/\s+/).filter(Boolean);
-
-const ALL = [...new Set([...N5, ...N4])];
-const LEVEL_OF = Object.fromEntries([
-  ...N5.map(k => [k,"N5"]),
-  ...N4.map(k => [k,"N4"]),
-]);
+   LISTAS DE NÍVEL
+   ========================= */
+const N5_LIST = [
+  "一","七","万","三","上","下","中","九","二","五","人","今","休","何","先","入","八","六","円","出","分","前","北","十","千","午","半","南","友","右","名","四","国","土","外","大","天","女","子","学","小","山","川","左","年","後","日","時","書","月","木","本","来","東","校","母","毎","気","水","火","父","生","男","白","百","聞","行","西","見","話","語","読","車","金","長","間","雨","電","食","高"
+];
+const N4_LIST = [
+  "不","世","主","事","京","仕","代","以","会","住","体","作","使","借","元","兄","公","写","冬","切","別","力","勉","動","医","去","口","古","台","同","味","品","員","問","図","地","堂","場","売","夏","夕","多","夜","妹","姉","始","字","安","室","家","少","屋","工","帰","広","店","度","建","弟","強","待","心","思","急","悪","意","手","持","教","文","料","新","方","旅","族","早","明","映","春","昼","曜","有","服","朝","業","楽","歌","止","正","歩","死","注","洋","海","漢","牛","物","特","犬","理","用","田","町","画","界","病","発","的","目","真","着","知","研","社","私","秋","究","空","立","答","紙","終","習","考","者","肉","自","色","花","英","茶","親","言","計","試","買","貸","質","赤","走","起","足","転","近","送","通","週","運","道","重","野","銀","開","院","集","青","音","題","風","飯","飲","館","駅","験","魚","鳥","黒"
+];
+const N5_SET = new Set(N5_LIST);
+const N4_SET = new Set(N4_LIST);
 
 /* =========================
-   SIGNIFICADO PT (N4 + N5)
-   (significado “fixo” pra não ficar errado/variável)
-========================= */
-const PT_MEAN = {
-  // N5
-  "一":"um","七":"sete","万":"dez mil","三":"três","上":"cima","下":"baixo","中":"meio","九":"nove","二":"dois","五":"cinco",
-  "人":"pessoa","今":"agora","休":"descansar; folga","何":"o que","先":"antes; ponta","入":"entrar","八":"oito","六":"seis","円":"iene; círculo",
-  "出":"sair; tirar","分":"minuto; parte","前":"antes; frente","北":"norte","十":"dez","千":"mil","午":"meio-dia","半":"metade","南":"sul",
-  "友":"amigo","右":"direita","名":"nome","四":"quatro","国":"país","土":"terra","外":"fora","大":"grande","天":"céu","女":"mulher","子":"criança",
-  "学":"estudo; aprender","小":"pequeno","山":"montanha","川":"rio","左":"esquerda","年":"ano","後":"depois","日":"dia","時":"hora","書":"escrever",
-  "月":"mês; lua","木":"árvore","本":"livro; origem","来":"vir","東":"leste","校":"escola","母":"mãe","毎":"cada; todo","気":"energia; ar",
-  "水":"água","火":"fogo","父":"pai","生":"vida; nascer","男":"homem","白":"branco","百":"cem","聞":"ouvir; perguntar","行":"ir","西":"oeste",
-  "見":"ver","話":"falar","語":"língua; palavra","読":"ler","車":"carro","金":"dinheiro; ouro","長":"longo; chefe","間":"intervalo; entre",
-  "雨":"chuva","電":"eletricidade","食":"comer","高":"alto; caro",
-  // N4
-  "不":"não; negativo","世":"mundo; geração","主":"principal; dono","事":"coisa; assunto","京":"capital","仕":"servir; trabalho",
-  "代":"substituição; era","以":"a partir de","会":"reunião; encontro","住":"morar","体":"corpo","作":"fazer; criar","使":"usar",
-  "借":"pegar emprestado","元":"origem; ex-","兄":"irmão mais velho","公":"público","写":"copiar; fotografar","冬":"inverno","切":"cortar",
-  "別":"separar; diferente","力":"força","勉":"esforço","動":"mover","医":"médico; medicina","去":"ir embora; passado","口":"boca",
-  "古":"velho","台":"plataforma; suporte","同":"mesmo","味":"sabor","品":"produto; qualidade","員":"membro; funcionário","問":"perguntar; problema",
-  "図":"mapa; desenho","地":"terra; chão","堂":"salão; templo","場":"lugar","売":"vender","夏":"verão","夕":"entardecer","多":"muito",
-  "夜":"noite","妹":"irmã mais nova","姉":"irmã mais velha","始":"começar","字":"letra; caractere","安":"barato; seguro","室":"sala",
-  "家":"casa; família","少":"pouco","屋":"loja; vendedor","工":"construção; artesanato","帰":"voltar","広":"amplo; largo","店":"loja",
-  "度":"grau; vez","建":"construir","弟":"irmão mais novo","強":"forte","待":"esperar","心":"coração; mente","思":"pensar","急":"urgente; apressar",
-  "悪":"mau","意":"intenção; ideia","手":"mão","持":"segurar; ter","教":"ensinar","文":"texto; frase","料":"taxa; material","新":"novo",
-  "方":"direção; jeito","旅":"viagem","族":"família; grupo","早":"cedo; rápido","明":"claro; amanhã","映":"refletir; projetar","春":"primavera",
-  "昼":"dia; meio-dia","曜":"dia da semana","有":"ter; existir","服":"roupa","朝":"manhã","業":"trabalho; indústria","楽":"prazer; música",
-  "歌":"canção","止":"parar","正":"correto","歩":"andar; passo","死":"morrer","注":"atenção","洋":"ocidental","海":"mar","漢":"chinês",
-  "牛":"boi; vaca","物":"coisa; objeto","特":"especial","犬":"cachorro","理":"razão; lógica","用":"uso","田":"arrozal","町":"cidade; bairro",
-  "画":"quadro; desenho","界":"mundo; limite","病":"doença","発":"partir; emitir","的":"-al; alvo","目":"olho","真":"verdadeiro",
-  "着":"vestir; chegar","知":"saber; conhecer","研":"pesquisar","社":"empresa; sociedade","私":"eu; privado","秋":"outono","究":"pesquisa profunda",
-  "空":"céu; vazio","立":"levantar; ficar em pé","答":"resposta","紙":"papel","終":"terminar","習":"aprender; praticar","考":"pensar","者":"pessoa",
-  "肉":"carne","自":"si mesmo","色":"cor","花":"flor","英":"inglês","茶":"chá","親":"pais; íntimo","言":"dizer; palavra",
-  "計":"medir; plano","試":"testar","買":"comprar","貸":"emprestar (dar)","質":"qualidade; matéria","赤":"vermelho","走":"correr",
-  "起":"acordar; levantar","足":"pé; suficiente","転":"virar; cair","近":"perto","送":"enviar","通":"passar; frequentar",
-  "週":"semana","運":"sorte; transportar","道":"caminho","重":"pesado","野":"campo","銀":"prata","開":"abrir","院":"instituto; hospital",
-  "集":"reunir","青":"azul/verde","音":"som","題":"tema","風":"vento; estilo","飯":"refeição; arroz","飲":"beber","館":"prédio; salão",
-  "駅":"estação","験":"experiência; teste","魚":"peixe","鳥":"pássaro","黒":"preto"
+   INFO (leituras + significado)
+   - N4 preenchido no MESMO modelo do N5
+   ========================= */
+const KANJI_INFO = {
+  /* ---- N5 ---- */
+  "一":{readings:["いち","ひと"], meaning:"um"},
+  "七":{readings:["しち","なな"], meaning:"sete"},
+  "万":{readings:["まん"], meaning:"dez mil"},
+  "三":{readings:["さん","みっ"], meaning:"três"},
+  "上":{readings:["うえ","じょう"], meaning:"cima"},
+  "下":{readings:["した","か"], meaning:"baixo"},
+  "中":{readings:["なか","ちゅう"], meaning:"meio"},
+  "九":{readings:["きゅう","ここの"], meaning:"nove"},
+  "二":{readings:["に","ふた"], meaning:"dois"},
+  "五":{readings:["ご","いつ"], meaning:"cinco"},
+  "人":{readings:["ひと","にん"], meaning:"pessoa"},
+  "今":{readings:["いま","こん"], meaning:"agora"},
+  "休":{readings:["やす","きゅう"], meaning:"descansar"},
+  "何":{readings:["なに","なん"], meaning:"o que"},
+  "先":{readings:["さき","せん"], meaning:"antes"},
+  "入":{readings:["い","にゅう"], meaning:"entrar"},
+  "八":{readings:["はち","や"], meaning:"oito"},
+  "六":{readings:["ろく","む"], meaning:"seis"},
+  "円":{readings:["えん"], meaning:"iene"},
+  "出":{readings:["で","しゅつ"], meaning:"sair"},
+  "分":{readings:["ふん","ぶん"], meaning:"minuto / parte"},
+  "前":{readings:["まえ","ぜん"], meaning:"antes"},
+  "北":{readings:["きた","ほく"], meaning:"norte"},
+  "十":{readings:["じゅう","とお"], meaning:"dez"},
+  "千":{readings:["せん"], meaning:"mil"},
+  "午":{readings:["ご"], meaning:"meio-dia (noon)"},
+  "半":{readings:["はん"], meaning:"metade"},
+  "南":{readings:["みなみ","なん"], meaning:"sul"},
+  "友":{readings:["とも","ゆう"], meaning:"amigo"},
+  "右":{readings:["みぎ","う"], meaning:"direita"},
+  "名":{readings:["な","めい"], meaning:"nome"},
+  "四":{readings:["よん","し"], meaning:"quatro"},
+  "国":{readings:["くに","こく"], meaning:"país"},
+  "土":{readings:["つち","ど"], meaning:"terra"},
+  "外":{readings:["そと","がい"], meaning:"fora"},
+  "大":{readings:["おお","だい"], meaning:"grande"},
+  "天":{readings:["てん","あま"], meaning:"céu"},
+  "女":{readings:["おんな","じょ"], meaning:"mulher"},
+  "子":{readings:["こ","し"], meaning:"criança"},
+  "学":{readings:["まな","がく"], meaning:"estudar"},
+  "小":{readings:["ちい","しょう"], meaning:"pequeno"},
+  "山":{readings:["やま","さん"], meaning:"montanha"},
+  "川":{readings:["かわ","せん"], meaning:"rio"},
+  "左":{readings:["ひだり","さ"], meaning:"esquerda"},
+  "年":{readings:["とし","ねん"], meaning:"ano"},
+  "後":{readings:["あと","ご"], meaning:"depois"},
+  "日":{readings:["ひ","にち"], meaning:"dia"},
+  "時":{readings:["とき","じ"], meaning:"hora"},
+  "書":{readings:["か","しょ"], meaning:"escrever"},
+  "月":{readings:["つき","げつ"], meaning:"mês / lua"},
+  "木":{readings:["き","もく"], meaning:"árvore"},
+  "本":{readings:["ほん","もと"], meaning:"livro / origem"},
+  "来":{readings:["く","らい"], meaning:"vir"},
+  "東":{readings:["ひがし","とう"], meaning:"leste"},
+  "校":{readings:["こう"], meaning:"escola"},
+  "母":{readings:["はは","ぼ"], meaning:"mãe"},
+  "毎":{readings:["まい"], meaning:"todo (cada)"},
+  "気":{readings:["き"], meaning:"energia / espírito"},
+  "水":{readings:["みず","すい"], meaning:"água"},
+  "火":{readings:["ひ","か"], meaning:"fogo"},
+  "父":{readings:["ちち","ふ"], meaning:"pai"},
+  "生":{readings:["い","せい"], meaning:"vida / nascer"},
+  "男":{readings:["おとこ","だん"], meaning:"homem"},
+  "白":{readings:["しろ","はく"], meaning:"branco"},
+  "百":{readings:["ひゃく"], meaning:"cem"},
+  "聞":{readings:["き","ぶん"], meaning:"ouvir"},
+  "行":{readings:["い","こう"], meaning:"ir"},
+  "西":{readings:["にし","せい"], meaning:"oeste"},
+  "見":{readings:["み","けん"], meaning:"ver"},
+  "話":{readings:["はな","わ"], meaning:"falar"},
+  "語":{readings:["ご"], meaning:"idioma / palavra"},
+  "読":{readings:["よ","どく"], meaning:"ler"},
+  "車":{readings:["くるま","しゃ"], meaning:"carro"},
+  "金":{readings:["かね","きん"], meaning:"dinheiro / ouro"},
+  "長":{readings:["なが","ちょう"], meaning:"longo / chefe"},
+  "間":{readings:["あいだ","かん"], meaning:"intervalo / entre"},
+  "雨":{readings:["あめ","う"], meaning:"chuva"},
+  "電":{readings:["でん"], meaning:"eletricidade"},
+  "食":{readings:["た","しょく"], meaning:"comer"},
+  "高":{readings:["たか","こう"], meaning:"alto / caro"},
+
+  /* ---- N4 (modelo idêntico ao N5) ---- */
+  "不":{readings:["ふ","ない"], meaning:"não / negativo"},
+  "世":{readings:["せい","よ"], meaning:"mundo / sociedade"},
+  "主":{readings:["しゅ","ぬし"], meaning:"principal / dono"},
+  "事":{readings:["こと","じ"], meaning:"coisa / assunto"},
+  "京":{readings:["きょう","けい"], meaning:"capital"},
+  "仕":{readings:["し"], meaning:"servir / trabalho"},
+  "代":{readings:["だい","か"], meaning:"geração / substituir"},
+  "以":{readings:["い"], meaning:"a partir de / por meio de"},
+  "会":{readings:["かい","あ"], meaning:"reunião / encontrar"},
+  "住":{readings:["す","じゅう"], meaning:"morar"},
+  "体":{readings:["からだ","たい"], meaning:"corpo"},
+  "作":{readings:["つく","さく"], meaning:"fazer / criar"},
+  "使":{readings:["つか","し"], meaning:"usar"},
+  "借":{readings:["か","しゃく"], meaning:"pegar emprestado"},
+  "元":{readings:["もと","げん"], meaning:"origem"},
+  "兄":{readings:["あに","きょう"], meaning:"irmão mais velho"},
+  "公":{readings:["こう","おおやけ"], meaning:"público"},
+  "写":{readings:["うつ","しゃ"], meaning:"copiar / fotografar"},
+  "冬":{readings:["ふゆ","とう"], meaning:"inverno"},
+  "切":{readings:["き","せつ"], meaning:"cortar"},
+  "別":{readings:["べつ","わか"], meaning:"separar / diferente"},
+  "力":{readings:["ちから","りょく"], meaning:"força"},
+  "勉":{readings:["べん"], meaning:"esforço (como em 勉強)"},
+  "動":{readings:["うご","どう"], meaning:"mover"},
+  "医":{readings:["い"], meaning:"medicina / médico"},
+  "去":{readings:["さ","きょ"], meaning:"ir embora / passado"},
+  "口":{readings:["くち","こう"], meaning:"boca"},
+  "古":{readings:["ふる","こ"], meaning:"antigo"},
+  "台":{readings:["だい","たい"], meaning:"suporte / mesa"},
+  "同":{readings:["おな","どう"], meaning:"mesmo"},
+  "味":{readings:["あじ","み"], meaning:"sabor"},
+  "品":{readings:["しな","ひん"], meaning:"produto / qualidade"},
+  "員":{readings:["いん"], meaning:"membro"},
+  "問":{readings:["と","もん"], meaning:"perguntar / pergunta"},
+  "図":{readings:["ず","はか"], meaning:"diagrama / plano"},
+  "地":{readings:["ち","じ"], meaning:"terra / local"},
+  "堂":{readings:["どう"], meaning:"salão"},
+  "場":{readings:["ば","じょう"], meaning:"lugar"},
+  "売":{readings:["う","ばい"], meaning:"vender"},
+  "夏":{readings:["なつ","か"], meaning:"verão"},
+  "夕":{readings:["ゆう"], meaning:"entardecer"},
+  "多":{readings:["おお","た"], meaning:"muito"},
+  "夜":{readings:["よる","や"], meaning:"noite"},
+  "妹":{readings:["いもうと"], meaning:"irmã mais nova"},
+  "姉":{readings:["あね"], meaning:"irmã mais velha"},
+  "始":{readings:["はじ","し"], meaning:"começar"},
+  "字":{readings:["じ","あざ"], meaning:"letra / ideograma"},
+  "安":{readings:["やす","あん"], meaning:"barato / seguro"},
+  "室":{readings:["しつ","むろ"], meaning:"sala / quarto"},
+  "家":{readings:["いえ","か"], meaning:"casa / família"},
+  "少":{readings:["すこ","しょう"], meaning:"pouco"},
+  "屋":{readings:["や","おく"], meaning:"loja"},
+  "工":{readings:["こう","く"], meaning:"artesanato / engenharia"},
+  "帰":{readings:["かえ","き"], meaning:"voltar"},
+  "広":{readings:["ひろ","こう"], meaning:"largo / amplo"},
+  "店":{readings:["みせ","てん"], meaning:"loja"},
+  "度":{readings:["ど","たび"], meaning:"vez / grau"},
+  "建":{readings:["た","けん"], meaning:"construir"},
+  "弟":{readings:["おとうと","だい"], meaning:"irmão mais novo"},
+  "強":{readings:["つよ","きょう"], meaning:"forte"},
+  "待":{readings:["ま","たい"], meaning:"esperar"},
+  "心":{readings:["こころ","しん"], meaning:"coração / mente"},
+  "思":{readings:["おも","し"], meaning:"pensar"},
+  "急":{readings:["いそ","きゅう"], meaning:"rápido / urgente"},
+  "悪":{readings:["わる","あく"], meaning:"ruim / mal"},
+  "意":{readings:["い"], meaning:"ideia / intenção"},
+  "手":{readings:["て","しゅ"], meaning:"mão"},
+  "持":{readings:["も","じ"], meaning:"segurar / ter"},
+  "教":{readings:["おし","きょう"], meaning:"ensinar"},
+  "文":{readings:["ぶん","ふみ"], meaning:"frase / texto"},
+  "料":{readings:["りょう"], meaning:"taxa / material"},
+  "新":{readings:["あたら","しん"], meaning:"novo"},
+  "方":{readings:["かた","ほう"], meaning:"direção / maneira"},
+  "旅":{readings:["たび","りょ"], meaning:"viagem"},
+  "族":{readings:["ぞく"], meaning:"família / grupo"},
+  "早":{readings:["はや","そう"], meaning:"cedo / rápido"},
+  "明":{readings:["あか","めい"], meaning:"claro / brilhante"},
+  "映":{readings:["うつ","えい"], meaning:"refletir / projetar"},
+  "春":{readings:["はる","しゅん"], meaning:"primavera"},
+  "昼":{readings:["ひる"], meaning:"meio-dia / tarde"},
+  "曜":{readings:["よう"], meaning:"dia da semana"},
+  "有":{readings:["あ","ゆう"], meaning:"existir / ter"},
+  "服":{readings:["ふく"], meaning:"roupa"},
+  "朝":{readings:["あさ","ちょう"], meaning:"manhã"},
+  "業":{readings:["ぎょう","わざ"], meaning:"trabalho / atividade"},
+  "楽":{readings:["たの","がく"], meaning:"prazer / diversão"},
+  "歌":{readings:["うた","か"], meaning:"canção"},
+  "止":{readings:["と","し"], meaning:"parar"},
+  "正":{readings:["ただ","せい"], meaning:"correto"},
+  "歩":{readings:["ある","ほ"], meaning:"andar (a pé)"},
+  "死":{readings:["し","しぬ"], meaning:"morrer"},
+  "注":{readings:["そそ","ちゅう"], meaning:"derramar / atenção"},
+  "洋":{readings:["よう"], meaning:"ocidental"},
+  "海":{readings:["うみ","かい"], meaning:"mar"},
+  "漢":{readings:["かん"], meaning:"chinês (Han)"},
+  "牛":{readings:["うし","ぎゅう"], meaning:"vaca / boi"},
+  "物":{readings:["もの","ぶつ"], meaning:"coisa"},
+  "特":{readings:["とく"], meaning:"especial"},
+  "犬":{readings:["いぬ","けん"], meaning:"cachorro"},
+  "理":{readings:["り"], meaning:"razão / lógica"},
+  "用":{readings:["もち","よう"], meaning:"uso"},
+  "田":{readings:["た","でん"], meaning:"arrozal"},
+  "町":{readings:["まち","ちょう"], meaning:"cidade / bairro"},
+  "画":{readings:["が","え"], meaning:"quadro / desenho"},
+  "界":{readings:["かい"], meaning:"mundo / fronteira"},
+  "病":{readings:["やまい","びょう"], meaning:"doença"},
+  "発":{readings:["はつ","た"], meaning:"partir / disparar"},
+  "的":{readings:["てき"], meaning:"alvo / sufixo -al"},
+  "目":{readings:["め","もく"], meaning:"olho"},
+  "真":{readings:["ま","しん"], meaning:"verdadeiro"},
+  "着":{readings:["き","ちゃく"], meaning:"vestir / chegar"},
+  "知":{readings:["し","しる"], meaning:"saber / conhecer"},
+  "研":{readings:["けん","と"], meaning:"pesquisa / polir"},
+  "社":{readings:["しゃ","やしろ"], meaning:"empresa / santuário"},
+  "私":{readings:["わたし","し"], meaning:"eu / privado"},
+  "秋":{readings:["あき"], meaning:"outono"},
+  "究":{readings:["きゅう"], meaning:"investigar"},
+  "空":{readings:["そら","くう"], meaning:"céu / vazio"},
+  "立":{readings:["た","りつ"], meaning:"ficar em pé"},
+  "答":{readings:["こた","とう"], meaning:"responder"},
+  "紙":{readings:["かみ","し"], meaning:"papel"},
+  "終":{readings:["お","しゅう"], meaning:"terminar"},
+  "習":{readings:["なら","しゅう"], meaning:"aprender / praticar"},
+  "考":{readings:["かんが","こう"], meaning:"pensar"},
+  "者":{readings:["もの","しゃ"], meaning:"pessoa"},
+  "肉":{readings:["にく"], meaning:"carne"},
+  "自":{readings:["じ","みずか"], meaning:"si mesmo"},
+  "色":{readings:["いろ","しょく"], meaning:"cor"},
+  "花":{readings:["はな","か"], meaning:"flor"},
+  "英":{readings:["えい"], meaning:"inglês"},
+  "茶":{readings:["ちゃ","さ"], meaning:"chá"},
+  "親":{readings:["おや","しん"], meaning:"pais / íntimo"},
+  "言":{readings:["い","げん"], meaning:"dizer / palavra"},
+  "計":{readings:["はか","けい"], meaning:"medir / plano"},
+  "試":{readings:["ため","し"], meaning:"testar"},
+  "買":{readings:["か","ばい"], meaning:"comprar"},
+  "貸":{readings:["か","たい"], meaning:"emprestar (dar)"},
+  "質":{readings:["しつ"], meaning:"qualidade / pergunta"},
+  "赤":{readings:["あか","せき"], meaning:"vermelho"},
+  "走":{readings:["はし","そう"], meaning:"correr"},
+  "起":{readings:["お","き"], meaning:"acordar / levantar"},
+  "足":{readings:["あし","そく"], meaning:"pé / perna"},
+  "転":{readings:["ころ","てん"], meaning:"girar / cair"},
+  "近":{readings:["ちか","きん"], meaning:"perto"},
+  "送":{readings:["おく","そう"], meaning:"enviar"},
+  "通":{readings:["とお","つう"], meaning:"passar / ir-e-vir"},
+  "週":{readings:["しゅう"], meaning:"semana"},
+  "運":{readings:["はこ","うん"], meaning:"transportar / sorte"},
+  "道":{readings:["みち","どう"], meaning:"caminho"},
+  "重":{readings:["おも","じゅう"], meaning:"pesado"},
+  "野":{readings:["の","や"], meaning:"campo"},
+  "銀":{readings:["ぎん"], meaning:"prata"},
+  "開":{readings:["あ","かい"], meaning:"abrir"},
+  "院":{readings:["いん"], meaning:"instituição"},
+  "集":{readings:["あつ","しゅう"], meaning:"juntar / coletar"},
+  "青":{readings:["あお","せい"], meaning:"azul / verde"},
+  "音":{readings:["おと","おん"], meaning:"som"},
+  "題":{readings:["だい"], meaning:"tema"},
+  "風":{readings:["かぜ","ふう"], meaning:"vento"},
+  "飯":{readings:["めし","はん"], meaning:"refeição / arroz"},
+  "飲":{readings:["の","いん"], meaning:"beber"},
+  "館":{readings:["かん","やかた"], meaning:"prédio / estabelecimento"},
+  "駅":{readings:["えき"], meaning:"estação"},
+  "験":{readings:["けん"], meaning:"teste / experiência"},
+  "魚":{readings:["さかな","ぎょ"], meaning:"peixe"},
+  "鳥":{readings:["とり","ちょう"], meaning:"pássaro"},
+  "黒":{readings:["くろ","こく"], meaning:"preto"},
 };
 
 /* =========================
-   APIs
-========================= */
-const KANJI_API = "https://kanjiapi.dev/v1/kanji/";
-const JOTOBA_WORDS = "https://jotoba.de/api/search/words?query=";
-const KVG_BASE = "https://cdn.jsdelivr.net/npm/kanjivg@1.6.1/kanji/";
-
-/* =========================
    HELPERS
-========================= */
-const $ = (s, el=document) => el.querySelector(s);
-const $$ = (s, el=document) => [...el.querySelectorAll(s)];
-const uniq = (arr)=>[...new Set(arr)];
-function shuffle(a){
-  const x=[...a];
-  for(let i=x.length-1;i>0;i--){
+   ========================= */
+const $ = (id)=>document.getElementById(id);
+
+function flash(type){
+  const f = $("flash");
+  f.className = "flash " + type;
+  void f.offsetWidth;
+  f.classList.add("on");
+  setTimeout(()=>f.classList.remove("on"), 560);
+}
+function shuffle(arr){
+  const a = [...arr];
+  for(let i=a.length-1;i>0;i--){
     const j = Math.floor(Math.random()*(i+1));
-    [x[i],x[j]]=[x[j],x[i]];
+    [a[i],a[j]] = [a[j],a[i]];
   }
-  return x;
+  return a;
 }
-function toHiragana(kana){
-  return (kana||"").replace(/[\u30A1-\u30F6]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0x60));
-}
-function unicodeHex5(ch){
-  return ch.codePointAt(0).toString(16).padStart(5,"0");
-}
-
-/* =========================
-   CACHE
-========================= */
-const cacheKanji = new Map(); // kanji -> kanjiapi json
-const cacheSvg = new Map();   // kanji -> svgText
-const cacheWord1 = new Map(); // kanji -> {jp,kana,gloss}
-
-async function getKanjiInfo(kanji){
-  if(cacheKanji.has(kanji)) return cacheKanji.get(kanji);
-  const res = await fetch(KANJI_API + encodeURIComponent(kanji));
-  if(!res.ok) throw new Error("kanjiapi fail");
-  const json = await res.json();
-  cacheKanji.set(kanji,json);
-  return json;
-}
-
-async function getKanjiVG(kanji){
-  if(cacheSvg.has(kanji)) return cacheSvg.get(kanji);
-  const url = KVG_BASE + unicodeHex5(kanji) + ".svg";
-  const res = await fetch(url);
-  if(!res.ok) throw new Error("kvg fail");
-  const svgText = await res.text();
-  cacheSvg.set(kanji, svgText);
-  return svgText;
-}
-
-// 1 palavra (jogo). Se não vier, retorna null.
-async function getOneWord(kanji){
-  if(cacheWord1.has(kanji)) return cacheWord1.get(kanji);
-
-  try{
-    const res = await fetch(JOTOBA_WORDS + encodeURIComponent(kanji),{
-      headers:{ "Accept-Language":"pt-BR,pt;q=0.9,en;q=0.4" }
-    });
-    if(!res.ok) throw new Error("jotoba fail");
-    const json = await res.json();
-    const items = Array.isArray(json) ? json : (json?.data ?? json?.results ?? []);
-
-    for(const it of items){
-      if(!it?.reading) continue;
-      const jp = it.reading.kanji || it.reading.kana || "";
-      if(!jp.includes(kanji)) continue;
-
-      const senses = Array.isArray(it.senses) ? it.senses : [];
-      let sense = senses.find(s => (s.language||"").toLowerCase().includes("portuguese") || (s.language||"").toLowerCase().includes("pt"));
-      if(!sense) sense = senses.find(s => (s.language||"").toLowerCase().includes("english"));
-      if(!sense) sense = senses[0];
-
-      const gloss = (sense?.glosses || []).slice(0,2).join("; ") || "—";
-      const out = { jp, kana: it.reading.kana || "—", gloss };
-      cacheWord1.set(kanji, out);
-      return out;
-    }
-  }catch(e){}
-
-  cacheWord1.set(kanji, null);
-  return null;
-}
-
-/* =========================
-   STROKE ANIMATION
-========================= */
-function mountAndAnimateSVG(svgWrap, svgText, statusEl){
-  svgWrap.innerHTML = "";
-  statusEl.textContent = "…";
-
-  const tmp = document.createElement("div");
-  tmp.innerHTML = svgText;
-
-  const svg = tmp.querySelector("svg");
-  if(!svg){
-    statusEl.textContent = "—";
-    return;
+function uniqByText(opts){
+  const seen = new Set();
+  const out = [];
+  for(const o of opts){
+    const key = (o.text||"").trim();
+    if(!key || seen.has(key)) continue;
+    seen.add(key);
+    out.push(o);
   }
+  return out;
+}
 
-  svg.classList.add("kvg");
-  if(!svg.getAttribute("viewBox")) svg.setAttribute("viewBox","0 0 109 109");
-
-  const paths = [...svg.querySelectorAll("path")];
-  if(!paths.length){
-    statusEl.textContent = "—";
-    svgWrap.appendChild(svg);
-    return;
-  }
-
-  paths.forEach((p,i)=>{
-    let len = 160;
-    try{ len = p.getTotalLength(); }catch{}
-    p.style.strokeDasharray = String(len);
-    p.style.strokeDashoffset = String(len);
-    p.style.opacity = "1";
-    p.style.transition = "none";
-  });
-
-  svgWrap.appendChild(svg);
-  statusEl.textContent = `${paths.length}`;
-
-  const base = 260;
-  const gap = 70;
-
-  requestAnimationFrame(()=>{
-    paths.forEach((p,i)=>{
-      const delay = i*(base+gap);
-      p.style.transition = `stroke-dashoffset ${base}ms ease-out ${delay}ms`;
-      p.style.strokeDashoffset = "0";
-    });
-  });
+function levelOf(k){
+  if(N5_SET.has(k)) return "N5";
+  if(N4_SET.has(k)) return "N4";
+  return "N4";
+}
+function allKanjisUnique(){
+  const set = new Set([...N5_LIST, ...N4_LIST]);
+  return Array.from(set);
+}
+function poolByLevel(level){
+  const all = allKanjisUnique();
+  if(level === "N5") return all.filter(k=>N5_SET.has(k));
+  if(level === "N4") return all.filter(k=>N4_SET.has(k));
+  return all;
 }
 
 /* =========================
    TABS
-========================= */
-const tabBtns = $$(".tabBtn");
-tabBtns.forEach(b=>{
-  b.addEventListener("click", ()=>{
-    tabBtns.forEach(x=>x.classList.remove("active"));
-    b.classList.add("active");
-    const t = b.dataset.tab;
-    $("#tab-kanji").style.display = (t==="kanji") ? "" : "none";
-    $("#tab-game").style.display  = (t==="game") ? "" : "none";
-    window.scrollTo({top:0,behavior:"smooth"});
+   ========================= */
+const sections = { kanji:$("kanji"), quiz:$("quiz") };
+const tabs = { kanji:$("tab-kanji"), quiz:$("tab-quiz") };
+function openTab(id){
+  Object.values(sections).forEach(s=>s.classList.remove("active"));
+  Object.values(tabs).forEach(t=>t.classList.remove("active"));
+  sections[id].classList.add("active");
+  tabs[id].classList.add("active");
+  if(id==="kanji") renderKanjiGrid();
+}
+tabs.kanji.addEventListener("click", ()=>openTab("kanji"));
+tabs.quiz.addEventListener("click", ()=>openTab("quiz"));
+
+/* =========================
+   STROKE ORDER (KanjiVG)
+   ========================= */
+const svgCache = new Map();
+const strokeAnimState = new WeakMap();
+
+function codepointHex5(ch){
+  return ch.codePointAt(0).toString(16).padStart(5,"0");
+}
+function clearSVGAnimation(svg){
+  const st = strokeAnimState.get(svg);
+  if(st?.length) st.forEach(t=>clearTimeout(t));
+  strokeAnimState.set(svg, []);
+}
+function pickStrokePaths(svg){
+  const all = Array.from(svg.querySelectorAll("path"));
+  const strokes = all.filter(p=>{
+    const id = (p.getAttribute("id") || "");
+    return /-s\d+/.test(id);
   });
-});
+  return strokes.length ? strokes : all;
+}
+function preparePaths(paths){
+  for(const p of paths){
+    p.style.fill = "none";
+    p.style.stroke = "var(--accent2)";
+    p.style.strokeWidth = "3.4";
+    p.style.strokeLinecap = "round";
+    p.style.strokeLinejoin = "round";
+    p.style.opacity = "1";
+    p.style.transition = "none";
+  }
+}
+function animateStrokeOrder(svg, speed=1){
+  if(!svg) return;
+  clearSVGAnimation(svg);
+
+  const paths = pickStrokePaths(svg);
+  if(!paths.length) return;
+
+  preparePaths(paths);
+
+  const lengths = paths.map(p=>{
+    let len = 160;
+    try{ len = p.getTotalLength(); }catch{}
+    p.style.strokeDasharray = String(len);
+    p.style.strokeDashoffset = String(len);
+    return len;
+  });
+
+  const timeouts = [];
+  let cursor = 0;
+
+  for(let i=0;i<paths.length;i++){
+    const p = paths[i];
+    const len = lengths[i];
+    const dur = Math.max(220, Math.min(900, len*2.1)) * speed;
+
+    const t = setTimeout(()=>{
+      p.style.transition = `stroke-dashoffset ${dur}ms linear`;
+      p.style.strokeDashoffset = "0";
+    }, cursor);
+
+    timeouts.push(t);
+    cursor += dur + 85*speed;
+  }
+  strokeAnimState.set(svg, timeouts);
+}
+
+async function loadKanjiSVGInto(kanji, targetEl){
+  if(svgCache.has(kanji)){
+    targetEl.innerHTML = svgCache.get(kanji);
+    return targetEl.querySelector("svg");
+  }
+  const hex = codepointHex5(kanji);
+  const url = `https://cdn.jsdelivr.net/gh/KanjiVG/kanjivg@master/kanji/${hex}.svg`;
+  targetEl.innerHTML = `<div class="small">Carregando stroke order...</div>`;
+  try{
+    const res = await fetch(url, {cache:"force-cache"});
+    if(!res.ok) throw new Error("HTTP "+res.status);
+    const svgText = await res.text();
+    const cleaned = svgText
+      .replace(/width="[^"]*"/g,'')
+      .replace(/height="[^"]*"/g,'')
+      .replace(/<\?xml[^>]*\?>/g,'');
+    svgCache.set(kanji, cleaned);
+    targetEl.innerHTML = cleaned;
+    return targetEl.querySelector("svg");
+  }catch{
+    targetEl.innerHTML = `<div class="small">Falha ao carregar. Ctrl+F5 e tente novamente.</div>`;
+    return null;
+  }
+}
 
 /* =========================
    KANJI TAB
-========================= */
-const kGrid = $("#kGrid");
-const searchKanji = $("#searchKanji");
-const filterLvl = $("#filterLvl");
+   ========================= */
+const kanjigrid = $("kanjigrid");
+const levelFilter = $("levelFilter");
+const kanjiCountHint = $("kanjiCountHint");
 
-let currentKanji = null;
+const kdBox = $("kanjiDetail");
+const kdEmpty = $("kanjiDetailEmpty");
+const kdKanji = $("kdKanji");
+const kdReadings = $("kdReadings");
+const kdMean = $("kdMean");
+const kdBadges = $("kdBadges");
+const kdStroke = $("kdStroke");
+const kdSpeed = $("kdSpeed");
 
-function visibleList(){
-  const lvl = filterLvl.value;
-  const q = (searchKanji.value||"").trim();
-  let base = ALL;
-  if(lvl!=="ALL") base = base.filter(k => LEVEL_OF[k]===lvl);
-  if(q) base = base.filter(k => k.includes(q));
-  return base;
-}
+let selectedKanji = null;
+let kdSvgEl = null;
 
-function renderGrid(){
-  const list = visibleList();
-  $("#countInfo").textContent = `${list.length} / ${ALL.length}`;
-  kGrid.innerHTML = "";
+function renderKanjiGrid(){
+  const level = levelFilter.value;
+  const list = poolByLevel(level);
+
+  kanjiCountHint.textContent = `Total: ${list.length} kanjis`;
+
+  kanjigrid.innerHTML = "";
+  const frag = document.createDocumentFragment();
+
   for(const k of list){
-    const btn = document.createElement("button");
-    btn.className = "kBtn";
-    btn.textContent = k;
-    if(k===currentKanji) btn.classList.add("active");
-    btn.addEventListener("click", ()=>selectKanji(k,true));
-    kGrid.appendChild(btn);
+    const lvl = levelOf(k);
+    const div = document.createElement("div");
+    div.className = "kanjiitem";
+    div.innerHTML = `
+      <div class="k">${k}</div>
+      <div class="lvl"><b>${lvl}</b></div>
+    `;
+    div.addEventListener("click", ()=>showKanjiDetail(k, true));
+    frag.appendChild(div);
   }
+  kanjigrid.appendChild(frag);
 }
 
-async function selectKanji(kanji, scrollTop){
-  currentKanji = kanji;
-  renderGrid();
-
-  $("#kBig").textContent = kanji;
-  $("#kLvl").textContent = LEVEL_OF[kanji] || "—";
-  $("#kKun").textContent = "—";
-  $("#kOn").textContent = "—";
-  $("#kMean").textContent = PT_MEAN[kanji] || "—";
-  $("#kHint").textContent = "";
-  $("#kWords").innerHTML = "";
-  $("#strokeSvgWrap").innerHTML = "";
-  $("#strokeStatus").textContent = "…";
-
-  if(scrollTop) window.scrollTo({top:0,behavior:"smooth"});
-
-  // leituras sempre do kanjiapi (corrige “alguns errados”)
-  try{
-    const info = await getKanjiInfo(kanji);
-    const kun = (info.kun_readings||[]).slice(0,6);
-    const on  = (info.on_readings||[]).map(toHiragana).slice(0,6);
-    $("#kKun").textContent = kun.length ? kun.join(" / ") : "—";
-    $("#kOn").textContent  = on.length  ? on.join(" / ") : "—";
-
-    // se PT não existir, cai no meanings[0] (inglês)
-    if(!PT_MEAN[kanji]){
-      $("#kMean").textContent = (info.meanings && info.meanings[0]) ? info.meanings[0] : "—";
-    }
-  }catch{}
-
-  // (opcional) lista vazia (sem textos desnecessários)
-  $("#kWords").innerHTML = "";
-
-  // stroke
-  try{
-    const svgText = await getKanjiVG(kanji);
-    mountAndAnimateSVG($("#strokeSvgWrap"), svgText, $("#strokeStatus"));
-  }catch{
-    $("#strokeStatus").textContent = "—";
-    $("#strokeSvgWrap").innerHTML = "";
-  }
-}
-
-searchKanji.addEventListener("input", renderGrid);
-filterLvl.addEventListener("change", renderGrid);
-
-$("#btnReplayStroke").addEventListener("click", async ()=>{
-  if(!currentKanji) return;
-  try{
-    const svgText = await getKanjiVG(currentKanji);
-    mountAndAnimateSVG($("#strokeSvgWrap"), svgText, $("#strokeStatus"));
-  }catch{}
+levelFilter.addEventListener("change", ()=>{
+  renderKanjiGrid();
+  selectedKanji = null;
+  kdSvgEl = null;
+  kdBox.style.display = "none";
+  kdEmpty.style.display = "block";
 });
 
-$("#btnPracticeThis").addEventListener("click", ()=>{
-  if(!currentKanji) return;
-  tabBtns.find(b=>b.dataset.tab==="game").click();
-  startGame({forceList:[currentKanji]});
+function safeInfo(k){
+  const base = KANJI_INFO[k];
+  if(base && base.readings?.length && base.meaning) return base;
+  return {readings:["—"], meaning:"—"};
+}
+
+async function showKanjiDetail(k, autoScroll){
+  selectedKanji = k;
+  const info = safeInfo(k);
+  const lvl = levelOf(k);
+
+  kdEmpty.style.display="none";
+  kdBox.style.display="block";
+
+  kdKanji.textContent = k;
+  kdReadings.textContent = `Leituras: ${(info.readings || ["—"]).join(" / ")}`;
+  kdMean.textContent = `Significado (PT): ${info.meaning || "—"}`;
+
+  kdBadges.innerHTML = `
+    <span class="badge ${lvl.toLowerCase()}">${lvl}</span>
+    <span class="badge tag">kanji</span>
+  `;
+
+  if(autoScroll){
+    $("detailPanel").scrollIntoView({behavior:"smooth", block:"start"});
+    setTimeout(()=> $("kdStrokeBox").scrollIntoView({behavior:"smooth", block:"start"}), 250);
+  }
+
+  kdSvgEl = await loadKanjiSVGInto(k, kdStroke);
+  animateStrokeOrder(kdSvgEl, Number(kdSpeed.value));
+}
+
+$("kdReplay").addEventListener("click", ()=>{
+  if(!selectedKanji) return;
+  animateStrokeOrder(kdSvgEl, Number(kdSpeed.value));
+});
+kdSpeed.addEventListener("change", ()=>{
+  if(!selectedKanji) return;
+  animateStrokeOrder(kdSvgEl, Number(kdSpeed.value));
+});
+$("kdTrain").addEventListener("click", ()=>{
+  if(!selectedKanji) return;
+  openTab("quiz");
+  setQuestion(selectedKanji, true);
 });
 
 /* =========================
-   GAME
-========================= */
-let game = {
-  running:false,
-  pool:[],
-  forceList:null,
+   QUIZ: stats + mood
+   ========================= */
+const LS_KEY = "vampire_znzn_kanji_quiz_v8";
 
-  k:null,
-  info:null,
-  word:null,
+function defaultStats(){
+  return { bestStreak:0, bestAccuracy:0, bestScore:0, totalCorrect:0, totalWrong:0, perKanji:{}, recent:[] };
+}
+function loadStats(){
+  try{ const raw = localStorage.getItem(LS_KEY); return raw ? JSON.parse(raw) : defaultStats(); }
+  catch{ return defaultStats(); }
+}
+function saveStats(){ try{ localStorage.setItem(LS_KEY, JSON.stringify(stats)); }catch{} }
+let stats = loadStats();
 
-  stage:0, // 0 leitura, 1 significado, 2 resultado
-  hit:0, miss:0, streak:0,
+function ensurePerKanji(k){ if(!stats.perKanji[k]) stats.perKanji[k] = {c:0,w:0}; }
+function pushRecent(ok){
+  stats.recent.push(ok ? 1 : 0);
+  if(stats.recent.length > 12) stats.recent.shift();
+}
+function moodScore(){
+  if(!stats.recent.length) return 0.5;
+  const sum = stats.recent.reduce((a,b)=>a+b,0);
+  return sum / stats.recent.length;
+}
+function applyMood(){
+  const s = moodScore();
+  const hue = Math.round(8 + s * 127);
+  document.documentElement.style.setProperty("--moodHue", String(hue));
+  $("quizMoodText").textContent = `Mood: ${Math.round(s*100)}%`;
+}
 
-  svgText:null
+/* =========================
+   QUIZ: engine
+   ========================= */
+const quizSmart = $("quizSmart");
+const quizAuto = $("quizAuto");
+const quizLevel = $("quizLevel");
+const quizKanji = $("quizKanji");
+const quizScoreEl = $("quizScore");
+const quizTimerText = $("quizTimerText");
+const timerBar = $("timerBar");
+const quizTime = $("quizTime");
+
+const readingChoices = $("readingChoices");
+const meaningChoices = $("meaningChoices");
+
+const quizFeedback = $("quizFeedback");
+const quizFeedbackTitle = $("quizFeedbackTitle");
+const quizFeedbackDetail = $("quizFeedbackDetail");
+const quizStroke = $("quizStroke");
+const quizSpeed = $("quizSpeed");
+
+const bestStatsEl = $("bestStats");
+const worstKanjisEl = $("worstKanjis");
+
+let quizSvgEl = null;
+
+$("goKanji").addEventListener("click", ()=> openTab("kanji"));
+$("resetHistory").addEventListener("click", ()=>{
+  stats = defaultStats();
+  saveStats();
+  updateRightPanel();
+  applyMood();
+  flash("bad");
+});
+
+const quizState = {
+  current: "一",
+  running: false,
+  timerId: null,
+  timeLeftMs: 12000,
+  timeTotalMs: 12000,
+
+  sessionCorrect: 0,
+  sessionWrong: 0,
+  sessionStreak: 0,
+
+  answeredReading: false,
+  answeredMeaning: false,
+  okReading: false,
+  okMeaning: false,
+
+  lockedAfterResult: false,
+  lastPick: null
 };
 
-function setMood(ok){
-  document.body.style.background =
-    `radial-gradient(1200px 600px at 15% -10%, rgba(124,58,237,.35), transparent 55%),
-     radial-gradient(900px 600px at 85% 0%, ${ok ? "rgba(34,197,94,.22)" : "rgba(239,68,68,.18)"}, transparent 60%),
-     radial-gradient(1100px 700px at 50% 120%, rgba(239,68,68,.10), transparent 55%),
-     linear-gradient(180deg, var(--bg0), var(--bg1))`;
-}
 function updateScoreUI(){
-  $("#hit").textContent = game.hit;
-  $("#miss").textContent = game.miss;
-  $("#streak").textContent = game.streak;
-}
-function setPhaseLabel(){
-  $("#phase").textContent = game.stage===0 ? "Leitura" : (game.stage===1 ? "Significado" : "Resultado");
-}
-function shufflePick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
-
-function makeChoices(correct, all, n=4){
-  const pool = shuffle(all.filter(x=>x && x!==correct)).slice(0, n-1);
-  return shuffle([correct, ...pool]);
-}
-function lockChoices(){ $$("#choices .choice").forEach(b=>b.classList.add("locked")); }
-function showResult(show){ $("#resultBox").style.display = show ? "" : "none"; }
-
-function quizReading(info){
-  // ON primeiro; se não tiver, KUN primeiro
-  const on0 = info?.on_readings?.[0];
-  if(on0) return toHiragana(on0);
-  const kun0 = info?.kun_readings?.[0];
-  if(kun0) return kun0;
-  return "—";
+  quizScoreEl.textContent =
+    `Acertos: ${quizState.sessionCorrect} · Erros: ${quizState.sessionWrong} · Streak: ${quizState.sessionStreak}`;
 }
 
-async function loadRound(kanji){
-  game.k = kanji;
-  game.stage = 0;
-  game.info = null;
-  game.word = null;
-  game.svgText = null;
+function updateRightPanel(){
+  const totalGlobal = stats.totalCorrect + stats.totalWrong;
+  const accGlobal = totalGlobal ? (stats.totalCorrect / totalGlobal) : 0;
 
-  $("#qKanji").textContent = kanji;
-  $("#qTitle").textContent = "Leitura";
-  $("#qPrompt").textContent = "";
-  $("#choices").innerHTML = "";
-  showResult(false);
-  $("#btnNext").disabled = true;
-
-  // data
-  try{ game.info = await getKanjiInfo(kanji); }catch{ game.info = null; }
-  const read = game.info ? quizReading(game.info) : "—";
-  const mean = PT_MEAN[kanji] || (game.info?.meanings?.[0] || "—");
-
-  // stroke
-  $("#strokeSvgWrap2").innerHTML = "";
-  $("#strokeStatus2").textContent = "…";
-  try{
-    game.svgText = await getKanjiVG(kanji);
-    mountAndAnimateSVG($("#strokeSvgWrap2"), game.svgText, $("#strokeStatus2"));
-  }catch{
-    $("#strokeStatus2").textContent = "—";
-    $("#strokeSvgWrap2").innerHTML = "";
-  }
-
-  // 1 palavra
-  game.word = await getOneWord(kanji);
-
-  // montar leitura
-  const distract = [];
-  const others = shuffle(game.pool.filter(k=>k!==kanji)).slice(0, 18);
-  for(const okk of others){
-    try{
-      const inf = await getKanjiInfo(okk);
-      const r = quizReading(inf);
-      if(r && r!=="—") distract.push(r);
-      if(distract.length>=10) break;
-    }catch{}
-  }
-
-  const opts = makeChoices(read, uniq([read, ...distract]), 4);
-  renderChoices(opts, read, (chosen, correct, btn)=>answerReading(chosen, correct, btn, read, mean));
-}
-
-function renderChoices(options, correct, handler){
-  $("#choices").innerHTML = "";
-  options.forEach(opt=>{
-    const b = document.createElement("button");
-    b.className = "choice";
-    b.innerHTML = `<div style="font-size:16px">${opt}</div>`;
-    b.addEventListener("click", ()=>handler(opt, correct, b));
-    $("#choices").appendChild(b);
-  });
-}
-
-function answerReading(chosen, correct, btn, read, mean){
-  if(game.stage!==0) return;
-  lockChoices();
-
-  const ok = chosen===correct;
-  if(ok){
-    setMood(true);
-    btn.classList.add("correct");
-    game.stage = 1;
-    setPhaseLabel();
-
-    $("#qTitle").textContent = "Significado";
-    $("#qPrompt").textContent = "";
-
-    const distract = [];
-    const others = shuffle(game.pool.filter(k=>k!==game.k)).slice(0, 24);
-    for(const k of others){
-      const m = PT_MEAN[k];
-      if(m) distract.push(m);
-      if(distract.length>=10) break;
-    }
-    const opts = makeChoices(mean, uniq([mean, ...distract]), 4);
-    renderChoices(opts, mean, (chosen2, correct2, btn2)=>answerMeaning(chosen2, correct2, btn2, read, mean));
-  }else{
-    setMood(false);
-    btn.classList.add("wrong");
-    $$("#choices .choice").forEach(b=>{
-      if(b.textContent.trim()===correct) b.classList.add("correct");
-    });
-    finish(false, read, mean);
-  }
-}
-
-function answerMeaning(chosen, correct, btn, read, mean){
-  if(game.stage!==1) return;
-  lockChoices();
-
-  const ok = chosen===correct;
-  if(ok){
-    setMood(true);
-    btn.classList.add("correct");
-    finish(true, read, mean);
-  }else{
-    setMood(false);
-    btn.classList.add("wrong");
-    $$("#choices .choice").forEach(b=>{
-      if(b.textContent.trim()===correct) b.classList.add("correct");
-    });
-    finish(false, read, mean);
-  }
-}
-
-function finish(ok, read, mean){
-  game.stage = 2;
-  setPhaseLabel();
-
-  if(ok){
-    game.hit += 1;
-    game.streak += 1;
-    $("#resultMsg").textContent = "✅";
-  }else{
-    game.miss += 1;
-    game.streak = 0;
-    $("#resultMsg").textContent = "❌";
-  }
-  updateScoreUI();
-
-  $("#resultSub").innerHTML = `
-    <div><span class="muted">Leitura:</span> <strong>${read}</strong></div>
-    <div><span class="muted">PT:</span> <strong>${mean}</strong></div>
+  bestStatsEl.innerHTML = `
+    • Best streak: <b>${stats.bestStreak}</b><br>
+    • Best accuracy: <b>${Math.round(stats.bestAccuracy*100)}%</b><br>
+    • Best score (C−E): <b>${stats.bestScore}</b><br>
+    • Global accuracy: <b>${Math.round(accGlobal*100)}%</b>
+      (C:${stats.totalCorrect} / E:${stats.totalWrong})
   `;
 
-  // 1 palavra (sem texto extra)
-  const ul = $("#gameWord");
-  ul.innerHTML = "";
-  if(game.word){
-    const li = document.createElement("li");
-    li.className = "li fadeIn";
-    li.innerHTML = `
-      <div class="liTop">
-        <div class="jp">${game.word.jp}</div>
-        <div class="fur">${game.word.kana}</div>
-      </div>
-      <div class="gloss">${game.word.gloss}</div>
-    `;
-    ul.appendChild(li);
+  const arr = Object.entries(stats.perKanji).map(([k,v])=>{
+    const total = v.c + v.w;
+    const err = total ? (v.w / total) : 0;
+    return {k, c:v.c, w:v.w, total, err};
+  }).filter(x=>x.total>0);
+
+  arr.sort((a,b)=> (b.w - a.w) || (b.err - a.err));
+  const top = arr.slice(0,10);
+
+  worstKanjisEl.innerHTML = top.length
+    ? top.map(x=>{
+        const pct = Math.round(x.err*100);
+        return `• <b>${x.k}</b> — erros: ${x.w} / ${x.total} (${pct}%)`;
+      }).join("<br>")
+    : "—";
+}
+
+function updateBests(){
+  stats.bestStreak = Math.max(stats.bestStreak, quizState.sessionStreak);
+  const totalSession = quizState.sessionCorrect + quizState.sessionWrong;
+  const accSession = totalSession ? (quizState.sessionCorrect / totalSession) : 0;
+  const scoreSession = quizState.sessionCorrect - quizState.sessionWrong;
+  stats.bestAccuracy = Math.max(stats.bestAccuracy, accSession);
+  stats.bestScore = Math.max(stats.bestScore, scoreSession);
+}
+
+function readingText(k){ return (safeInfo(k).readings || ["—"]).join(" / "); }
+function meaningText(k){ return (safeInfo(k).meaning || "—"); }
+
+function buildChoices(kind, correctKanji, pool){
+  const poolOthers = pool.filter(k=>k !== correctKanji);
+  const sample = shuffle(poolOthers).slice(0, 18);
+
+  const correct = { text: (kind==="reading") ? readingText(correctKanji) : meaningText(correctKanji), correct: true };
+
+  let opts = [correct, ...sample.map(k=>({
+    text: (kind==="reading") ? readingText(k) : meaningText(k),
+    correct:false
+  }))];
+
+  opts = uniqByText(opts);
+
+  // garantir 4 opções
+  opts = shuffle(opts).slice(0,4);
+  while(opts.length < 4){
+    const k = poolOthers[Math.floor(Math.random()*poolOthers.length)];
+    const text = (kind==="reading") ? readingText(k) : meaningText(k);
+    if(opts.some(o=>o.text===text)) continue;
+    opts.push({text, correct:false});
+  }
+  return shuffle(opts);
+}
+
+function resetQuestionState(){
+  quizState.answeredReading = false;
+  quizState.answeredMeaning = false;
+  quizState.okReading = false;
+  quizState.okMeaning = false;
+  quizState.lockedAfterResult = false;
+  quizFeedback.style.display = "none";
+}
+
+function disableAllChoices(){
+  document.querySelectorAll(".choiceBtn").forEach(b=> b.disabled = true);
+}
+
+function renderChoiceButtons(targetEl, options, onPick){
+  targetEl.innerHTML = "";
+  for(const opt of options){
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "choiceBtn";
+    b.textContent = opt.text;
+
+    b.addEventListener("click", ()=>{
+      if(quizState.lockedAfterResult) return;
+
+      const btns = Array.from(targetEl.querySelectorAll(".choiceBtn"));
+      btns.forEach(btn=> btn.disabled = true);
+
+      btns.forEach((btn, idx)=>{ if(options[idx].correct) btn.classList.add("correct"); });
+
+      if(opt.correct) b.classList.add("correct");
+      else b.classList.add("wrong");
+
+      onPick(opt.correct);
+    });
+
+    targetEl.appendChild(b);
+  }
+}
+
+function weightedPick(pool){
+  let total = 0;
+  const weights = pool.map(k=>{
+    ensurePerKanji(k);
+    const {c,w} = stats.perKanji[k];
+    const unseen = (c+w===0) ? 1.0 : 0;
+    const weight = Math.max(0.2, 1 + w*2.6 - c*0.30 + unseen);
+    total += weight;
+    return weight;
+  });
+
+  let r = Math.random() * total;
+  for(let i=0;i<pool.length;i++){
+    r -= weights[i];
+    if(r <= 0) return pool[i];
+  }
+  return pool[pool.length-1];
+}
+
+function getQuizPool(){
+  const lvl = quizLevel.value;
+  const pool = poolByLevel(lvl);
+  return pool.length < 6 ? poolByLevel("ALL") : pool;
+}
+
+function pickKanji(pool){
+  let k = quizSmart.checked ? weightedPick(pool) : pool[Math.floor(Math.random()*pool.length)];
+  if(pool.length > 1 && k === quizState.lastPick){
+    k = pool[Math.floor(Math.random()*pool.length)];
+  }
+  quizState.lastPick = k;
+  return k;
+}
+
+async function showFeedback(okAll, reason){
+  const k = quizState.current;
+  const info = safeInfo(k);
+
+  quizFeedback.style.display = "block";
+  quizFeedbackTitle.innerHTML = okAll
+    ? `✅ <b>Acertou</b>`
+    : (reason === "timeout" ? `⏱️ <b>Tempo esgotado</b>` : `❌ <b>Errou</b>`);
+
+  quizFeedbackDetail.innerHTML = `
+    Kanji: <b>${k}</b> · <b>${levelOf(k)}</b><br>
+    Leituras: <b>${(info.readings||["—"]).join(" / ")}</b><br>
+    Significado: <b>${info.meaning||"—"}</b>
+  `;
+
+  quizSvgEl = await loadKanjiSVGInto(k, quizStroke);
+  animateStrokeOrder(quizSvgEl, Number(quizSpeed.value));
+}
+
+function commitResult(okAll, reason){
+  const k = quizState.current;
+  ensurePerKanji(k);
+
+  if(okAll){
+    quizState.sessionCorrect += 1;
+    quizState.sessionStreak += 1;
+    stats.totalCorrect += 1;
+    stats.perKanji[k].c += 1;
+    pushRecent(true);
+    flash("good");
   }else{
-    const li = document.createElement("li");
-    li.className = "li";
-    li.innerHTML = `<div class="muted">—</div>`;
-    ul.appendChild(li);
+    quizState.sessionWrong += 1;
+    quizState.sessionStreak = 0;
+    stats.totalWrong += 1;
+    stats.perKanji[k].w += 1;
+    pushRecent(false);
+    flash("bad");
   }
 
-  showResult(true);
-  $("#btnNext").disabled = false;
-}
-
-function buildPool(){
-  const lvl = $("#gameLvl").value;
-  let p = ALL;
-  if(lvl!=="ALL") p = p.filter(k => LEVEL_OF[k]===lvl);
-  return p;
-}
-
-async function startGame(opts={}){
-  game.running = true;
-  game.forceList = opts.forceList || null;
-  game.pool = game.forceList ? [...game.forceList] : buildPool();
-
-  $("#btnNext").disabled = true;
-  showResult(false);
-  game.hit=0; game.miss=0; game.streak=0;
   updateScoreUI();
+  updateBests();
+  applyMood();
+  updateRightPanel();
+  saveStats();
 
-  await nextRound();
+  stopTimer();
+  disableAllChoices();
+
+  quizState.lockedAfterResult = true;
+  showFeedback(okAll, reason);
 }
 
-async function nextRound(){
-  $("#btnNext").disabled = true;
-  showResult(false);
-
-  const k = shufflePick(game.pool);
-  await loadRound(k);
+function evaluateIfComplete(){
+  if(!(quizState.answeredReading && quizState.answeredMeaning)) return;
+  const okAll = quizState.okReading && quizState.okMeaning;
+  commitResult(okAll, "answered");
 }
 
-$("#btnStart").addEventListener("click", ()=>startGame());
-$("#btnNext").addEventListener("click", ()=>nextRound());
+async function setQuestion(kanji, keepTimerRunning){
+  quizState.current = kanji;
+  quizKanji.textContent = kanji;
 
-$("#btnReplayStroke2").addEventListener("click", async ()=>{
-  if(!game.k || !game.svgText) return;
-  mountAndAnimateSVG($("#strokeSvgWrap2"), game.svgText, $("#strokeStatus2"));
+  resetQuestionState();
+
+  const pool = getQuizPool();
+  const rOpts = buildChoices("reading", kanji, pool);
+  const mOpts = buildChoices("meaning", kanji, pool);
+
+  renderChoiceButtons(readingChoices, rOpts, (ok)=>{
+    quizState.answeredReading = true;
+    quizState.okReading = ok;
+    evaluateIfComplete();
+  });
+
+  renderChoiceButtons(meaningChoices, mOpts, (ok)=>{
+    quizState.answeredMeaning = true;
+    quizState.okMeaning = ok;
+    evaluateIfComplete();
+  });
+
+  if(quizState.running){
+    startTimer(true);
+  }else if(!keepTimerRunning){
+    const seconds = Number(quizTime.value);
+    quizState.timeTotalMs = seconds * 1000;
+    quizState.timeLeftMs = quizState.timeTotalMs;
+    updateTimerUI();
+  }else{
+    if(quizAuto.checked) startTimer(true);
+    else{
+      const seconds = Number(quizTime.value);
+      quizState.timeTotalMs = seconds * 1000;
+      quizState.timeLeftMs = quizState.timeTotalMs;
+      updateTimerUI();
+    }
+  }
+}
+
+function nextQuestion(){
+  const pool = getQuizPool();
+  setQuestion(pickKanji(pool), true);
+}
+
+/* =========================
+   TIMER
+   ========================= */
+function updateTimerUI(){
+  const leftSec = Math.max(0, Math.ceil(quizState.timeLeftMs/1000));
+  quizTimerText.textContent = `⏱️ ${leftSec}s`;
+  const pct = quizState.timeTotalMs ? (quizState.timeLeftMs/quizState.timeTotalMs) : 0;
+  timerBar.style.width = `${Math.max(0, Math.min(1, pct))*100}%`;
+}
+function stopTimer(){
+  if(quizState.timerId){
+    clearInterval(quizState.timerId);
+    quizState.timerId = null;
+  }
+  quizState.running = false;
+}
+function startTimer(reset){
+  const seconds = Number(quizTime.value);
+  quizState.timeTotalMs = seconds*1000;
+  if(reset) quizState.timeLeftMs = quizState.timeTotalMs;
+
+  stopTimer();
+  quizState.running = true;
+
+  quizState.timerId = setInterval(()=>{
+    if(quizState.lockedAfterResult) return;
+    quizState.timeLeftMs -= 200;
+    updateTimerUI();
+    if(quizState.timeLeftMs <= 0){
+      stopTimer();
+      if(!quizState.lockedAfterResult) commitResult(false, "timeout");
+    }
+  }, 200);
+
+  updateTimerUI();
+}
+
+/* =========================
+   CONTROLES QUIZ
+   ========================= */
+$("quizStart").addEventListener("click", ()=>{
+  if(quizState.lockedAfterResult) return;
+  startTimer(true);
 });
+$("quizPause").addEventListener("click", ()=>{
+  if(quizState.lockedAfterResult) return;
+  if(quizState.running) stopTimer();
+  else startTimer(false);
+});
+$("quizNext").addEventListener("click", ()=>{
+  nextQuestion();
+});
+$("quizReset").addEventListener("click", ()=>{
+  stopTimer();
+  quizState.sessionCorrect = 0;
+  quizState.sessionWrong = 0;
+  quizState.sessionStreak = 0;
+  updateScoreUI();
+  flash("bad");
+  nextQuestion();
+});
+
+quizTime.addEventListener("change", ()=>{
+  if(quizState.lockedAfterResult) return;
+  if(quizState.running) startTimer(true);
+  else{
+    quizState.timeTotalMs = Number(quizTime.value)*1000;
+    quizState.timeLeftMs = quizState.timeTotalMs;
+    updateTimerUI();
+  }
+});
+$("quizReplay").addEventListener("click", ()=>{
+  if(!quizSvgEl) return;
+  animateStrokeOrder(quizSvgEl, Number(quizSpeed.value));
+});
+quizSpeed.addEventListener("change", ()=>{
+  if(!quizSvgEl) return;
+  animateStrokeOrder(quizSvgEl, Number(quizSpeed.value));
+});
+quizLevel.addEventListener("change", ()=> nextQuestion());
 
 /* =========================
    INIT
-========================= */
-$("#totalPill").textContent = `Total: ${ALL.length} kanjis`;
-renderGrid();
-selectKanji(ALL[0], false).catch(()=>{});
+   ========================= */
+function init(){
+  renderKanjiGrid();
+  updateRightPanel();
+  applyMood();
+  updateScoreUI();
+  setQuestion("一", false);
+}
+init();
 </script>
+
 </body>
 </html>
