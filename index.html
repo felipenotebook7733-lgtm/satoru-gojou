@@ -8,7 +8,6 @@
 <style>
 :root{
   --bg:#0b0f14;
-  --panel:#151822;
   --border:#252a36;
   --text:#e6e8ee;
   --muted:#9aa0aa;
@@ -205,10 +204,6 @@ select{
   border-color: rgba(245,158,11,.35);
   background: rgba(245,158,11,.10);
 }
-.btn:disabled{
-  opacity:.55;
-  cursor:not-allowed;
-}
 
 .card{
   background: rgba(255,255,255,.07);
@@ -216,10 +211,6 @@ select{
   border-radius: var(--radius);
   padding:16px;
   margin-top:12px;
-}
-.card.exact{
-  border-color: rgba(54,209,220,.38);
-  box-shadow: 0 0 0 1px rgba(54,209,220,.08), var(--shadow);
 }
 
 .jp{
@@ -254,11 +245,7 @@ select{
   color:var(--muted);
 }
 .badge.n5{ border-color: rgba(52,211,153,.35); color: rgba(52,211,153,.95); }
-.badge.n4{ border-color: rgba(123,92,255,.45); color: rgba(123,92,255,.95); }
 .badge.tag{ border-color: rgba(54,209,220,.35); color: rgba(54,209,220,.95); }
-.badge.exact{ border-color: rgba(54,209,220,.55); color: rgba(54,209,220,.95); }
-.badge.good{ border-color: rgba(52,211,153,.45); color: rgba(52,211,153,.95); }
-.badge.bad{ border-color: rgba(251,113,133,.45); color: rgba(251,113,133,.95); }
 .badge.warn{ border-color: rgba(245,158,11,.45); color: rgba(245,158,11,.95); }
 
 .ex{
@@ -327,19 +314,9 @@ select{
   border-bottom:1px solid rgba(255,255,255,.08);
 }
 .strokeHead .t{ font-size:13px; color: var(--muted); }
-.strokeBody{
-  padding:12px;
-}
-.strokeBody svg{
-  width:100%;
-  height:auto;
-  display:block;
-}
-.strokeNote{
-  color: var(--muted);
-  font-size:12px;
-  margin-top:8px;
-}
+.strokeBody{ padding:12px; }
+.strokeBody svg{ width:100%; height:auto; display:block; }
+.strokeNote{ color: var(--muted); font-size:12px; margin-top:8px; }
 
 .bigKanji{
   font-size:86px;
@@ -369,7 +346,7 @@ hr.sep{
   font-size:12px;
 }
 
-/* ===== Quiz (múltipla escolha) ===== */
+/* Quiz */
 .mcGrid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -391,10 +368,7 @@ hr.sep{
   letter-spacing:.6px;
 }
 
-.choiceList{
-  display:grid;
-  gap:8px;
-}
+.choiceList{ display:grid; gap:8px; }
 .choiceBtn{
   text-align:left;
   padding:10px 10px;
@@ -408,6 +382,7 @@ hr.sep{
 .choiceBtn:hover{ transform: translateY(-1px); border-color: rgba(54,209,220,.25); }
 .choiceBtn.correct{ border-color: rgba(52,211,153,.55); background: rgba(52,211,153,.12); }
 .choiceBtn.wrong{ border-color: rgba(251,113,133,.55); background: rgba(251,113,133,.10); }
+.choiceBtn:disabled{ opacity:.9; cursor:not-allowed; }
 
 .timerBarWrap{
   width:100%;
@@ -432,21 +407,19 @@ hr.sep{
   <div class="topbar">
     <div class="brand">
       <div class="t">ヴァンパイア全知全能 辞典</div>
-      <div class="s">
-        ヴァンパイア = vampiro <span>（observador eterno）</span> / 全知 = onisciente / 全能 = onipotente
-      </div>
+      <div class="s">Treino focado N5 → (depois N4)</div>
     </div>
 
     <nav>
       <div class="tabbtn active" id="tab-dic">📖 Dicionário</div>
-      <div class="tabbtn" id="tab-kanji">🈶 Kanji (N5→N4)</div>
+      <div class="tabbtn" id="tab-kanji">🈶 Kanji</div>
       <div class="tabbtn" id="tab-quiz">🎮 Jogo</div>
-      <div class="tabbtn" id="tab-about">ℹ️ Sobre</div>
     </nav>
   </div>
 </header>
 
 <div class="container">
+
   <!-- ====================== DICIONÁRIO ====================== -->
   <section id="dic" class="section active">
     <div class="grid">
@@ -472,24 +445,22 @@ hr.sep{
       </div>
 
       <div class="panel">
-        <h2>Uso / Método</h2>
+        <h2>Fluxo recomendado</h2>
         <p class="small">
-          1) Busque a palavra → confirme leitura e significado.<br>
-          2) Leia as 3 frases (JP → hiragana → PT).<br>
-          3) Depois vá pro Jogo (múltipla escolha + timer).<br>
-          4) O modo inteligente repete mais o que você erra.
+          1) Estuda no Kanji (leitura + significado + ordem de traço).<br>
+          2) Vai pro Jogo (múltipla escolha com timer).<br>
+          3) O modo inteligente repete o que você erra (fixação rápida).
         </p>
         <hr class="sep" />
         <div class="row">
-          <div class="btn primary" id="btnRandom">Palavra aleatória</div>
-          <div class="btn" id="btnGoKanji">Ver kanji</div>
-          <div class="btn warn" id="btnGoQuiz">Ir pro jogo</div>
+          <div class="btn" id="btnGoKanji">Ver Kanji</div>
+          <div class="btn warn" id="btnGoQuiz">Ir pro Jogo</div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ====================== KANJI LISTA ====================== -->
+  <!-- ====================== KANJI ====================== -->
   <section id="kanji" class="section">
     <div class="grid">
       <div class="panel">
@@ -499,7 +470,7 @@ hr.sep{
       </div>
 
       <div class="panel">
-        <h2>Detalhe do Kanji</h2>
+        <h2>Detalhe</h2>
         <p class="hint">Selecione um kanji na lista.</p>
 
         <div id="kanjiDetail" class="card" style="display:none;">
@@ -514,12 +485,11 @@ hr.sep{
               <div class="btn" id="kdReloadStroke">Recarregar</div>
             </div>
             <div class="strokeBody" id="kdStroke"></div>
-            <div class="strokeNote">Carregado online (KanjiVG). Se falhar, Ctrl+F5 e tente de novo.</div>
+            <div class="strokeNote">Carregado online (KanjiVG). Se falhar: Ctrl+F5.</div>
           </div>
 
           <hr class="sep">
           <div class="row">
-            <div class="btn primary" id="kdSearchDic">Buscar no Dicionário</div>
             <div class="btn warn" id="kdGoQuiz">Treinar no Jogo</div>
           </div>
         </div>
@@ -531,23 +501,20 @@ hr.sep{
     </div>
   </section>
 
-  <!-- ====================== QUIZ (JOGO) ====================== -->
+  <!-- ====================== QUIZ ====================== -->
   <section id="quiz" class="section">
     <div class="grid">
       <div class="panel">
         <div class="row">
           <div>
             <h2>Jogo — múltipla escolha + timer</h2>
-            <p class="hint">Você escolhe: (1) conjunto de leituras (2) conjunto de significados. Aí ele corrige e avança.</p>
+            <p class="hint">Acerta 2/2 (Leitura + Significado) pra pontuar como acerto.</p>
           </div>
+
           <div class="row">
-            <label class="toggle" title="O modo inteligente repete mais o que você erra.">
+            <label class="toggle" title="Repete mais os kanji que você erra.">
               <input type="checkbox" id="quizSmart" checked />
               modo inteligente
-            </label>
-            <label class="toggle" title="Somente N5 por enquanto (você pode expandir depois).">
-              <input type="checkbox" id="quizOnlyN5" checked />
-              somente N5
             </label>
           </div>
         </div>
@@ -558,16 +525,15 @@ hr.sep{
               <div class="bigKanji" id="quizKanji">一</div>
               <div class="badges" style="justify-content:center;">
                 <span class="badge" id="quizScore">Acertos: 0 · Erros: 0 · Streak: 0</span>
-                <span class="badge tag" id="quizMode">Modo: N5</span>
                 <span class="badge warn" id="quizTimerText">⏱️ 12s</span>
               </div>
-              <div class="timerBarWrap" title="Timer">
+              <div class="timerBarWrap">
                 <div class="timerBar" id="timerBar"></div>
               </div>
             </div>
 
             <div style="display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;">
-              <div class="small" style="margin-top:6px;">Tempo</div>
+              <div class="small">Tempo</div>
               <select id="quizTime">
                 <option value="8">8s</option>
                 <option value="12" selected>12s</option>
@@ -605,7 +571,7 @@ hr.sep{
                 <div class="btn" id="quizReloadStroke">Recarregar</div>
               </div>
               <div class="strokeBody" id="quizStroke"></div>
-              <div class="strokeNote">Carregado online (KanjiVG). Se falhar, recarregue.</div>
+              <div class="strokeNote">Carregado online (KanjiVG).</div>
             </div>
           </div>
         </div>
@@ -613,7 +579,7 @@ hr.sep{
 
       <div class="panel">
         <h2>Ranking + Estatísticas (local)</h2>
-        <p class="hint">Isso salva no seu navegador (localStorage). Não precisa de login.</p>
+        <p class="hint">Salva no seu navegador (localStorage).</p>
 
         <div class="card">
           <div class="mean">🏆 Melhores marcas</div>
@@ -622,34 +588,21 @@ hr.sep{
           <div class="mean">📊 Top kanji mais errados</div>
           <div class="small" id="worstKanjis">—</div>
           <hr class="sep">
-          <div class="mean">⚙️ Regras do acerto</div>
           <div class="small">
-            • Você precisa acertar 2/2: leituras + significados.<br>
-            • As opções mostram o conjunto completo (ex.: “いち / ひと”).<br>
-            • O modo inteligente puxa mais os que você errou (ótimo pra fixar).
+            • Se quiser, depois eu adiciono “modo 2 fases” e “múltipla escolha hard” (8 opções).<br>
+            • Também dá pra colocar “resetar histórico” por botão.
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ====================== SOBRE ====================== -->
-  <section id="about" class="section">
-    <div class="panel">
-      <h2>Sobre — ヴァンパイア全知全能</h2>
-      <p class="small">
-        Este dicionário + jogo fazem parte do projeto <b>ヴァンパイア全知全能</b>.<br>
-        Meta: dominar japonês com método — <b>kanji / leitura / significado / repetição inteligente</b>.
-      </p>
-    </div>
-  </section>
-
-  <div class="footer">ヴァンパイア全知全能 © 2025 — 辞典 / Kanji / Jogo</div>
+  <div class="footer">ヴァンパイア全知全能 © 2025</div>
 </div>
 
 <script>
 /* =========================
-   DICIONÁRIO (opcional)
+   DADOS
    ========================= */
 const WORDS = [
   {
@@ -662,14 +615,10 @@ const WORDS = [
   }
 ];
 
-/* =========================
-   KANJI N5 (seus 80)
-   ========================= */
 const KANJI_ORDER_N5 = [
   "一","七","万","三","上","下","中","九","二","五","人","今","休","何","先","入","八","六","円","出","分","前","北","十","千","午","半","南","友","右","名","四","国","土","外","大","天","女","子","学","小","山","川","左","年","後","日","時","書","月","木","本","来","東","校","母","毎","気","水","火","父","生","男","白","百","聞","行","西","見","話","語","読","車","金","長","間","雨","電","食","高"
 ];
 
-/* Leituras aceitas (hiragana/katakana). Significados (palavras-chave PT) */
 const KANJI_INFO = {
   "一":{lvl:"N5", readings:["いち","ひと"], meanings:["um","1"]},
   "七":{lvl:"N5", readings:["しち","なな"], meanings:["sete","7"]},
@@ -754,31 +703,10 @@ const KANJI_INFO = {
 };
 
 /* =========================
-   TABS
+   HELPERS
    ========================= */
-const sections = {
-  dic: document.getElementById("dic"),
-  kanji: document.getElementById("kanji"),
-  quiz: document.getElementById("quiz"),
-  about: document.getElementById("about"),
-};
-const tabs = {
-  dic: document.getElementById("tab-dic"),
-  kanji: document.getElementById("tab-kanji"),
-  quiz: document.getElementById("tab-quiz"),
-  about: document.getElementById("tab-about"),
-};
-function openTab(id){
-  Object.values(sections).forEach(s=>s.classList.remove("active"));
-  Object.values(tabs).forEach(t=>t.classList.remove("active"));
-  sections[id].classList.add("active");
-  tabs[id].classList.add("active");
-  if(id==="kanji") renderKanjiGrid();
-}
+function $(id){ return document.getElementById(id); }
 
-/* =========================
-   UTIL
-   ========================= */
 function escapeHtml(str){
   return (str ?? "").toString()
     .replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;")
@@ -790,58 +718,72 @@ function normalize(s){
     .replace(/[\s　]+/g, "")
     .replace(/[。、，,.!?！？「」『』（）()【】\[\]""'’]/g, "");
 }
+function shuffle(arr){
+  const a = [...arr];
+  for(let i=a.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    [a[i],a[j]] = [a[j],a[i]];
+  }
+  return a;
+}
+function uniqByText(opts){
+  const seen = new Set();
+  const out = [];
+  for(const o of opts){
+    if(seen.has(o.text)) continue;
+    seen.add(o.text);
+    out.push(o);
+  }
+  return out;
+}
 
 /* =========================
-   DICIONÁRIO: busca ranqueada
+   TABS (SEM SOBRE)
    ========================= */
-const q = document.getElementById("q");
-const results = document.getElementById("results");
-const onlyExactEl = document.getElementById("onlyExact");
+const sections = {
+  dic: $("dic"),
+  kanji: $("kanji"),
+  quiz: $("quiz"),
+};
+const tabs = {
+  dic: $("tab-dic"),
+  kanji: $("tab-kanji"),
+  quiz: $("tab-quiz"),
+};
+
+function openTab(id){
+  Object.values(sections).forEach(s=>s.classList.remove("active"));
+  Object.values(tabs).forEach(t=>t.classList.remove("active"));
+  sections[id].classList.add("active");
+  tabs[id].classList.add("active");
+  if(id==="kanji") renderKanjiGrid();
+}
+
+/* =========================
+   DICIONÁRIO
+   ========================= */
+const q = $("q");
+const results = $("results");
+const onlyExactEl = $("onlyExact");
 
 function isExactHeadword(word, qNorm){
-  const jp = normalize(word.jp);
-  const hira = normalize(word.hira);
-  const mean = normalize(word.mean);
-  return (jp && jp === qNorm) || (hira && hira === qNorm) || (mean && mean === qNorm);
+  return normalize(word.jp)===qNorm || normalize(word.hira)===qNorm || normalize(word.mean)===qNorm;
 }
 function scoreWord(word, qNorm){
-  const jp = normalize(word.jp);
-  const hira = normalize(word.hira);
-  const mean = normalize(word.mean);
-
-  if(jp === qNorm) return 1000;
-  if(hira === qNorm) return 950;
-  if(mean === qNorm) return 900;
-
+  const jp = normalize(word.jp), hira = normalize(word.hira), mean = normalize(word.mean);
+  if(jp===qNorm) return 1000;
+  if(hira===qNorm) return 950;
+  if(mean===qNorm) return 900;
   if(jp.startsWith(qNorm)) return 780;
   if(hira.startsWith(qNorm)) return 740;
   if(mean.startsWith(qNorm)) return 700;
-
   if(jp.includes(qNorm)) return 520;
   if(hira.includes(qNorm)) return 500;
   if(mean.includes(qNorm)) return 480;
-
-  const ex = (word.examples || []);
-  let best = 0;
-  for(const e of ex){
-    const ejp = normalize(e.jp);
-    const ehira = normalize(e.hira);
-    const ept = normalize(e.pt);
-    const eexp = normalize(e.exp);
-    if(ejp === qNorm || ehira === qNorm || ept === qNorm) best = Math.max(best, 360);
-    else if(ejp.includes(qNorm) || ehira.includes(qNorm) || ept.includes(qNorm) || eexp.includes(qNorm)) best = Math.max(best, 220);
-  }
-  const tags = (word.tags || []).map(normalize);
-  const tipo = normalize(word.tipo);
-  if(tags.some(t => t.includes(qNorm))) best = Math.max(best, 180);
-  if(tipo.includes(qNorm)) best = Math.max(best, 160);
-
-  return best;
+  return 0;
 }
 function renderExamples(examples){
-  if(!examples || !examples.length){
-    return `<div class="ex"><h4>Exemplos</h4><div class="exp">Sem exemplos ainda.</div></div>`;
-  }
+  if(!examples?.length) return "";
   return examples.slice(0,3).map((e, idx)=>`
     <div class="ex">
       <h4>Exemplo ${idx+1}</h4>
@@ -857,6 +799,7 @@ function renderExamples(examples){
 function renderResults(raw){
   const query = (raw ?? q.value).trim();
   results.innerHTML = "";
+
   if(!query){
     results.innerHTML = `<div class="card"><div class="mean" style="color:var(--muted)">Digite algo para buscar.</div></div>`;
     return;
@@ -875,66 +818,46 @@ function renderResults(raw){
 
   const exact = ranked.filter(x => isExactHeadword(x.w, qNorm));
   const nonExact = ranked.filter(x => !isExactHeadword(x.w, qNorm));
-  const onlyExact = !!onlyExactEl.checked;
-  const finalList = exact.length ? (onlyExact ? exact : [...exact, ...nonExact]) : ranked;
+  const finalList = exact.length
+    ? (onlyExactEl.checked ? exact : [...exact, ...nonExact])
+    : ranked;
 
   const header = document.createElement("div");
-  header.className = "card";
-  header.innerHTML = `
-    <div class="mean">Busca: <b>${escapeHtml(query)}</b> — resultados: <b>${finalList.length}</b>
-      ${exact.length ? `&nbsp;&nbsp;<span class="badge exact">exato encontrado</span>` : ``}
-    </div>`;
+  header.className="card";
+  header.innerHTML = `<div class="mean">Busca: <b>${escapeHtml(query)}</b> — resultados: <b>${finalList.length}</b></div>`;
   results.appendChild(header);
 
-  const LIMIT = 10;
-  finalList.slice(0, LIMIT).forEach(item=>{
-    const w = item.w;
-    const isExact = isExactHeadword(w, qNorm);
-
-    const badges = (w.tags||[]).map(t=>{
-      const low = (t||"").toString().toLowerCase();
-      if(low==="n5") return `<span class="badge n5">N5</span>`;
-      if(low==="n4") return `<span class="badge n4">N4</span>`;
-      return `<span class="badge tag">${escapeHtml(t)}</span>`;
-    }).join("");
-
+  finalList.slice(0,10).forEach(({w})=>{
     const card = document.createElement("div");
-    card.className = "card" + (isExact ? " exact" : "");
+    card.className="card";
     card.innerHTML = `
       <div class="jp">${escapeHtml(w.jp)}</div>
       <div class="hira">${escapeHtml(w.hira || "—")}</div>
       <div class="mean">(${escapeHtml(w.tipo || "—")}) — ${escapeHtml(w.mean || "—")}</div>
-      <div class="badges">${badges}</div>
       ${renderExamples(w.examples || [])}
     `;
     results.appendChild(card);
   });
 }
 
-let debounceTimer=null;
+let deb=null;
 q.addEventListener("input", ()=>{
-  clearTimeout(debounceTimer);
-  debounceTimer=setTimeout(()=>renderResults(q.value),80);
+  clearTimeout(deb);
+  deb = setTimeout(()=>renderResults(q.value), 80);
 });
 onlyExactEl.addEventListener("change", ()=> renderResults(q.value));
 
-document.getElementById("btnClear").addEventListener("click", ()=>{
+$("btnClear").addEventListener("click", ()=>{
   q.value=""; renderResults(""); q.focus();
 });
-document.getElementById("btnRandom").addEventListener("click", ()=>{
-  if(!WORDS.length) return;
-  const pick = WORDS[Math.floor(Math.random()*WORDS.length)];
-  q.value = pick.jp; renderResults(pick.jp);
-});
-document.getElementById("btnGoKanji").addEventListener("click", ()=> openTab("kanji"));
-document.getElementById("btnGoQuiz").addEventListener("click", ()=> openTab("quiz"));
+$("btnGoKanji").addEventListener("click", ()=> openTab("kanji"));
+$("btnGoQuiz").addEventListener("click", ()=> openTab("quiz"));
 
 /* =========================
-   Stroke order (KanjiVG)
+   STROKE ORDER (KanjiVG)
    ========================= */
 function codepointHex5(ch){
-  const hex = ch.codePointAt(0).toString(16);
-  return hex.padStart(5,"0");
+  return ch.codePointAt(0).toString(16).padStart(5,"0");
 }
 async function loadKanjiStrokeSVG(kanji, targetEl){
   const hex = codepointHex5(kanji);
@@ -949,297 +872,135 @@ async function loadKanjiStrokeSVG(kanji, targetEl){
       .replace(/height="[^"]*"/g,'')
       .replace(/<\?xml[^>]*\?>/g,'');
     targetEl.innerHTML = cleaned;
-  }catch(err){
-    targetEl.innerHTML = `<div class="small">Falha ao carregar agora. Clique em “Recarregar” ou use Ctrl+F5.</div>`;
+  }catch{
+    targetEl.innerHTML = `<div class="small">Falha ao carregar. Use Ctrl+F5 e tente novamente.</div>`;
   }
 }
 
 /* =========================
-   Kanji tab
+   KANJI TAB
    ========================= */
-const kanjigrid = document.getElementById("kanjigrid");
-const kdBox = document.getElementById("kanjiDetail");
-const kdEmpty = document.getElementById("kanjiDetailEmpty");
-const kdKanji = document.getElementById("kdKanji");
-const kdReadings = document.getElementById("kdReadings");
-const kdMean = document.getElementById("kdMean");
-const kdBadges = document.getElementById("kdBadges");
-const kdStroke = document.getElementById("kdStroke");
-let currentKanjiSelected = null;
+const kanjigrid = $("kanjigrid");
+const kdBox = $("kanjiDetail");
+const kdEmpty = $("kanjiDetailEmpty");
+const kdKanji = $("kdKanji");
+const kdReadings = $("kdReadings");
+const kdMean = $("kdMean");
+const kdBadges = $("kdBadges");
+const kdStroke = $("kdStroke");
+let currentKanji = null;
 
 function renderKanjiGrid(){
   kanjigrid.innerHTML = "";
   KANJI_ORDER_N5.forEach(k=>{
     const div = document.createElement("div");
-    div.className="kanjiitem";
+    div.className = "kanjiitem";
     div.innerHTML = `<div class="k">${escapeHtml(k)}</div><div class="lvl"><b>N5</b> ・ clique</div>`;
     div.addEventListener("click", ()=> showKanjiDetail(k));
     kanjigrid.appendChild(div);
   });
 }
+
 function showKanjiDetail(k){
-  currentKanjiSelected = k;
+  currentKanji = k;
   const info = KANJI_INFO[k];
 
   kdEmpty.style.display="none";
   kdBox.style.display="block";
 
   kdKanji.textContent = k;
-  if(info){
-    kdReadings.textContent = `Leituras: ${info.readings.join(" / ")}`;
-    kdMean.textContent = `Significado (PT): ${info.meanings.join(" / ")}`;
-    kdBadges.innerHTML = `<span class="badge n5">N5</span><span class="badge tag">kanji</span>`;
-  }else{
-    kdReadings.textContent = "Leituras: (não cadastrado ainda)";
-    kdMean.textContent = "Significado: (não cadastrado ainda)";
-    kdBadges.innerHTML = `<span class="badge tag">sem ficha</span>`;
-  }
+  kdReadings.textContent = `Leituras: ${info?.readings?.join(" / ") || "—"}`;
+  kdMean.textContent = `Significado (PT): ${info?.meanings?.join(" / ") || "—"}`;
+  kdBadges.innerHTML = `<span class="badge n5">N5</span><span class="badge tag">kanji</span>`;
+
   loadKanjiStrokeSVG(k, kdStroke);
 }
-document.getElementById("kdReloadStroke").addEventListener("click", ()=>{
-  if(currentKanjiSelected) loadKanjiStrokeSVG(currentKanjiSelected, kdStroke);
+
+$("kdReloadStroke").addEventListener("click", ()=>{
+  if(currentKanji) loadKanjiStrokeSVG(currentKanji, kdStroke);
 });
-document.getElementById("kdSearchDic").addEventListener("click", ()=>{
-  if(!currentKanjiSelected) return;
-  openTab("dic");
-  q.value = currentKanjiSelected;
-  renderResults(currentKanjiSelected);
-  window.scrollTo({top:0, behavior:"smooth"});
-});
-document.getElementById("kdGoQuiz").addEventListener("click", ()=>{
-  if(!currentKanjiSelected) return;
+$("kdGoQuiz").addEventListener("click", ()=>{
+  if(!currentKanji) return;
   openTab("quiz");
-  setQuizKanji(currentKanjiSelected, true);
+  setQuizKanji(currentKanji, true);
 });
 
 /* =========================
-   QUIZ: múltipla escolha + timer + ranking
+   QUIZ (múltipla escolha + timer)
    ========================= */
-const quizOnlyN5 = document.getElementById("quizOnlyN5");
-const quizSmart = document.getElementById("quizSmart");
-const quizKanji = document.getElementById("quizKanji");
-const quizScoreEl = document.getElementById("quizScore");
-const quizModeEl = document.getElementById("quizMode");
-const quizTimerText = document.getElementById("quizTimerText");
-const timerBar = document.getElementById("timerBar");
+const quizSmart = $("quizSmart");
+const quizKanji = $("quizKanji");
+const quizScoreEl = $("quizScore");
+const quizTimerText = $("quizTimerText");
+const timerBar = $("timerBar");
 
-const quizTime = document.getElementById("quizTime");
-const quizStart = document.getElementById("quizStart");
-const quizPause = document.getElementById("quizPause");
-const quizNext = document.getElementById("quizNext");
-const quizReset = document.getElementById("quizReset");
+const quizTime = $("quizTime");
+const quizStart = $("quizStart");
+const quizPause = $("quizPause");
+const quizNext = $("quizNext");
+const quizReset = $("quizReset");
 
-const readingChoices = document.getElementById("readingChoices");
-const meaningChoices = document.getElementById("meaningChoices");
+const readingChoices = $("readingChoices");
+const meaningChoices = $("meaningChoices");
 
-const quizFeedback = document.getElementById("quizFeedback");
-const quizFeedbackTitle = document.getElementById("quizFeedbackTitle");
-const quizFeedbackDetail = document.getElementById("quizFeedbackDetail");
-const quizStroke = document.getElementById("quizStroke");
-document.getElementById("quizReloadStroke").addEventListener("click", ()=>{
+const quizFeedback = $("quizFeedback");
+const quizFeedbackTitle = $("quizFeedbackTitle");
+const quizFeedbackDetail = $("quizFeedbackDetail");
+const quizStroke = $("quizStroke");
+$("quizReloadStroke").addEventListener("click", ()=>{
   loadKanjiStrokeSVG(quizState.current, quizStroke);
 });
 
-const bestStatsEl = document.getElementById("bestStats");
-const worstKanjisEl = document.getElementById("worstKanjis");
+const bestStatsEl = $("bestStats");
+const worstKanjisEl = $("worstKanjis");
 
-const LS_KEY = "vampire_znzn_quiz_stats_v1";
+const LS_KEY = "vampire_znzn_quiz_stats_v2";
 
 function loadStats(){
   try{
     const raw = localStorage.getItem(LS_KEY);
-    if(!raw) return null;
-    return JSON.parse(raw);
-  }catch(e){
-    return null;
-  }
+    return raw ? JSON.parse(raw) : null;
+  }catch{ return null; }
 }
 function saveStats(data){
-  try{
-    localStorage.setItem(LS_KEY, JSON.stringify(data));
-  }catch(e){}
+  try{ localStorage.setItem(LS_KEY, JSON.stringify(data)); }catch{}
 }
 function defaultStats(){
   return {
     bestStreak: 0,
-    bestAccuracy: 0,   // 0..1
-    bestScore: 0,      // acertos - erros
+    bestAccuracy: 0,
+    bestScore: 0,
     totalCorrect: 0,
     totalWrong: 0,
-    perKanji: {}       // { "日": {c:0,w:0} }
+    perKanji: {}
   };
 }
 let stats = loadStats() || defaultStats();
-
-let quizState = {
-  current: "一",
-  correct: 0,
-  wrong: 0,
-  streak: 0,
-  running: false,
-  answeredReading: false,
-  answeredMeaning: false,
-  chosenReading: null,
-  chosenMeaning: null,
-  timeLeftMs: 12000,
-  timeTotalMs: 12000,
-  timerId: null
-};
-
-function getPool(){
-  // por enquanto: N5 completo
-  return quizOnlyN5.checked ? KANJI_ORDER_N5 : KANJI_ORDER_N5;
-}
-
-function updateModeUI(){
-  quizModeEl.textContent = quizOnlyN5.checked ? "Modo: N5" : "Modo: N5+N4";
-}
-quizOnlyN5.addEventListener("change", ()=>{
-  updateModeUI();
-  nextQuestion(true);
-});
 
 function ensurePerKanji(k){
   if(!stats.perKanji[k]) stats.perKanji[k] = {c:0,w:0};
 }
 
-function weightedPick(pool){
-  // modo inteligente: mais peso pra quem você erra
-  // peso = 1 + w*2 - c*0.35 (mínimo 0.2)
-  // + leve boost para "não treinado"
-  let total = 0;
-  const weights = pool.map(k=>{
-    ensurePerKanji(k);
-    const {c,w} = stats.perKanji[k];
-    const unseenBoost = (c+w===0) ? 0.8 : 0;
-    const weight = Math.max(0.2, 1 + w*2 - c*0.35 + unseenBoost);
-    total += weight;
-    return weight;
-  });
+const quizState = {
+  current: "一",
+  correct: 0,
+  wrong: 0,
+  streak: 0,
 
-  let r = Math.random() * total;
-  for(let i=0;i<pool.length;i++){
-    r -= weights[i];
-    if(r <= 0) return pool[i];
-  }
-  return pool[pool.length-1];
-}
+  running: false,
+  timerId: null,
+  timeLeftMs: 12000,
+  timeTotalMs: 12000,
 
-function pickKanji(){
-  const pool = getPool();
-  if(!quizSmart.checked) return pool[Math.floor(Math.random()*pool.length)];
-  return weightedPick(pool);
-}
-
-function shuffle(arr){
-  const a = [...arr];
-  for(let i=a.length-1;i>0;i--){
-    const j = Math.floor(Math.random()*(i+1));
-    [a[i],a[j]] = [a[j],a[i]];
-  }
-  return a;
-}
-
-function uniqueByText(options){
-  const seen = new Set();
-  const out = [];
-  for(const o of options){
-    const key = o.text;
-    if(seen.has(key)) continue;
-    seen.add(key);
-    out.push(o);
-  }
-  return out;
-}
-
-function makeReadingText(k){
-  const info = KANJI_INFO[k];
-  if(!info) return "—";
-  return info.readings.join(" / ");
-}
-function makeMeaningText(k){
-  const info = KANJI_INFO[k];
-  if(!info) return "—";
-  return info.meanings.join(" / ");
-}
-
-function buildChoices(kind, correctKanji){
-  // kind: "reading" | "meaning"
-  const pool = getPool().filter(k => k !== correctKanji);
-  const distractors = shuffle(pool).slice(0, 6); // pega mais e depois filtra duplicados
-
-  const correctText = (kind==="reading") ? makeReadingText(correctKanji) : makeMeaningText(correctKanji);
-  const correct = { kanji: correctKanji, text: correctText, correct: true };
-
-  const opts = [correct, ...distractors.map(k=>{
-    const text = (kind==="reading") ? makeReadingText(k) : makeMeaningText(k);
-    return { kanji:k, text, correct:false };
-  })];
-
-  // remove duplicados e garante 4 opções
-  const cleaned = uniqueByText(opts).slice(0,4);
-
-  // Se por acaso faltou, completa com aleatórios sem repetir texto
-  if(cleaned.length < 4){
-    const more = shuffle(pool);
-    for(const k of more){
-      const text = (kind==="reading") ? makeReadingText(k) : makeMeaningText(k);
-      if(cleaned.some(o=>o.text===text)) continue;
-      cleaned.push({kanji:k, text, correct:false});
-      if(cleaned.length===4) break;
-    }
-  }
-
-  // garante que o correto está dentro
-  if(!cleaned.some(o=>o.correct)){
-    cleaned[0] = correct;
-  }
-  return shuffle(cleaned);
-}
-
-function resetChoicesUI(){
-  readingChoices.innerHTML = "";
-  meaningChoices.innerHTML = "";
-  quizState.answeredReading = false;
-  quizState.answeredMeaning = false;
-  quizState.chosenReading = null;
-  quizState.chosenMeaning = null;
-}
-
-function showFeedback(scored, isCorrectAll){
-  quizFeedback.style.display = "block";
-  const k = quizState.current;
-  const info = KANJI_INFO[k];
-  const r = info ? info.readings.join(" / ") : "—";
-  const m = info ? info.meanings.join(" / ") : "—";
-
-  if(scored){
-    quizFeedbackTitle.innerHTML = isCorrectAll
-      ? `✅ <b>Acertou!</b> (2/2)`
-      : `❌ <b>Errou.</b>`;
-  }else{
-    quizFeedbackTitle.innerHTML = `👁️ <b>Revelado</b> (sem pontuar)`;
-  }
-
-  quizFeedbackDetail.innerHTML = `
-    Kanji: <b>${escapeHtml(k)}</b><br>
-    Leituras: <b>${escapeHtml(r)}</b><br>
-    Significados: <b>${escapeHtml(m)}</b>
-  `;
-
-  loadKanjiStrokeSVG(k, quizStroke);
-}
-
-function hideFeedback(){
-  quizFeedback.style.display = "none";
-  quizFeedbackTitle.textContent = "";
-  quizFeedbackDetail.textContent = "";
-}
+  answeredReading: false,
+  answeredMeaning: false,
+  chosenReadingOk: false,
+  chosenMeaningOk: false,
+};
 
 function updateScoreUI(){
   quizScoreEl.textContent = `Acertos: ${quizState.correct} · Erros: ${quizState.wrong} · Streak: ${quizState.streak}`;
 }
-
 function updateBestUI(){
   const total = stats.totalCorrect + stats.totalWrong;
   const acc = total ? (stats.totalCorrect / total) : 0;
@@ -1250,7 +1011,6 @@ function updateBestUI(){
     • Global accuracy: <b>${Math.round(acc*100)}%</b> (C:${stats.totalCorrect} / E:${stats.totalWrong})
   `;
 }
-
 function updateWorstUI(){
   const arr = Object.entries(stats.perKanji).map(([k,v])=>{
     const total = v.c + v.w;
@@ -1259,23 +1019,16 @@ function updateWorstUI(){
   }).filter(x=>x.total>0);
 
   arr.sort((a,b)=> (b.w - a.w) || (b.err - a.err));
-
   const top = arr.slice(0,10);
-  if(!top.length){
-    worstKanjisEl.textContent = "—";
-    return;
-  }
+  if(!top.length){ worstKanjisEl.textContent="—"; return; }
   worstKanjisEl.innerHTML = top.map(x=>{
     const pct = Math.round(x.err*100);
     return `• <b>${escapeHtml(x.k)}</b> — erros: ${x.w} / ${x.total} (${pct}%)`;
   }).join("<br>");
 }
-
 function updateAndPersistBests(){
-  // best streak
   stats.bestStreak = Math.max(stats.bestStreak, quizState.streak);
 
-  // best accuracy / best score são por sessão atual (quizState)
   const total = quizState.correct + quizState.wrong;
   const acc = total ? (quizState.correct / total) : 0;
   const score = quizState.correct - quizState.wrong;
@@ -1288,27 +1041,107 @@ function updateAndPersistBests(){
   updateWorstUI();
 }
 
-function lockChoiceButtons(lock){
-  // desabilita clique depois que escolheu
-  const btns = document.querySelectorAll(".choiceBtn");
-  btns.forEach(b=>{
-    b.disabled = !!lock;
-    if(lock) b.style.pointerEvents = "none";
-    else b.style.pointerEvents = "auto";
+function showFeedback(scored, okAll){
+  quizFeedback.style.display = "block";
+  const k = quizState.current;
+  const info = KANJI_INFO[k];
+  const r = info ? info.readings.join(" / ") : "—";
+  const m = info ? info.meanings.join(" / ") : "—";
+
+  quizFeedbackTitle.innerHTML = scored
+    ? (okAll ? `✅ <b>Acertou!</b> (2/2)` : `❌ <b>Errou.</b>`)
+    : `👁️ <b>Revelado</b>`;
+
+  quizFeedbackDetail.innerHTML = `
+    Kanji: <b>${escapeHtml(k)}</b><br>
+    Leituras: <b>${escapeHtml(r)}</b><br>
+    Significados: <b>${escapeHtml(m)}</b>
+  `;
+
+  loadKanjiStrokeSVG(k, quizStroke);
+}
+function hideFeedback(){
+  quizFeedback.style.display = "none";
+  quizFeedbackTitle.textContent = "";
+  quizFeedbackDetail.textContent = "";
+}
+
+function makeReadingText(k){
+  return (KANJI_INFO[k]?.readings || ["—"]).join(" / ");
+}
+function makeMeaningText(k){
+  return (KANJI_INFO[k]?.meanings || ["—"]).join(" / ");
+}
+
+function buildChoices(kind, correctKanji){
+  const pool = KANJI_ORDER_N5.filter(k => k !== correctKanji);
+  const distractors = shuffle(pool).slice(0, 10);
+
+  const correctText = (kind==="reading") ? makeReadingText(correctKanji) : makeMeaningText(correctKanji);
+  const correct = { text: correctText, correct: true };
+
+  let opts = [correct, ...distractors.map(k=>{
+    const text = (kind==="reading") ? makeReadingText(k) : makeMeaningText(k);
+    return { text, correct:false };
+  })];
+
+  opts = uniqByText(opts);
+  if(!opts.some(o=>o.correct)) opts.unshift(correct);
+
+  // garante 4
+  opts = opts.slice(0,4);
+  while(opts.length < 4){
+    const k = pool[Math.floor(Math.random()*pool.length)];
+    const text = (kind==="reading") ? makeReadingText(k) : makeMeaningText(k);
+    if(opts.some(o=>o.text===text)) continue;
+    opts.push({text, correct:false});
+  }
+  return shuffle(opts);
+}
+
+function resetQuestionState(){
+  quizState.answeredReading = false;
+  quizState.answeredMeaning = false;
+  quizState.chosenReadingOk = false;
+  quizState.chosenMeaningOk = false;
+  hideFeedback();
+}
+
+function renderChoiceButtons(targetEl, options, onPick){
+  targetEl.innerHTML = "";
+  options.forEach(opt=>{
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "choiceBtn";
+    b.textContent = opt.text;
+    b.addEventListener("click", ()=>{
+      // desabilita todos nesse bloco
+      const btns = Array.from(targetEl.querySelectorAll(".choiceBtn"));
+      btns.forEach(btn=> btn.disabled = true);
+
+      // mostra qual era o correto
+      btns.forEach((btn, idx)=>{
+        if(options[idx].correct) btn.classList.add("correct");
+      });
+
+      // marca clique
+      if(opt.correct) b.classList.add("correct");
+      else b.classList.add("wrong");
+
+      onPick(opt.correct);
+    });
+    targetEl.appendChild(b);
   });
 }
 
 function evaluateIfComplete(){
   if(!(quizState.answeredReading && quizState.answeredMeaning)) return;
 
-  // Para pontuar: precisa 2/2 corretos
-  const ok = quizState.chosenReading === "correct" && quizState.chosenMeaning === "correct";
-
-  // update stats
+  const okAll = quizState.chosenReadingOk && quizState.chosenMeaningOk;
   const k = quizState.current;
   ensurePerKanji(k);
 
-  if(ok){
+  if(okAll){
     quizState.correct += 1;
     quizState.streak += 1;
     stats.totalCorrect += 1;
@@ -1322,138 +1155,81 @@ function evaluateIfComplete(){
 
   updateScoreUI();
   updateAndPersistBests();
-  showFeedback(true, ok);
+  showFeedback(true, okAll);
 
-  // para timer e auto next
   stopTimer();
-  // auto next mais “rápido”
   setTimeout(()=> nextQuestion(true), 800);
 }
 
-function renderChoiceButtons(kind, targetEl, options){
-  targetEl.innerHTML = "";
-  options.forEach(opt=>{
-    const b = document.createElement("button");
-    b.className = "choiceBtn";
-    b.type = "button";
-    b.textContent = opt.text;
-    b.addEventListener("click", ()=>{
-      // marca UI
-      const allBtns = Array.from(targetEl.querySelectorAll(".choiceBtn"));
-      allBtns.forEach(btn=> btn.disabled = true);
-
-      // pinta certo/errado
-      allBtns.forEach((btn, idx)=>{
-        const o = options[idx];
-        if(o.correct) btn.classList.add("correct");
-      });
-
-      if(opt.correct){
-        b.classList.add("correct");
-        if(kind==="reading"){
-          quizState.answeredReading = true;
-          quizState.chosenReading = "correct";
-        }else{
-          quizState.answeredMeaning = true;
-          quizState.chosenMeaning = "correct";
-        }
-      }else{
-        b.classList.add("wrong");
-        if(kind==="reading"){
-          quizState.answeredReading = true;
-          quizState.chosenReading = "wrong";
-        }else{
-          quizState.answeredMeaning = true;
-          quizState.chosenMeaning = "wrong";
-        }
-      }
-
-      evaluateIfComplete();
-    });
-
-    targetEl.appendChild(b);
+function weightedPick(pool){
+  let total = 0;
+  const weights = pool.map(k=>{
+    ensurePerKanji(k);
+    const {c,w} = stats.perKanji[k];
+    const unseen = (c+w===0) ? 0.8 : 0;
+    const weight = Math.max(0.2, 1 + w*2 - c*0.35 + unseen);
+    total += weight;
+    return weight;
   });
+
+  let r = Math.random() * total;
+  for(let i=0;i<pool.length;i++){
+    r -= weights[i];
+    if(r <= 0) return pool[i];
+  }
+  return pool[pool.length-1];
+}
+
+function pickKanji(){
+  const pool = KANJI_ORDER_N5;
+  if(!quizSmart.checked) return pool[Math.floor(Math.random()*pool.length)];
+  return weightedPick(pool);
 }
 
 function setQuizKanji(k, keepTimerRunning){
   quizState.current = k;
   quizKanji.textContent = k;
 
-  resetChoicesUI();
-  hideFeedback();
+  resetQuestionState();
 
-  // monta opções
   const rOpts = buildChoices("reading", k);
   const mOpts = buildChoices("meaning", k);
-  renderChoiceButtons("reading", readingChoices, rOpts);
-  renderChoiceButtons("meaning", meaningChoices, mOpts);
 
-  // timer
-  if(quizState.running && !keepTimerRunning){
-    // se estava rodando e troca manual, reinicia timer
+  renderChoiceButtons(readingChoices, rOpts, (ok)=>{
+    quizState.answeredReading = true;
+    quizState.chosenReadingOk = ok;
+    evaluateIfComplete();
+  });
+
+  renderChoiceButtons(meaningChoices, mOpts, (ok)=>{
+    quizState.answeredMeaning = true;
+    quizState.chosenMeaningOk = ok;
+    evaluateIfComplete();
+  });
+
+  if(quizState.running){
+    // reinicia timer para nova pergunta
     startTimer(true);
-  }else if(quizState.running && keepTimerRunning){
-    // mantem rodando, mas reinicia contagem pro novo kanji
-    startTimer(true);
-  }else{
-    // não rodando: setar barra para cheio
+  }else if(!keepTimerRunning){
+    // quando entra no jogo sem rodar, só seta barra
     const seconds = Number(quizTime.value);
-    quizState.timeTotalMs = seconds * 1000;
+    quizState.timeTotalMs = seconds*1000;
     quizState.timeLeftMs = quizState.timeTotalMs;
     updateTimerUI();
   }
 }
 
-function nextQuestion(autopick){
-  const k = autopick ? pickKanji() : pickKanji();
+function nextQuestion(auto){
+  const k = auto ? pickKanji() : pickKanji();
   setQuizKanji(k, true);
 }
 
+/* Timer (um único interval ativo) */
 function updateTimerUI(){
   const leftSec = Math.max(0, Math.ceil(quizState.timeLeftMs/1000));
   quizTimerText.textContent = `⏱️ ${leftSec}s`;
-  const pct = quizState.timeTotalMs ? (quizState.timeLeftMs / quizState.timeTotalMs) : 0;
+  const pct = quizState.timeTotalMs ? (quizState.timeLeftMs/quizState.timeTotalMs) : 0;
   timerBar.style.width = `${Math.max(0, Math.min(1, pct))*100}%`;
-}
-
-function tickTimer(){
-  const step = 200;
-  quizState.timeLeftMs -= step;
-  updateTimerUI();
-  if(quizState.timeLeftMs <= 0){
-    // tempo acabou => erra a pergunta
-    stopTimer();
-    // força revelar e pontuar como errado (se não respondeu tudo)
-    const k = quizState.current;
-    ensurePerKanji(k);
-
-    // se não completou, conta como erro
-    quizState.wrong += 1;
-    quizState.streak = 0;
-    stats.totalWrong += 1;
-    stats.perKanji[k].w += 1;
-
-    updateScoreUI();
-    updateAndPersistBests();
-
-    showFeedback(true, false);
-    // desabilita botões
-    const btns = document.querySelectorAll(".choiceBtn");
-    btns.forEach(b=>{ b.disabled=true; b.style.pointerEvents="none"; });
-
-    setTimeout(()=> nextQuestion(true), 900);
-  }
-}
-
-function startTimer(reset){
-  const seconds = Number(quizTime.value);
-  quizState.timeTotalMs = seconds * 1000;
-  if(reset) quizState.timeLeftMs = quizState.timeTotalMs;
-
-  if(quizState.timerId) clearInterval(quizState.timerId);
-  quizState.timerId = setInterval(tickTimer, 200);
-  quizState.running = true;
-  updateTimerUI();
 }
 
 function stopTimer(){
@@ -1464,31 +1240,66 @@ function stopTimer(){
   quizState.running = false;
 }
 
-quizStart.addEventListener("click", ()=>{
-  startTimer(true);
-});
+function startTimer(reset){
+  const seconds = Number(quizTime.value);
+  quizState.timeTotalMs = seconds*1000;
+  if(reset) quizState.timeLeftMs = quizState.timeTotalMs;
+
+  stopTimer(); // garante que nunca duplica interval
+  quizState.running = true;
+
+  quizState.timerId = setInterval(()=>{
+    quizState.timeLeftMs -= 200;
+    updateTimerUI();
+
+    if(quizState.timeLeftMs <= 0){
+      // timeout: erro 1 vez, trava tudo e avança
+      stopTimer();
+
+      const k = quizState.current;
+      ensurePerKanji(k);
+
+      quizState.wrong += 1;
+      quizState.streak = 0;
+      stats.totalWrong += 1;
+      stats.perKanji[k].w += 1;
+
+      updateScoreUI();
+      updateAndPersistBests();
+      showFeedback(true, false);
+
+      // trava botões
+      document.querySelectorAll(".choiceBtn").forEach(b=> b.disabled = true);
+
+      setTimeout(()=> nextQuestion(true), 900);
+    }
+  }, 200);
+
+  updateTimerUI();
+}
+
+/* =========================
+   EVENTOS
+   ========================= */
+tabs.dic.addEventListener("click", ()=> openTab("dic"));
+tabs.kanji.addEventListener("click", ()=> openTab("kanji"));
+tabs.quiz.addEventListener("click", ()=> openTab("quiz"));
+
+quizStart.addEventListener("click", ()=> startTimer(true));
 quizPause.addEventListener("click", ()=>{
-  if(quizState.running){
-    stopTimer();
-  }else{
-    startTimer(false);
-  }
+  if(quizState.running) stopTimer();
+  else startTimer(false);
 });
-quizNext.addEventListener("click", ()=>{
-  nextQuestion(true);
-});
+quizNext.addEventListener("click", ()=> nextQuestion(true));
 quizReset.addEventListener("click", ()=>{
   stopTimer();
   quizState.correct = 0;
   quizState.wrong = 0;
   quizState.streak = 0;
   updateScoreUI();
-  // não zera ranking global (local), só sessão
   nextQuestion(true);
 });
-
 quizTime.addEventListener("change", ()=>{
-  // se estiver rodando, reinicia no novo tempo
   if(quizState.running) startTimer(true);
   else{
     quizState.timeTotalMs = Number(quizTime.value)*1000;
@@ -1497,33 +1308,14 @@ quizTime.addEventListener("change", ()=>{
   }
 });
 
-quizSmart.addEventListener("change", ()=>{
-  // só muda seleção
-});
-
-function pickKanji(){
-  const pool = getPool();
-  return quizSmart.checked ? weightedPick(pool) : pool[Math.floor(Math.random()*pool.length)];
-}
-
-/* =========================
-   NAV events
-   ========================= */
-tabs.dic.addEventListener("click", ()=> openTab("dic"));
-tabs.kanji.addEventListener("click", ()=> openTab("kanji"));
-tabs.quiz.addEventListener("click", ()=> openTab("quiz"));
-tabs.about.addEventListener("click", ()=> openTab("about"));
-
 /* =========================
    INIT
    ========================= */
-updateModeUI();
+renderResults("");
 updateScoreUI();
 updateBestUI();
 updateWorstUI();
-renderResults("");
 setQuizKanji("一", false);
 </script>
-
 </body>
 </html>
