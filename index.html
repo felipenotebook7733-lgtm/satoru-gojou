@@ -1,284 +1,1068 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ヴァンパイア全知全能</title>
 
 <style>
-:root{
-    --bg:#0b0c10;
-    --panel:#141625;
-    --panel2:#1c1f36;
-    --border:#2a2e4a;
-    --text:#e8e9f1;
-    --muted:#9aa0b3;
-    --accent:#a855f7;
-    --accent2:#38bdf8;
-    --danger:#ef4444;
-}
+  :root{
+    /* Theme tokens (default: Ink) */
+    --bg: #0b0f14;
+    --panel: rgba(255,255,255,.06);
+    --panel2: rgba(255,255,255,.085);
+    --border: rgba(255,255,255,.10);
+    --text: rgba(255,255,255,.92);
+    --muted: rgba(255,255,255,.65);
+    --muted2: rgba(255,255,255,.50);
+    --shadow: 0 20px 70px rgba(0,0,0,.45);
 
-*{box-sizing:border-box}
+    --accent: #8b5cf6; /* violet */
+    --accent2:#22d3ee; /* cyan */
+    --accent3:#fb7185; /* rose */
+    --good: #34d399;
+    --warn: #fbbf24;
 
-body{
+    --radius: 16px;
+    --radius2: 22px;
+  }
+
+  /* Light "Paper" theme toggled via [data-theme="paper"] */
+  html[data-theme="paper"]{
+    --bg: #f7f7fb;
+    --panel: rgba(0,0,0,.04);
+    --panel2: rgba(0,0,0,.06);
+    --border: rgba(0,0,0,.08);
+    --text: rgba(10,12,18,.92);
+    --muted: rgba(10,12,18,.62);
+    --muted2: rgba(10,12,18,.48);
+    --shadow: 0 18px 60px rgba(0,0,0,.12);
+  }
+
+  *{ box-sizing:border-box; }
+  body{
     margin:0;
-    font-family:"Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",system-ui,sans-serif;
-    background:linear-gradient(180deg,#07080d,#0b0c10);
-    color:var(--text);
-    line-height:2.1;
-}
+    font-family: "Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
+    background:
+      radial-gradient(1200px 700px at 10% 10%, rgba(139,92,246,.22), transparent 55%),
+      radial-gradient(900px 600px at 90% 15%, rgba(34,211,238,.16), transparent 55%),
+      radial-gradient(900px 650px at 20% 90%, rgba(251,113,133,.14), transparent 55%),
+      var(--bg);
+    color: var(--text);
+    line-height: 1.95;
+  }
 
-header{
-    background:linear-gradient(180deg,#0f1120,#141625);
-    border-bottom:1px solid var(--border);
-}
+  .wrap{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 26px 18px 70px;
+  }
 
-.container{
-    max-width:1200px;
-    margin:auto;
-    padding:28px;
-}
+  /* Header */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    background: color-mix(in srgb, var(--bg) 70%, transparent);
+    border-bottom: 1px solid var(--border);
+  }
 
-h1{
-    margin:0;
-    font-size:28px;
-    letter-spacing:2px;
-}
-
-.subtitle{
-    color:var(--muted);
-    margin-top:6px;
-    font-size:14px;
-}
-
-nav{
-    margin-top:22px;
+  .top{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 18px 18px 14px;
     display:flex;
-    gap:28px;
-}
+    gap: 16px;
+    align-items: center;
+    justify-content: space-between;
+  }
 
-nav a{
-    color:var(--muted);
-    text-decoration:none;
-    font-size:14px;
-    padding-bottom:8px;
-    border-bottom:2px solid transparent;
-}
+  .brand{
+    display:flex;
+    flex-direction:column;
+    gap: 6px;
+    min-width: 280px;
+  }
 
-nav a.active{
-    color:var(--accent);
-    border-color:var(--accent);
-}
+  .title{
+    font-size: 20px;
+    letter-spacing: 1.6px;
+    font-weight: 700;
+  }
+  .sub{
+    color: var(--muted);
+    font-size: 13px;
+  }
 
-.section{display:none}
-.section.active{display:block}
+  .sub .pt{
+    display:inline-block;
+    margin-left: 10px;
+    color: var(--muted2);
+  }
 
-.card{
-    background:linear-gradient(180deg,var(--panel),var(--panel2));
-    border:1px solid var(--border);
-    border-radius:14px;
-    padding:34px;
-    margin-bottom:36px;
-}
+  .controls{
+    display:flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content:flex-end;
+  }
 
-.title-jp{
-    font-size:22px;
-    font-weight:600;
-}
+  .pill{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: 999px;
+    box-shadow: var(--shadow);
+  }
 
-.hira{
-    margin-top:8px;
-    color:var(--accent2);
-    font-size:15px;
-}
-
-.pt{
-    margin-top:14px;
-    font-size:15px;
-}
-
-button{
-    margin-top:18px;
-    background:none;
-    border:none;
-    color:var(--accent);
+  .btn{
     cursor:pointer;
-    font-size:14px;
-    padding:0;
-}
+    border: 1px solid var(--border);
+    background: var(--panel2);
+    color: var(--text);
+    padding: 8px 10px;
+    border-radius: 999px;
+    font-size: 13px;
+    transition: transform .08s ease, background .2s ease;
+    user-select: none;
+    white-space: nowrap;
+  }
+  .btn:active{ transform: translateY(1px); }
 
-.details{
+  .btn.primary{
+    border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
+    background: color-mix(in srgb, var(--accent) 16%, var(--panel2));
+  }
+
+  .btn.ghost{
+    background: transparent;
+  }
+
+  .tabs{
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 18px 14px;
+    display:flex;
+    gap: 10px;
+    align-items:center;
+    flex-wrap: wrap;
+  }
+
+  .tab{
+    cursor:pointer;
+    padding: 10px 12px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: var(--panel);
+    color: var(--muted);
+    font-size: 13px;
+    user-select:none;
+  }
+  .tab.active{
+    color: var(--text);
+    background:
+      linear-gradient(90deg,
+        color-mix(in srgb, var(--accent) 22%, transparent),
+        color-mix(in srgb, var(--accent2) 18%, transparent),
+        color-mix(in srgb, var(--accent3) 16%, transparent)
+      );
+    border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
+  }
+
+  /* Layout */
+  .grid{
+    display:grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 16px;
+    margin-top: 18px;
+  }
+  @media (max-width: 980px){
+    .grid{ grid-template-columns: 1fr; }
+  }
+
+  .panel{
+    border: 1px solid var(--border);
+    background: var(--panel);
+    border-radius: var(--radius2);
+    padding: 16px;
+    box-shadow: var(--shadow);
+  }
+
+  .panel h2{
+    margin: 0 0 10px;
+    font-size: 15px;
+    letter-spacing: .8px;
+    color: var(--text);
+  }
+
+  .hint{
+    color: var(--muted);
+    font-size: 13px;
+    margin-top: -4px;
+  }
+
+  .search{
+    display:flex;
+    gap: 10px;
+    margin: 12px 0 10px;
+  }
+  .search input{
+    width: 100%;
+    padding: 12px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--panel2) 85%, transparent);
+    color: var(--text);
+    outline: none;
+  }
+  .search input::placeholder{ color: var(--muted2); }
+
+  .filterRow{
+    display:flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin: 10px 0 6px;
+  }
+
+  .chip{
+    cursor:pointer;
+    padding: 7px 10px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    font-size: 12px;
+    user-select:none;
+  }
+  .chip.active{
+    color: var(--text);
+    background: color-mix(in srgb, var(--accent2) 14%, transparent);
+    border-color: color-mix(in srgb, var(--accent2) 40%, var(--border));
+  }
+
+  /* Cards */
+  .list{
+    display:flex;
+    flex-direction:column;
+    gap: 12px;
+    margin-top: 10px;
+  }
+
+  .card{
+    border: 1px solid var(--border);
+    background: color-mix(in srgb, var(--panel2) 80%, transparent);
+    border-radius: var(--radius);
+    padding: 14px;
+  }
+
+  .row{
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+    gap: 12px;
+  }
+
+  .badge{
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 999px;
+    border: 1px solid var(--border);
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  .badge.n5{ border-color: color-mix(in srgb, var(--good) 40%, var(--border)); color: color-mix(in srgb, var(--good) 80%, var(--text)); }
+  .badge.n4{ border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); color: color-mix(in srgb, var(--accent) 70%, var(--text)); }
+  .badge.daily{ border-color: color-mix(in srgb, var(--accent2) 45%, var(--border)); color: color-mix(in srgb, var(--accent2) 75%, var(--text)); }
+  .badge.work{ border-color: color-mix(in srgb, var(--warn) 45%, var(--border)); color: color-mix(in srgb, var(--warn) 75%, var(--text)); }
+
+  .jp{
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: .2px;
+  }
+
+  .kana{
+    margin-top: 6px;
+    font-size: 13px;
+    color: var(--accent2);
+  }
+
+  .ptline{
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--muted);
+  }
+
+  .actions{
+    display:flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-top: 10px;
+  }
+
+  .mini{
+    cursor:pointer;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--muted);
+    padding: 7px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    user-select:none;
+  }
+
+  .mini.on{
+    color: var(--text);
+    background: color-mix(in srgb, var(--accent) 12%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
+  }
+
+  details{
+    margin-top: 10px;
+    border-top: 1px dashed var(--border);
+    padding-top: 10px;
+  }
+  summary{
+    cursor:pointer;
+    color: var(--accent);
+    list-style:none;
+    user-select:none;
+    font-size: 13px;
+  }
+  summary::-webkit-details-marker{ display:none; }
+
+  .detailBlock{
+    margin-top: 10px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+  .detailBlock b{ color: var(--text); }
+
+  .mono{
+    font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
+    font-size: 12px;
+    color: var(--muted2);
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    background: rgba(0,0,0,.10);
+    overflow-x:auto;
+  }
+  html[data-theme="paper"] .mono{ background: rgba(255,255,255,.6); }
+
+  .rightBox{
+    display:flex;
+    flex-direction:column;
+    gap: 12px;
+  }
+
+  .stat{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .stat .k{
+    border:1px solid var(--border);
+    border-radius: 16px;
+    padding: 12px;
+    background: var(--panel);
+  }
+  .stat .k .n{
+    font-size: 18px;
+    font-weight: 800;
+  }
+  .stat .k .l{
+    color: var(--muted);
+    font-size: 12px;
+    margin-top: 2px;
+  }
+
+  .study{
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 14px;
+    background: var(--panel);
+  }
+  .study h3{
+    margin: 0 0 8px;
+    font-size: 14px;
+    letter-spacing:.6px;
+  }
+  .study p{
+    margin: 0 0 10px;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .flash{
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 14px;
+    background: color-mix(in srgb, var(--panel2) 85%, transparent);
+  }
+  .flash .big{
+    font-size: 28px;
+    font-weight: 900;
+    letter-spacing: 1px;
+  }
+  .flash .small{
+    color: var(--muted);
+    margin-top: 6px;
+    font-size: 13px;
+  }
+  .flash .reveal{
+    margin-top: 10px;
     display:none;
-    margin-top:24px;
-    padding-top:24px;
-    border-top:1px solid var(--border);
-    color:var(--muted);
-}
+  }
 
-.block{
-    margin-bottom:18px;
-}
-
-.kanji{
-    font-size:44px;
-    font-weight:700;
-}
-
-footer{
+  .footer{
+    margin-top: 20px;
+    color: var(--muted2);
+    font-size: 12px;
     text-align:center;
-    color:var(--muted);
-    padding:50px 0;
-    font-size:12px;
-}
+  }
 </style>
-
-<script>
-function openTab(id,el){
-    document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
-    document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    el.classList.add('active');
-}
-function toggle(id){
-    const e=document.getElementById(id);
-    e.style.display = e.style.display === "block" ? "none" : "block";
-}
-</script>
 </head>
 
 <body>
 
 <header>
-<div class="container">
-<h1>ヴァンパイア全知全能</h1>
-<div class="subtitle">
-ヴァンパイア = vampiro (observador eterno)<br>
-全知 = onisciente / 全能 = onipotente
-</div>
+  <div class="top">
+    <div class="brand">
+      <div class="title">ヴァンパイア全知全能</div>
+      <div class="sub">
+        (PT-BR) ヴァンパイア = vampiro / 全知 = onisciente / 全能 = onipotente
+        <span class="pt">— arquivo de estudo do cotidiano (N5→N4)</span>
+      </div>
+    </div>
 
-<nav>
-<a href="#" class="active" onclick="openTab('kanji',this)">漢字</a>
-<a href="#" onclick="openTab('texto',this)">文章分析</a>
-</nav>
-</div>
+    <div class="controls">
+      <div class="pill">
+        <span style="color:var(--muted);font-size:12px;">Tema</span>
+        <div class="btn ghost" id="themeBtn">Ink / Paper</div>
+        <div class="btn primary" id="accentBtn">Mudar cor</div>
+      </div>
+      <div class="pill">
+        <span style="color:var(--muted);font-size:12px;">Modo estudo</span>
+        <div class="btn" id="studyFocusBtn">Foco</div>
+        <div class="btn" id="revealAllBtn">Revelar</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="kanji">漢字（N4/N5）</div>
+    <div class="tab" data-tab="phrases">日常フレーズ（N5/N4）</div>
+  </div>
 </header>
 
-<main class="container">
+<div class="wrap">
+  <div class="grid">
+    <!-- LEFT: main list -->
+    <div class="panel">
+      <h2 id="leftTitle">漢字（N4/N5）</h2>
+      <div class="hint" id="leftHint">Clique para ver detalhes. Use busca e filtros para estudar por tema.</div>
 
-<!-- ================= KANJI ================= -->
-<section id="kanji" class="section active">
+      <div class="search">
+        <input id="q" type="text" placeholder="Buscar (kanji, hiragana, português, palavra)..." />
+      </div>
 
-<div class="card">
-<div class="kanji">考</div>
-<div class="hira">かんが・える</div>
-<div class="pt">Pensar, refletir de forma consciente</div>
+      <div class="filterRow" id="filters"></div>
 
-<button onclick="toggle('k1')">Análise completa</button>
-<div id="k1" class="details">
+      <div class="list" id="list"></div>
+    </div>
 
-<div class="block">
-<strong>Explicação (PT-BR):</strong><br>
-考える não é apenas “pensar”.  
-Implica analisar, comparar possibilidades e assumir responsabilidade pelo pensamento.
+    <!-- RIGHT: stats + flash -->
+    <div class="rightBox">
+      <div class="panel">
+        <h2>Resumo</h2>
+        <div class="stat">
+          <div class="k">
+            <div class="n" id="countA">0</div>
+            <div class="l" id="labelA">itens</div>
+          </div>
+          <div class="k">
+            <div class="n" id="countB">0</div>
+            <div class="l">aparecendo agora</div>
+          </div>
+        </div>
+        <div class="footer">
+          Base pronta para você ir adicionando mais (sem mexer no design).
+        </div>
+      </div>
+
+      <div class="study">
+        <h3>Flashcard rápido</h3>
+        <p>Gera um item aleatório da aba atual. Use para revisão diária.</p>
+        <div class="flash" id="flash">
+          <div class="big" id="flashBig">—</div>
+          <div class="small" id="flashSmall">—</div>
+          <div class="actions">
+            <div class="btn" id="flashNext">Próximo</div>
+            <div class="btn primary" id="flashReveal">Revelar</div>
+          </div>
+          <div class="reveal" id="flashRevealBox"></div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<div class="block">
-<strong>Estruturas fixas:</strong><br>
-将来について考える<br>
-自分なりに考える
-</div>
+<script>
+/* =========================
+   DATA (edit here to expand)
+   ========================= */
 
-<div class="block">
-<strong>Variações:</strong><br>
-考え直す (repensar)<br>
-考え続ける (continuar refletindo)
-</div>
+const KANJI = [
+  { lvl:"N4", tag:"daily", k:"考", hira:"かんが・える", pt:"pensar / refletir", words:[
+      {jp:"将来について考える", hira:"しょうらい に ついて かんがえる", pt:"pensar seriamente sobre o futuro"},
+      {jp:"よく考えてから答える", hira:"よく かんがえて から こたえる", pt:"pensar bem antes de responder"}
+    ],
+    explain:[
+      "考える é pensar com intenção: organizar informação, comparar opções e chegar a uma conclusão.",
+      "Quando aparece com よく / ちゃんと, costuma carregar a nuance de responsabilidade (“pensa direito”)."
+    ],
+    patterns:[
+      "〜について考える (pensar sobre ~)",
+      "よく考えてから〜 (depois de pensar bem, ~)"
+    ],
+    variations:[
+      "考え直す（かんがえなおす）= repensar",
+      "考え込む（かんがえこむ）= ficar pensando profundamente"
+    ]
+  },
+  { lvl:"N4", tag:"work", k:"続", hira:"つづ・く / つづ・ける", pt:"continuar", words:[
+      {jp:"雨が続く", hira:"あめ が つづく", pt:"a chuva continua"},
+      {jp:"勉強を続ける", hira:"べんきょう を つづける", pt:"continuar estudando"}
+    ],
+    explain:[
+      "続く (intransitivo) = algo continua por si só; 続ける (transitivo) = você continua algo.",
+      "No cotidiano, aparece em rotina, trabalho, clima, hábitos."
+    ],
+    patterns:[
+      "〜が続く (X continua)",
+      "〜を続ける (continuar X)"
+    ],
+    variations:[
+      "続き（つづき）= continuação",
+      "継続（けいぞく）= continuidade (mais formal)"
+    ]
+  },
+  { lvl:"N4", tag:"daily", k:"困", hira:"こま・る", pt:"passar dificuldade / ficar sem saída", words:[
+      {jp:"ちょっと困っている", hira:"ちょっと こまっている", pt:"estou meio enrolado"},
+      {jp:"道が分からなくて困った", hira:"みち が わからなくて こまった", pt:"fiquei perdido"}
+    ],
+    explain:[
+      "困る não é “triste”. É “não sei o que fazer / estou sem recurso”.",
+      "Muito usado em conversa: 困ったな = “complicou” (leve)."
+    ],
+    patterns:[
+      "〜なくて困る (como não tenho X, fico em apuros)",
+      "困ったな (interjeição: complicou)"
+    ],
+    variations:[
+      "困らせる（こまらせる）= causar problema a alguém",
+      "困難（こんなん）= dificuldade (formal)"
+    ]
+  },
+  { lvl:"N5", tag:"daily", k:"早", hira:"はや・い", pt:"cedo / rápido", words:[
+      {jp:"今日は早く帰る", hira:"きょう は はやく かえる", pt:"hoje volto cedo"},
+      {jp:"早くして", hira:"はやくして", pt:"anda logo"}
+    ],
+    explain:[
+      "早い (cedo/rápido) depende do contexto. 早く帰る = voltar cedo.",
+      "早くして é cotidiano, mas pode soar mandão: em família/íntimos é comum."
+    ],
+    patterns:[
+      "早く〜する (fazer logo)",
+      "早く帰る (voltar cedo)"
+    ],
+    variations:[
+      "早めに（はやめに）= um pouco mais cedo",
+      "最初（さいしょ）より早い = mais rápido que no início"
+    ]
+  },
+  { lvl:"N4", tag:"work", k:"予", hira:"よ (予定)", pt:"plano / previsão (em 予定)", words:[
+      {jp:"明日の予定", hira:"あした の よてい", pt:"planos de amanhã"},
+      {jp:"予定が詰まっている", hira:"よてい が つまっている", pt:"agenda lotada"}
+    ],
+    explain:[
+      "N4/N5 usam muito 予定 (よてい) no dia a dia.",
+      "予定が詰まってる é bem natural para “tá tudo cheio na agenda”."
+    ],
+    patterns:[
+      "予定がある (ter compromisso)",
+      "予定が詰まっている (agenda cheia)"
+    ],
+    variations:[
+      "予定を入れる = marcar algo na agenda",
+      "予定を変更する = mudar planos"
+    ]
+  },
+  { lvl:"N4", tag:"daily", k:"慣", hira:"な・れる / な・らす", pt:"acostumar", words:[
+      {jp:"新しい仕事に慣れる", hira:"あたらしい しごと に なれる", pt:"acostumar-se ao trabalho novo"},
+      {jp:"日本の生活に慣れてきた", hira:"にほん の せいかつ に なれてきた", pt:"estou me acostumando"}
+    ],
+    explain:[
+      "慣れる = acostumar-se; 慣らす = acostumar alguém/treinar algo.",
+      "〜てきた marca mudança gradual: “vem acontecendo”."
+    ],
+    patterns:[
+      "〜に慣れる (acostumar-se a ~)",
+      "〜に慣れてきた (vem se acostumando)"
+    ],
+    variations:[
+      "慣れ（なれ）= hábito/experiência (substantivo)",
+      "不慣れ（ふなれ）= inexperiente"
+    ]
+  },
+];
 
-</div>
-</div>
+const PHRASES = [
+  {
+    lvl:"N5", tag:"daily",
+    jp:"すみません、もう一度言ってください。",
+    hira:"すみません、もう いちど いって ください。",
+    pt:"Com licença, pode dizer mais uma vez?",
+    lineByLine:[
+      {jp:"すみません", hira:"すみません", pt:"desculpa / com licença"},
+      {jp:"もう一度", hira:"もう いちど", pt:"mais uma vez"},
+      {jp:"言ってください", hira:"いって ください", pt:"por favor, diga"}
+    ],
+    explain:[
+      "Frase padrão para pedir repetição. Natural e educada.",
+      "Se estiver em ambiente bem formal: もう一度おっしゃってください (mais formal)."
+    ],
+    patterns:[
+      "もう一度〜てください (peça para repetir uma ação)",
+      "すみません + pedido (inicia pedido educadamente)"
+    ],
+    variations:[
+      "もう少しゆっくり言ってください。= pode falar mais devagar?",
+      "もう一度お願いします。= mais uma vez, por favor."
+    ]
+  },
+  {
+    lvl:"N4", tag:"work",
+    jp:"今日は残業になりそうなので、先に連絡しておきます。",
+    hira:"きょう は ざんぎょう に なりそう なので、さき に れんらく して おきます。",
+    pt:"Como parece que vou fazer hora extra hoje, vou avisar antes.",
+    lineByLine:[
+      {jp:"今日は", hira:"きょう は", pt:"hoje (tópico)"},
+      {jp:"残業になりそう", hira:"ざんぎょう に なりそう", pt:"parece que vai virar hora extra"},
+      {jp:"なので", hira:"なので", pt:"então / por isso"},
+      {jp:"先に", hira:"さき に", pt:"antes / adiantado"},
+      {jp:"連絡しておきます", hira:"れんらく して おきます", pt:"vou avisar previamente"}
+    ],
+    explain:[
+      "〜になりそう = “parece que vai virar/acontecer”. Aqui é previsão realista.",
+      "〜ておく = fazer algo adiantado para evitar problema depois (avisar antes)."
+    ],
+    patterns:[
+      "〜になりそう (parece que vai…)",
+      "先に〜ておく (fazer antes)"
+    ],
+    variations:[
+      "遅くなりそうなので、先に連絡します。= vou avisar porque devo me atrasar",
+      "今日は残業です。= hoje vou fazer hora extra (mais direto)"
+    ]
+  },
+  {
+    lvl:"N4", tag:"daily",
+    jp:"本当は早く寝たほうがいいと分かっているのに、ついスマホを見てしまう。",
+    hira:"ほんとう は はやく ねた ほう が いい と わかっている のに、つい すまほ を みて しまう。",
+    pt:"Eu sei que seria melhor dormir cedo, mas sem perceber acabo mexendo no celular.",
+    lineByLine:[
+      {jp:"本当は", hira:"ほんとう は", pt:"na verdade"},
+      {jp:"早く寝たほうがいい", hira:"はやく ねた ほう が いい", pt:"seria melhor dormir cedo"},
+      {jp:"と分かっているのに", hira:"と わかっている のに", pt:"mesmo sabendo disso"},
+      {jp:"つい", hira:"つい", pt:"sem perceber"},
+      {jp:"スマホを見てしまう", hira:"すまほ を みて しまう", pt:"acabo olhando o celular"}
+    ],
+    explain:[
+      "〜のに = “apesar de / mesmo sabendo”. Marca contraste com frustração leve.",
+      "つい + 〜てしまう é combo muito real para hábito involuntário."
+    ],
+    patterns:[
+      "〜たほうがいい (seria melhor)",
+      "〜のに (apesar de)",
+      "つい〜てしまう (acabar fazendo sem querer)"
+    ],
+    variations:[
+      "つい夜更かししてしまう。= acabo dormindo tarde",
+      "分かっているけどやめられない。= eu sei, mas não consigo parar"
+    ]
+  },
+  {
+    lvl:"N5", tag:"daily",
+    jp:"ちょっと待って、いま行く。",
+    hira:"ちょっと まって、いま いく。",
+    pt:"Espera um pouco, tô indo agora.",
+    lineByLine:[
+      {jp:"ちょっと待って", hira:"ちょっと まって", pt:"espera um pouco"},
+      {jp:"いま行く", hira:"いま いく", pt:"tô indo agora"}
+    ],
+    explain:[
+      "Super cotidiano. Em mensagem/voz, é exatamente assim.",
+      "Mais educado: 少し待ってください / いま行きます。"
+    ],
+    patterns:[
+      "ちょっと + verbo (tom casual)",
+      "いま〜 (agora)"
+    ],
+    variations:[
+      "すぐ行く。= já vou",
+      "あとで行く。= vou depois"
+    ]
+  }
+];
 
-<div class="card">
-<div class="kanji">感</div>
-<div class="hira">かん</div>
-<div class="pt">Sentimento, percepção interna</div>
+/* =========================
+   UI / State
+   ========================= */
+const state = {
+  tab: "kanji",
+  q: "",
+  filter: "all",
+  showKana: true,
+  showPT: true,
+  focus: false,
+  accentIndex: 0
+};
 
-<button onclick="toggle('k2')">Análise completa</button>
-<div id="k2" class="details">
+const ACCENTS = [
+  {a:"#8b5cf6", b:"#22d3ee", c:"#fb7185"},
+  {a:"#22c55e", b:"#60a5fa", c:"#f97316"},
+  {a:"#f43f5e", b:"#a78bfa", c:"#38bdf8"},
+  {a:"#fbbf24", b:"#34d399", c:"#60a5fa"}
+];
 
-<div class="block">
-<strong>Explicação (PT-BR):</strong><br>
-感 refere-se ao que é sentido internamente antes de virar palavra.
-</div>
+const el = (id)=>document.getElementById(id);
 
-<div class="block">
-<strong>Estruturas:</strong><br>
-違和感を感じる<br>
-感情を抑える
-</div>
+const tabs = document.querySelectorAll(".tab");
+tabs.forEach(t=>{
+  t.addEventListener("click", ()=>{
+    tabs.forEach(x=>x.classList.remove("active"));
+    t.classList.add("active");
+    state.tab = t.dataset.tab;
+    state.filter = "all";
+    state.q = "";
+    el("q").value = "";
+    render();
+    refreshFlash();
+  });
+});
 
-<div class="block">
-<strong>Variações:</strong><br>
-感覚 (sensação)<br>
-感情 (emoção)
-</div>
+el("q").addEventListener("input", (e)=>{
+  state.q = e.target.value.trim();
+  render();
+});
 
-</div>
-</div>
+el("themeBtn").addEventListener("click", ()=>{
+  const root = document.documentElement;
+  root.dataset.theme = (root.dataset.theme === "paper") ? "ink" : "paper";
+});
 
-<!-- aqui entram TODOS os kanji N4 -->
-</section>
+el("accentBtn").addEventListener("click", ()=>{
+  state.accentIndex = (state.accentIndex + 1) % ACCENTS.length;
+  const c = ACCENTS[state.accentIndex];
+  document.documentElement.style.setProperty("--accent", c.a);
+  document.documentElement.style.setProperty("--accent2", c.b);
+  document.documentElement.style.setProperty("--accent3", c.c);
+});
 
-<!-- ================= TEXTO ================= -->
-<section id="texto" class="section">
+el("studyFocusBtn").addEventListener("click", ()=>{
+  state.focus = !state.focus;
+  el("studyFocusBtn").classList.toggle("primary", state.focus);
+  // focus = hide PT and kana by default
+  state.showKana = !state.focus;
+  state.showPT = !state.focus;
+  render();
+  refreshFlash();
+});
 
-<div class="card">
-<div class="title-jp">
-社会人になってから、<br>
-自分の気持ちを後回しにすることが増えた。
-</div>
+el("revealAllBtn").addEventListener("click", ()=>{
+  state.showKana = true;
+  state.showPT = true;
+  render();
+  refreshFlash();
+});
 
-<div class="hira">
-しゃかいじん に なってから、<br>
-じぶん の きもち を あとまわし に する こと が ふえた。
-</div>
+/* Flashcard */
+el("flashNext").addEventListener("click", ()=>{
+  refreshFlash(true);
+});
+el("flashReveal").addEventListener("click", ()=>{
+  el("flashRevealBox").style.display = "block";
+});
 
-<button onclick="toggle('t1')">Leitura e análise completa</button>
-<div id="t1" class="details">
+function getDataset(){
+  return state.tab === "kanji" ? KANJI : PHRASES;
+}
 
-<div class="block">
-<strong>Tradução linha a linha (PT-BR):</strong><br>
-社会人になってから → Depois que virei trabalhador<br>
-自分の気持ちを → meus próprios sentimentos<br>
-後回しにする → colocar em segundo plano<br>
-ことが増えた → isso passou a acontecer mais
-</div>
+function getFilters(){
+  // collect tags
+  const items = getDataset();
+  const tags = new Set(items.map(i=>i.tag));
+  return ["all", ...Array.from(tags)];
+}
 
-<div class="block">
-<strong>Explicação:</strong><br>
-Expressa amadurecimento forçado e autocontenção emocional típica da vida adulta no Japão.
-</div>
+function matchQuery(item, q){
+  if(!q) return true;
+  const s = JSON.stringify(item).toLowerCase();
+  return s.includes(q.toLowerCase());
+}
 
-<div class="block">
-<strong>Estruturas fixas:</strong><br>
-～てから + mudança<br>
-～ことが増えた
-</div>
+function filterItems(){
+  const items = getDataset();
+  return items.filter(it=>{
+    if(state.filter !== "all" && it.tag !== state.filter) return false;
+    if(!matchQuery(it, state.q)) return false;
+    return true;
+  });
+}
 
-<div class="block">
-<strong>Variações naturais:</strong><br>
-自分のことを後回しにする<br>
-感情を抑えることが多くなった
-</div>
+/* Render */
+function render(){
+  // titles
+  if(state.tab === "kanji"){
+    el("leftTitle").textContent = "漢字（N4/N5）";
+    el("leftHint").textContent = "Clique em cada kanji para abrir análise, padrões e variações. Use busca e filtros.";
+    el("labelA").textContent = "kanji na base";
+    el("countA").textContent = KANJI.length;
+  }else{
+    el("leftTitle").textContent = "日常フレーズ（N5/N4）";
+    el("leftHint").textContent = "Frases do cotidiano com leitura em hiragana, tradução linha a linha e estruturas fixas.";
+    el("labelA").textContent = "frases na base";
+    el("countA").textContent = PHRASES.length;
+  }
 
-</div>
-</div>
+  // filters
+  const filters = getFilters();
+  const fWrap = el("filters");
+  fWrap.innerHTML = "";
+  filters.forEach(f=>{
+    const d = document.createElement("div");
+    d.className = "chip" + (state.filter === f ? " active" : "");
+    d.textContent = (f==="all") ? "Tudo" : (f==="daily" ? "Cotidiano" : f==="work" ? "Trabalho" : f);
+    d.addEventListener("click", ()=>{
+      state.filter = f;
+      render();
+      refreshFlash();
+    });
+    fWrap.appendChild(d);
+  });
 
-</section>
+  // list
+  const list = el("list");
+  const items = filterItems();
+  el("countB").textContent = items.length;
 
-</main>
+  list.innerHTML = "";
+  items.forEach((it, idx)=>{
+    list.appendChild(state.tab === "kanji" ? renderKanjiCard(it, idx) : renderPhraseCard(it, idx));
+  });
+}
 
-<footer>
-ヴァンパイア全知全能 — arquivo de estudo profundo
-</footer>
+function badgeFor(it){
+  const b = document.createElement("div");
+  b.className = `badge ${it.lvl.toLowerCase()} ${it.tag}`;
+  const lvl = it.lvl;
+  const tag = it.tag === "daily" ? "Cotidiano" : it.tag === "work" ? "Trabalho" : it.tag;
+  b.textContent = `${lvl} • ${tag}`;
+  return b;
+}
+
+function makeMiniToggle(label, key){
+  const m = document.createElement("div");
+  m.className = "mini" + ((key==="kana" ? state.showKana : state.showPT) ? " on" : "");
+  m.textContent = label;
+  m.addEventListener("click", ()=>{
+    if(key==="kana") state.showKana = !state.showKana;
+    else state.showPT = !state.showPT;
+    render();
+    refreshFlash();
+  });
+  return m;
+}
+
+function renderKanjiCard(it, idx){
+  const card = document.createElement("div");
+  card.className = "card";
+
+  const top = document.createElement("div");
+  top.className = "row";
+
+  const left = document.createElement("div");
+  left.innerHTML = `
+    <div class="jp" style="font-size:22px;">
+      <span style="font-size:30px;font-weight:900;letter-spacing:1px;">${it.k}</span>
+      <span style="margin-left:10px;color:var(--muted);font-weight:600;">${it.pt}</span>
+    </div>
+  `;
+
+  if(state.showKana){
+    const kana = document.createElement("div");
+    kana.className = "kana";
+    kana.textContent = it.hira;
+    left.appendChild(kana);
+  }
+
+  top.appendChild(left);
+  top.appendChild(badgeFor(it));
+  card.appendChild(top);
+
+  const actions = document.createElement("div");
+  actions.className = "actions";
+  actions.appendChild(makeMiniToggle("Leitura", "kana"));
+  actions.appendChild(makeMiniToggle("PT", "pt"));
+  card.appendChild(actions);
+
+  const detail = document.createElement("details");
+  const sum = document.createElement("summary");
+  sum.textContent = "Abrir análise";
+  detail.appendChild(sum);
+
+  const body = document.createElement("div");
+  body.className = "detailBlock";
+
+  // Explain (PT)
+  if(state.showPT){
+    body.innerHTML += `<div class="block"><b>Explicação (PT-BR):</b><br>${it.explain.map(x=>`• ${x}`).join("<br>")}</div>`;
+  }
+
+  // Words
+  body.innerHTML += `<div class="block"><b>Exemplos reais:</b><br>${it.words.map(w=>`• ${w.jp}${state.showKana ? ` <span style="color:var(--accent2)">（${w.hira}）</span>` : ""} — ${state.showPT ? w.pt : ""}`).join("<br>")}</div>`;
+
+  // Patterns + variations
+  body.innerHTML += `<div class="block"><b>Estruturas fixas:</b><div class="mono">${it.patterns.join("\n")}</div></div>`;
+  body.innerHTML += `<div class="block"><b>Variações:</b><div class="mono">${it.variations.join("\n")}</div></div>`;
+
+  detail.appendChild(body);
+  card.appendChild(detail);
+
+  return card;
+}
+
+function renderPhraseCard(it, idx){
+  const card = document.createElement("div");
+  card.className = "card";
+
+  const top = document.createElement("div");
+  top.className = "row";
+
+  const left = document.createElement("div");
+  left.innerHTML = `<div class="jp">${it.jp}</div>`;
+
+  if(state.showKana){
+    const kana = document.createElement("div");
+    kana.className = "kana";
+    kana.textContent = it.hira;
+    left.appendChild(kana);
+  }
+
+  if(state.showPT){
+    const pt = document.createElement("div");
+    pt.className = "ptline";
+    pt.textContent = it.pt;
+    left.appendChild(pt);
+  }
+
+  top.appendChild(left);
+  top.appendChild(badgeFor(it));
+  card.appendChild(top);
+
+  const actions = document.createElement("div");
+  actions.className = "actions";
+  actions.appendChild(makeMiniToggle("Leitura", "kana"));
+  actions.appendChild(makeMiniToggle("PT", "pt"));
+  card.appendChild(actions);
+
+  const detail = document.createElement("details");
+  const sum = document.createElement("summary");
+  sum.textContent = "Abrir análise linha a linha";
+  detail.appendChild(sum);
+
+  const body = document.createElement("div");
+  body.className = "detailBlock";
+
+  // line-by-line translation
+  body.innerHTML += `<div class="block"><b>Tradução linha a linha (PT-BR):</b><br>${
+    it.lineByLine.map(l=>{
+      const kana = state.showKana ? ` <span style="color:var(--accent2)">（${l.hira}）</span>` : "";
+      const pt = state.showPT ? ` — ${l.pt}` : "";
+      return `• ${l.jp}${kana}${pt}`;
+    }).join("<br>")
+  }</div>`;
+
+  // explanation PT
+  if(state.showPT){
+    body.innerHTML += `<div class="block"><b>Explicação (PT-BR):</b><br>${it.explain.map(x=>`• ${x}`).join("<br>")}</div>`;
+  }
+
+  // patterns + variations
+  body.innerHTML += `<div class="block"><b>Estruturas fixas:</b><div class="mono">${it.patterns.join("\n")}</div></div>`;
+  body.innerHTML += `<div class="block"><b>Variações naturais:</b><div class="mono">${it.variations.join("\n")}</div></div>`;
+
+  detail.appendChild(body);
+  card.appendChild(detail);
+
+  return card;
+}
+
+/* Flashcard logic */
+function refreshFlash(next=false){
+  const items = filterItems();
+  const box = el("flashRevealBox");
+  box.style.display = "none";
+  box.innerHTML = "";
+
+  if(items.length === 0){
+    el("flashBig").textContent = "—";
+    el("flashSmall").textContent = "Sem itens com este filtro/busca.";
+    return;
+  }
+
+  const pick = items[Math.floor(Math.random() * items.length)];
+  if(state.tab === "kanji"){
+    el("flashBig").textContent = pick.k;
+    el("flashSmall").textContent = state.focus ? "Pense no significado e no uso." : (pick.pt + (state.showKana ? ` • ${pick.hira}` : ""));
+    box.innerHTML = `
+      <div class="detailBlock">
+        <b>Resposta:</b><br>
+        ${pick.pt}${state.showKana ? ` <span style="color:var(--accent2)">（${pick.hira}）</span>` : ""}<br><br>
+        <b>Exemplo:</b> ${pick.words[0].jp}${state.showKana ? ` <span style="color:var(--accent2)">（${pick.words[0].hira}）</span>` : ""}${state.showPT ? ` — ${pick.words[0].pt}` : ""}
+      </div>
+    `;
+  } else {
+    el("flashBig").textContent = "フレーズ";
+    el("flashSmall").textContent = state.focus ? "Tente ler e traduzir." : (pick.jp + (state.showKana ? ` • ${pick.hira}` : ""));
+    box.innerHTML = `
+      <div class="detailBlock">
+        <b>Resposta (PT-BR):</b><br>
+        ${state.showPT ? pick.pt : "—"}<br><br>
+        <b>Linha a linha:</b><br>
+        ${pick.lineByLine.map(l=>`• ${l.jp}${state.showKana ? ` <span style="color:var(--accent2)">（${l.hira}）</span>` : ""}${state.showPT ? ` — ${l.pt}` : ""}`).join("<br>")}
+      </div>
+    `;
+  }
+}
+
+/* init */
+(function init(){
+  // set default theme marker so toggle works
+  if(!document.documentElement.dataset.theme) document.documentElement.dataset.theme = "ink";
+  render();
+  refreshFlash();
+})();
+</script>
 
 </body>
 </html>
