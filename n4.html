@@ -2,159 +2,182 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<title>JLPT N4</title>
+<title>JLPT N4 – Curso Dinâmico</title>
 
 <style>
 body {
     font-family: Arial, sans-serif;
-    background: #f4f4f4;
-    max-width: 1000px;
+    background: #eef1f5;
+    max-width: 1100px;
     margin: auto;
     padding: 20px;
-    line-height: 1.9;
+    line-height: 1.8;
 }
-h1, h2, h3 {
+
+h1, h2 {
     color: #222;
 }
+
+.tabs {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.tab {
+    padding: 10px 20px;
+    background: #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.tab.active {
+    background: #007bff;
+    color: white;
+}
+
 .section {
-    background: #fff;
+    display: none;
+    background: white;
     padding: 20px;
-    margin-bottom: 25px;
     border-radius: 8px;
 }
-.jp { font-size: 20px; font-weight: bold; }
-.read { color: #0066cc; }
-.pt { color: #333; }
-.ex {
-    background: #eee;
+
+.section.active {
+    display: block;
+}
+
+.card {
+    border: 1px solid #ddd;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+}
+
+.jp {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.read {
+    color: #007bff;
+}
+
+.pt {
+    color: #333;
+}
+
+button {
+    margin-top: 10px;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+.explanation {
+    display: none;
+    background: #f3f3f3;
     padding: 10px;
     margin-top: 10px;
     border-radius: 5px;
 }
 </style>
+
+<script>
+function openTab(id) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    event.target.classList.add('active');
+}
+
+function toggleExp(id) {
+    const el = document.getElementById(id);
+    el.style.display = el.style.display === "block" ? "none" : "block";
+}
+</script>
 </head>
 
 <body>
 
-<h1>📘 JLPT N4 – Conteúdo Completo e Detalhado</h1>
+<h1>📘 JLPT N4 – Curso Dinâmico e Interativo</h1>
 
-<!-- =================== -->
-<div class="section">
-<h2>① ～ようになる</h2>
-
-<div class="jp">日本語が話せるようになりました。</div>
-<div class="pt">Passei a conseguir falar japonês.</div>
-
-<div class="ex">
-🔎 Uso:<br>
-Expressa **mudança de habilidade ou hábito ao longo do tempo**.<br><br>
-📌 Forma:<br>
-Verbo dicionário + ようになる<br>
-Verbo negativo + なくなる
-</div>
+<div class="tabs">
+    <div class="tab active" onclick="openTab('gramatica')">Gramática</div>
+    <div class="tab" onclick="openTab('vocab')">Vocabulário</div>
+    <div class="tab" onclick="openTab('leitura')">Leitura</div>
 </div>
 
-<!-- =================== -->
-<div class="section">
-<h2>② ～てしまう</h2>
+<!-- ================= GRAMÁTICA ================= -->
+<div id="gramatica" class="section active">
 
-<div class="jp">宿題を忘れてしまいました。</div>
-<div class="pt">Acabei esquecendo o dever de casa.</div>
-
-<div class="ex">
-🔎 Uso:<br>
-1️⃣ Algo feito **sem querer** (arrependimento)<br>
-2️⃣ Algo feito **completamente**<br><br>
-📌 Forma:<br>
-Verbo て + しまう
-</div>
-</div>
-
-<!-- =================== -->
-<div class="section">
-<h2>③ ～そうです (aparência)</h2>
-
-<div class="jp">このケーキはおいしそうです。</div>
-<div class="pt">Esse bolo parece gostoso.</div>
-
-<div class="ex">
-🔎 Uso:<br>
-Expressa **aparência visual**, não informação ou boato.<br><br>
-📌 Forma:<br>
-Adjetivo い → い removido + そう<br>
-Adjetivo な + そう
-</div>
+<div class="card">
+    <div class="jp">～ようになる</div>
+    <div class="pt">Passar a conseguir / mudança gradual</div>
+    <button onclick="toggleExp('g1')">Ver explicação</button>
+    <div id="g1" class="explanation">
+        📌 Forma: verbo dicionário + ようになる<br>
+        🔎 Expressa mudança ao longo do tempo.<br><br>
+        Exemplo:<br>
+        日本語が分かるようになりました。<br>
+        Passei a entender japonês.
+    </div>
 </div>
 
-<!-- =================== -->
-<div class="section">
-<h2>④ ～ながら</h2>
-
-<div class="jp">音楽を聞きながら勉強します。</div>
-<div class="pt">Estudo enquanto escuto música.</div>
-
-<div class="ex">
-🔎 Uso:<br>
-Duas ações feitas **ao mesmo tempo** pelo mesmo sujeito.<br><br>
-📌 Forma:<br>
-Verbo masu → masu removido + ながら
-</div>
+<div class="card">
+    <div class="jp">～てしまう</div>
+    <div class="pt">Algo feito sem querer / completamente</div>
+    <button onclick="toggleExp('g2')">Ver explicação</button>
+    <div id="g2" class="explanation">
+        📌 Forma: verbo て + しまう<br><br>
+        宿題を忘れてしまいました。<br>
+        Acabei esquecendo o dever.
+    </div>
 </div>
 
-<!-- =================== -->
-<div class="section">
-<h2>⑤ ～ば / ～たら (condicional)</h2>
-
-<div class="jp">雨が降ったら、家にいます。</div>
-<div class="pt">Se chover, fico em casa.</div>
-
-<div class="ex">
-🔎 Diferença básica:<br>
-～たら → condição geral, conversa<br>
-～ば → mais lógico/formal
-</div>
 </div>
 
-<!-- =================== -->
-<div class="section">
-<h2>⑥ Vocabulário essencial N4</h2>
+<!-- ================= VOCAB ================= -->
+<div id="vocab" class="section">
 
-<div class="jp">
-増える（ふえる）→ aumentar<br>
-減る（へる）→ diminuir<br>
-続ける（つづける）→ continuar<br>
-決める（きめる）→ decidir
+<div class="card">
+    <div class="jp">続ける</div>
+    <div class="read">つづける</div>
+    <div class="pt">Continuar</div>
 </div>
 
-<div class="ex">
-📝 Exemplo:<br>
-勉強を続けることが大切です。<br>
-Continuar estudando é importante.
-</div>
-</div>
-
-<!-- =================== -->
-<div class="section">
-<h2>⑦ Texto N4 (leitura)</h2>
-
-<div class="jp">
-私は毎日日本語を勉強しています。<br>
-最初はとても難しかったですが、<br>
-今は少しずつ分かるようになりました。
+<div class="card">
+    <div class="jp">決める</div>
+    <div class="read">きめる</div>
+    <div class="pt">Decidir</div>
 </div>
 
-<div class="pt">
-Eu estudo japonês todos os dias.<br>
-No começo era muito difícil,<br>
-mas agora estou entendendo pouco a pouco.
+<div class="card">
+    <div class="jp">増える / 減る</div>
+    <div class="read">ふえる / へる</div>
+    <div class="pt">Aumentar / Diminuir</div>
 </div>
 
-<div class="ex">
-🔎 Pontos N4:<br>
-最初は = no começo<br>
-少しずつ = aos poucos<br>
-～ようになる = mudança gradual
 </div>
+
+<!-- ================= LEITURA ================= -->
+<div id="leitura" class="section">
+
+<div class="card">
+    <div class="jp">
+        私は毎日日本語を勉強しています。<br>
+        最初はとても難しかったですが、<br>
+        今は少しずつ分かるようになりました。
+    </div>
+
+    <button onclick="toggleExp('l1')">Ver tradução</button>
+
+    <div id="l1" class="explanation">
+        Eu estudo japonês todos os dias.<br>
+        No começo era muito difícil,<br>
+        mas agora estou entendendo aos poucos.
+    </div>
+</div>
+
 </div>
 
 </body>
