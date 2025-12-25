@@ -3,1610 +3,369 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ヴァンパイア全知全能</title>
+<title>ヴァンパイア全知全能 辞典</title>
 
 <style>
-  :root{
-    /* Theme tokens (default: Ink) */
-    --bg: #0b0f14;
-    --panel: rgba(255,255,255,.06);
-    --panel2: rgba(255,255,255,.085);
-    --border: rgba(255,255,255,.10);
-    --text: rgba(255,255,255,.92);
-    --muted: rgba(255,255,255,.65);
-    --muted2: rgba(255,255,255,.50);
-    --shadow: 0 20px 70px rgba(0,0,0,.45);
-
-    --accent: #8b5cf6; /* violet */
-    --accent2:#22d3ee; /* cyan */
-    --accent3:#fb7185; /* rose */
-    --good: #34d399;
-    --warn: #fbbf24;
-
-    --radius: 16px;
-    --radius2: 22px;
-  }
-
-  /* Light "Paper" theme toggled via [data-theme="paper"] */
-  html[data-theme="paper"]{
-    --bg: #f7f7fb;
-    --panel: rgba(0,0,0,.04);
-    --panel2: rgba(0,0,0,.06);
-    --border: rgba(0,0,0,.08);
-    --text: rgba(10,12,18,.92);
-    --muted: rgba(10,12,18,.62);
-    --muted2: rgba(10,12,18,.48);
-    --shadow: 0 18px 60px rgba(0,0,0,.12);
-  }
-
-  *{ box-sizing:border-box; }
-  body{
-    margin:0;
-    font-family: "Yu Gothic","Hiragino Kaku Gothic ProN","Meiryo",system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-    background:
-      radial-gradient(1200px 700px at 10% 10%, rgba(139,92,246,.22), transparent 55%),
-      radial-gradient(900px 600px at 90% 15%, rgba(34,211,238,.16), transparent 55%),
-      radial-gradient(900px 650px at 20% 90%, rgba(251,113,133,.14), transparent 55%),
-      var(--bg);
-    color: var(--text);
-    line-height: 1.95;
-  }
-
-  .wrap{
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 26px 18px 70px;
-  }
-
-  /* Header */
-  header{
-    position: sticky;
-    top: 0;
-    z-index: 10;
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
-    background: color-mix(in srgb, var(--bg) 70%, transparent);
-    border-bottom: 1px solid var(--border);
-  }
-
-  .top{
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 18px 18px 14px;
-    display:flex;
-    gap: 16px;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .brand{
-    display:flex;
-    flex-direction:column;
-    gap: 6px;
-    min-width: 280px;
-  }
-
-  .title{
-    font-size: 20px;
-    letter-spacing: 1.6px;
-    font-weight: 700;
-  }
-  .sub{
-    color: var(--muted);
-    font-size: 13px;
-  }
-
-  .sub .pt{
-    display:inline-block;
-    margin-left: 10px;
-    color: var(--muted2);
-  }
-
-  .controls{
-    display:flex;
-    gap: 10px;
-    flex-wrap: wrap;
-    align-items: center;
-    justify-content:flex-end;
-  }
-
-  .pill{
-    display:flex;
-    align-items:center;
-    gap: 10px;
-    padding: 10px 12px;
-    border: 1px solid var(--border);
-    background: var(--panel);
-    border-radius: 999px;
-    box-shadow: var(--shadow);
-  }
-
-  .btn{
-    cursor:pointer;
-    border: 1px solid var(--border);
-    background: var(--panel2);
-    color: var(--text);
-    padding: 8px 10px;
-    border-radius: 999px;
-    font-size: 13px;
-    transition: transform .08s ease, background .2s ease;
-    user-select: none;
-    white-space: nowrap;
-  }
-  .btn:active{ transform: translateY(1px); }
-
-  .btn.primary{
-    border-color: color-mix(in srgb, var(--accent) 55%, var(--border));
-    background: color-mix(in srgb, var(--accent) 16%, var(--panel2));
-  }
-
-  .btn.ghost{
-    background: transparent;
-  }
-
-  .tabs{
-    max-width: 1180px;
-    margin: 0 auto;
-    padding: 0 18px 14px;
-    display:flex;
-    gap: 10px;
-    align-items:center;
-    flex-wrap: wrap;
-  }
-
-  .tab{
-    cursor:pointer;
-    padding: 10px 12px;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    background: var(--panel);
-    color: var(--muted);
-    font-size: 13px;
-    user-select:none;
-  }
-  .tab.active{
-    color: var(--text);
-    background:
-      linear-gradient(90deg,
-        color-mix(in srgb, var(--accent) 22%, transparent),
-        color-mix(in srgb, var(--accent2) 18%, transparent),
-        color-mix(in srgb, var(--accent3) 16%, transparent)
-      );
-    border-color: color-mix(in srgb, var(--accent) 45%, var(--border));
-  }
-
-  /* Layout */
-  .grid{
-    display:grid;
-    grid-template-columns: 1.1fr .9fr;
-    gap: 16px;
-    margin-top: 18px;
-  }
-  @media (max-width: 980px){
-    .grid{ grid-template-columns: 1fr; }
-  }
-
-  .panel{
-    border: 1px solid var(--border);
-    background: var(--panel);
-    border-radius: var(--radius2);
-    padding: 16px;
-    box-shadow: var(--shadow);
-  }
-
-  .panel h2{
-    margin: 0 0 10px;
-    font-size: 15px;
-    letter-spacing: .8px;
-    color: var(--text);
-  }
-
-  .hint{
-    color: var(--muted);
-    font-size: 13px;
-    margin-top: -4px;
-  }
-
-  .search{
-    display:flex;
-    gap: 10px;
-    margin: 12px 0 10px;
-  }
-  .search input{
-    width: 100%;
-    padding: 12px 12px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    background: color-mix(in srgb, var(--panel2) 85%, transparent);
-    color: var(--text);
-    outline: none;
-  }
-  .search input::placeholder{ color: var(--muted2); }
-
-  .filterRow{
-    display:flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin: 10px 0 6px;
-  }
-
-  .chip{
-    cursor:pointer;
-    padding: 7px 10px;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    font-size: 12px;
-    user-select:none;
-  }
-  .chip.active{
-    color: var(--text);
-    background: color-mix(in srgb, var(--accent2) 14%, transparent);
-    border-color: color-mix(in srgb, var(--accent2) 40%, var(--border));
-  }
-
-  /* Cards */
-  .list{
-    display:flex;
-    flex-direction:column;
-    gap: 12px;
-    margin-top: 10px;
-  }
-
-  .card{
-    border: 1px solid var(--border);
-    background: color-mix(in srgb, var(--panel2) 80%, transparent);
-    border-radius: var(--radius);
-    padding: 14px;
-  }
-
-  .row{
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-    gap: 12px;
-  }
-
-  .badge{
-    font-size: 11px;
-    padding: 3px 8px;
-    border-radius: 999px;
-    border: 1px solid var(--border);
-    color: var(--muted);
-    white-space: nowrap;
-  }
-
-  .badge.n5{ border-color: color-mix(in srgb, var(--good) 40%, var(--border)); color: color-mix(in srgb, var(--good) 80%, var(--text)); }
-  .badge.n4{ border-color: color-mix(in srgb, var(--accent) 45%, var(--border)); color: color-mix(in srgb, var(--accent) 70%, var(--text)); }
-  .badge.daily{ border-color: color-mix(in srgb, var(--accent2) 45%, var(--border)); color: color-mix(in srgb, var(--accent2) 75%, var(--text)); }
-  .badge.work{ border-color: color-mix(in srgb, var(--warn) 45%, var(--border)); color: color-mix(in srgb, var(--warn) 75%, var(--text)); }
-
-  .jp{
-    font-size: 16px;
-    font-weight: 700;
-    letter-spacing: .2px;
-  }
-
-  .kana{
-    margin-top: 6px;
-    font-size: 13px;
-    color: var(--accent2);
-  }
-
-  .ptline{
-    margin-top: 8px;
-    font-size: 13px;
-    color: var(--muted);
-  }
-
-  .actions{
-    display:flex;
-    gap: 8px;
-    flex-wrap: wrap;
-    margin-top: 10px;
-  }
-
-  .mini{
-    cursor:pointer;
-    border: 1px solid var(--border);
-    background: transparent;
-    color: var(--muted);
-    padding: 7px 10px;
-    border-radius: 12px;
-    font-size: 12px;
-    user-select:none;
-  }
-
-  .mini.on{
-    color: var(--text);
-    background: color-mix(in srgb, var(--accent) 12%, transparent);
-    border-color: color-mix(in srgb, var(--accent) 40%, var(--border));
-  }
-
-  details{
-    margin-top: 10px;
-    border-top: 1px dashed var(--border);
-    padding-top: 10px;
-  }
-  summary{
-    cursor:pointer;
-    color: var(--accent);
-    list-style:none;
-    user-select:none;
-    font-size: 13px;
-  }
-  summary::-webkit-details-marker{ display:none; }
-
-  .detailBlock{
-    margin-top: 10px;
-    color: var(--muted);
-    font-size: 13px;
-  }
-  .detailBlock b{ color: var(--text); }
-
-  .mono{
-    font-family: ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;
-    font-size: 12px;
-    color: var(--muted2);
-    padding: 8px 10px;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    background: rgba(0,0,0,.10);
-    overflow-x:auto;
-  }
-  html[data-theme="paper"] .mono{ background: rgba(255,255,255,.6); }
-
-  .rightBox{
-    display:flex;
-    flex-direction:column;
-    gap: 12px;
-  }
-
-  .stat{
-    display:grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  .stat .k{
-    border:1px solid var(--border);
-    border-radius: 16px;
-    padding: 12px;
-    background: var(--panel);
-  }
-  .stat .k .n{
-    font-size: 18px;
-    font-weight: 800;
-  }
-  .stat .k .l{
-    color: var(--muted);
-    font-size: 12px;
-    margin-top: 2px;
-  }
-
-  .study{
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 14px;
-    background: var(--panel);
-  }
-  .study h3{
-    margin: 0 0 8px;
-    font-size: 14px;
-    letter-spacing:.6px;
-  }
-  .study p{
-    margin: 0 0 10px;
-    color: var(--muted);
-    font-size: 13px;
-  }
-
-  .flash{
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    padding: 14px;
-    background: color-mix(in srgb, var(--panel2) 85%, transparent);
-  }
-  .flash .big{
-    font-size: 28px;
-    font-weight: 900;
-    letter-spacing: 1px;
-  }
-  .flash .small{
-    color: var(--muted);
-    margin-top: 6px;
-    font-size: 13px;
-  }
-  .flash .reveal{
-    margin-top: 10px;
-    display:none;
-  }
-
-  .footer{
-    margin-top: 20px;
-    color: var(--muted2);
-    font-size: 12px;
-    text-align:center;
-  }
+:root{
+  --bg:#0b0f14;
+  --panel:#151822;
+  --border:#252a36;
+  --text:#e6e8ee;
+  --muted:#9aa0aa;
+  --accent:#7b5cff;
+  --accent2:#36d1dc;
+  --radius:14px;
+}
+body{
+  background:var(--bg);
+  color:var(--text);
+  font-family:"Yu Gothic","Hiragino Kaku Gothic ProN",system-ui,sans-serif;
+  margin:0;
+  line-height:1.8;
+}
+header{
+  position:sticky;
+  top:0;
+  background:rgba(15,17,25,.8);
+  backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--border);
+  z-index:10;
+}
+nav{
+  display:flex;
+  justify-content:center;
+  gap:20px;
+  padding:18px;
+}
+nav a{
+  color:var(--muted);
+  text-decoration:none;
+  font-size:15px;
+  padding:8px 14px;
+  border-radius:8px;
+  transition:all .2s;
+}
+nav a.active{
+  color:var(--accent2);
+  background:rgba(255,255,255,.05);
+}
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:40px 20px 100px;
+}
+.searchbox{
+  display:flex;
+  justify-content:center;
+  margin-bottom:40px;
+}
+input{
+  width:100%;
+  max-width:480px;
+  font-size:18px;
+  padding:14px 18px;
+  border-radius:12px;
+  border:1px solid var(--border);
+  background:var(--panel);
+  color:var(--text);
+}
+.card{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:24px;
+  margin-bottom:24px;
+}
+.jp{
+  font-size:28px;
+  font-weight:700;
+  color:var(--accent2);
+}
+.hira{
+  font-size:15px;
+  color:var(--muted);
+  margin-top:6px;
+}
+.mean{
+  font-size:16px;
+  margin-top:10px;
+  font-weight:600;
+}
+.tag{
+  font-size:12px;
+  color:var(--muted);
+  border:1px solid var(--border);
+  padding:2px 8px;
+  border-radius:999px;
+  display:inline-block;
+  margin-top:10px;
+}
+.ex{
+  margin-top:18px;
+  padding-top:12px;
+  border-top:1px solid var(--border);
+}
+.ex h4{
+  font-size:14px;
+  color:var(--accent2);
+  margin-bottom:8px;
+}
+.exline{
+  margin-bottom:8px;
+}
+.exline b{
+  color:var(--text);
+}
+.exp{
+  font-size:13px;
+  color:var(--muted);
+  margin-top:4px;
+}
+footer{
+  text-align:center;
+  padding:40px 0;
+  color:var(--muted);
+  font-size:13px;
+}
+.kanjigrid{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(80px,1fr));
+  gap:16px;
+}
+.kanjiitem{
+  background:var(--panel);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  text-align:center;
+  padding:16px;
+  cursor:pointer;
+  transition:transform .2s;
+}
+.kanjiitem:hover{transform:scale(1.05);}
+.kanjiitem .k{
+  font-size:28px;
+  color:var(--accent2);
+}
+.kanjiitem .l{
+  font-size:13px;
+  color:var(--muted);
+  margin-top:6px;
+}
 </style>
 </head>
 
 <body>
-
 <header>
-  <div class="top">
-    <div class="brand">
-      <div class="title">ヴァンパイア全知全能</div>
-      <div class="sub">
-        (PT-BR) ヴァンパイア = vampiro / 全知 = onisciente / 全能 = onipotente
-        <span class="pt">— arquivo de estudo do cotidiano (N5→N4)</span>
-      </div>
-    </div>
-
-    <div class="controls">
-      <div class="pill">
-        <span style="color:var(--muted);font-size:12px;">Tema</span>
-        <div class="btn ghost" id="themeBtn">Ink / Paper</div>
-        <div class="btn primary" id="accentBtn">Mudar cor</div>
-      </div>
-      <div class="pill">
-        <span style="color:var(--muted);font-size:12px;">Modo estudo</span>
-        <div class="btn" id="studyFocusBtn">Foco</div>
-        <div class="btn" id="revealAllBtn">Revelar</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="tabs">
-    <div class="tab active" data-tab="kanji">漢字（N4/N5）</div>
-    <div class="tab" data-tab="phrases">日常フレーズ（N5/N4）</div>
-  </div>
+<nav>
+<a href="#" class="active" onclick="openTab('dic',this)">📖 Dicionário</a>
+<a href="#" onclick="openTab('kanji',this)">🈶 Ordem dos Kanji</a>
+<a href="#" onclick="openTab('about',this)">ℹ️ Sobre</a>
+</nav>
 </header>
 
-<div class="wrap">
-  <div class="grid">
-    <!-- LEFT: main list -->
-    <div class="panel">
-      <h2 id="leftTitle">漢字（N4/N5）</h2>
-      <div class="hint" id="leftHint">Clique para ver detalhes. Use busca e filtros para estudar por tema.</div>
+<div class="container">
 
-      <div class="search">
-        <input id="q" type="text" placeholder="Buscar (kanji, hiragana, português, palavra)..." />
-      </div>
-
-      <div class="filterRow" id="filters"></div>
-
-      <div class="list" id="list"></div>
-    </div>
-
-    <!-- RIGHT: stats + flash -->
-    <div class="rightBox">
-      <div class="panel">
-        <h2>Resumo</h2>
-        <div class="stat">
-          <div class="k">
-            <div class="n" id="countA">0</div>
-            <div class="l" id="labelA">itens</div>
-          </div>
-          <div class="k">
-            <div class="n" id="countB">0</div>
-            <div class="l">aparecendo agora</div>
-          </div>
-        </div>
-        <div class="footer">
-          Base pronta para você ir adicionando mais (sem mexer no design).
-        </div>
-      </div>
-
-      <div class="study">
-        <h3>Flashcard rápido</h3>
-        <p>Gera um item aleatório da aba atual. Use para revisão diária.</p>
-        <div class="flash" id="flash">
-          <div class="big" id="flashBig">—</div>
-          <div class="small" id="flashSmall">—</div>
-          <div class="actions">
-            <div class="btn" id="flashNext">Próximo</div>
-            <div class="btn primary" id="flashReveal">Revelar</div>
-          </div>
-          <div class="reveal" id="flashRevealBox"></div>
-        </div>
-      </div>
-    </div>
+<section id="dic" class="section active">
+  <div class="searchbox">
+    <input id="q" type="text" placeholder="Digite uma palavra japonesa (ex: 食べる, 元気, 大丈夫...)" />
   </div>
+  <div id="results"></div>
+</section>
+
+<section id="kanji" class="section" style="display:none">
+  <h2>🈶 Ordem dos Kanji (N5→N4)</h2>
+  <p style="color:var(--muted);font-size:14px;">Clique em um kanji para ver seu significado e exemplos.</p>
+  <div class="kanjigrid" id="kanjigrid"></div>
+</section>
+
+<section id="about" class="section" style="display:none">
+  <h2>ヴァンパイア全知全能 辞典</h2>
+  <p>Um dicionário interativo japonês–português criado para estudos de JLPT N5 e N4.<br>
+  Busque por palavras, veja exemplos, explicações detalhadas e estrutura de frases reais.<br><br>
+  📚 Desenvolvido para autoestudo — sem distrações, com contexto e gramática integrada.<br>
+  Criador: <b>あなた (Você)</b></p>
+</section>
+
 </div>
 
+<footer>ヴァンパイア全知全能 © 2025 — Dicionário Japonês Interativo</footer>
+
 <script>
-/* =========================
-   DATA (edit here to expand)
-   ========================= */
-
-const KANJI = [
-  { lvl:"N4", tag:"daily", k:"考", hira:"かんが・える", pt:"pensar / refletir", words:[
-      {jp:"将来について考える", hira:"しょうらい に ついて かんがえる", pt:"pensar seriamente sobre o futuro"},
-      {jp:"よく考えてから答える", hira:"よく かんがえて から こたえる", pt:"pensar bem antes de responder"}
-    ],
-    explain:[
-      "考える é pensar com intenção: organizar informação, comparar opções e chegar a uma conclusão.",
-      "Quando aparece com よく / ちゃんと, costuma carregar a nuance de responsabilidade (“pensa direito”)."
-    ],
-    patterns:[
-      "〜について考える (pensar sobre ~)",
-      "よく考えてから〜 (depois de pensar bem, ~)"
-    ],
-    variations:[
-      "考え直す（かんがえなおす）= repensar",
-      "考え込む（かんがえこむ）= ficar pensando profundamente"
-    ]
-  },
-  { lvl:"N4", tag:"work", k:"続", hira:"つづ・く / つづ・ける", pt:"continuar", words:[
-      {jp:"雨が続く", hira:"あめ が つづく", pt:"a chuva continua"},
-      {jp:"勉強を続ける", hira:"べんきょう を つづける", pt:"continuar estudando"}
-    ],
-    explain:[
-      "続く (intransitivo) = algo continua por si só; 続ける (transitivo) = você continua algo.",
-      "No cotidiano, aparece em rotina, trabalho, clima, hábitos."
-    ],
-    patterns:[
-      "〜が続く (X continua)",
-      "〜を続ける (continuar X)"
-    ],
-    variations:[
-      "続き（つづき）= continuação",
-      "継続（けいぞく）= continuidade (mais formal)"
-    ]
-  },
-  { lvl:"N4", tag:"daily", k:"困", hira:"こま・る", pt:"passar dificuldade / ficar sem saída", words:[
-      {jp:"ちょっと困っている", hira:"ちょっと こまっている", pt:"estou meio enrolado"},
-      {jp:"道が分からなくて困った", hira:"みち が わからなくて こまった", pt:"fiquei perdido"}
-    ],
-    explain:[
-      "困る não é “triste”. É “não sei o que fazer / estou sem recurso”.",
-      "Muito usado em conversa: 困ったな = “complicou” (leve)."
-    ],
-    patterns:[
-      "〜なくて困る (como não tenho X, fico em apuros)",
-      "困ったな (interjeição: complicou)"
-    ],
-    variations:[
-      "困らせる（こまらせる）= causar problema a alguém",
-      "困難（こんなん）= dificuldade (formal)"
-    ]
-  },
-  { lvl:"N5", tag:"daily", k:"早", hira:"はや・い", pt:"cedo / rápido", words:[
-      {jp:"今日は早く帰る", hira:"きょう は はやく かえる", pt:"hoje volto cedo"},
-      {jp:"早くして", hira:"はやくして", pt:"anda logo"}
-    ],
-    explain:[
-      "早い (cedo/rápido) depende do contexto. 早く帰る = voltar cedo.",
-      "早くして é cotidiano, mas pode soar mandão: em família/íntimos é comum."
-    ],
-    patterns:[
-      "早く〜する (fazer logo)",
-      "早く帰る (voltar cedo)"
-    ],
-    variations:[
-      "早めに（はやめに）= um pouco mais cedo",
-      "最初（さいしょ）より早い = mais rápido que no início"
-    ]
-  },
-  { lvl:"N4", tag:"work", k:"予", hira:"よ (予定)", pt:"plano / previsão (em 予定)", words:[
-      {jp:"明日の予定", hira:"あした の よてい", pt:"planos de amanhã"},
-      {jp:"予定が詰まっている", hira:"よてい が つまっている", pt:"agenda lotada"}
-    ],
-    explain:[
-      "N4/N5 usam muito 予定 (よてい) no dia a dia.",
-      "予定が詰まってる é bem natural para “tá tudo cheio na agenda”."
-    ],
-    patterns:[
-      "予定がある (ter compromisso)",
-      "予定が詰まっている (agenda cheia)"
-    ],
-    variations:[
-      "予定を入れる = marcar algo na agenda",
-      "予定を変更する = mudar planos"
-    ]
-  },
-  { lvl:"N4", tag:"daily", k:"慣", hira:"な・れる / な・らす", pt:"acostumar", words:[
-      {jp:"新しい仕事に慣れる", hira:"あたらしい しごと に なれる", pt:"acostumar-se ao trabalho novo"},
-      {jp:"日本の生活に慣れてきた", hira:"にほん の せいかつ に なれてきた", pt:"estou me acostumando"}
-    ],
-    explain:[
-      "慣れる = acostumar-se; 慣らす = acostumar alguém/treinar algo.",
-      "〜てきた marca mudança gradual: “vem acontecendo”."
-    ],
-    patterns:[
-      "〜に慣れる (acostumar-se a ~)",
-      "〜に慣れてきた (vem se acostumando)"
-    ],
-    variations:[
-      "慣れ（なれ）= hábito/experiência (substantivo)",
-      "不慣れ（ふなれ）= inexperiente"
-    ]
-  },
-  /* ====== BLOCO EXTRA DE KANJI (cole dentro do const KANJI = [ ... ]) ====== */
-
-  { lvl:"N4", tag:"daily", k:"決", hira:"き・める / き・まる", pt:"decidir / ficar decidido", words:[
-      {jp:"予定を決める", hira:"よてい を きめる", pt:"decidir o plano"},
-      {jp:"会議の時間が決まった", hira:"かいぎ の じかん が きまった", pt:"o horário da reunião ficou decidido"}
-    ],
-    explain:[
-      "決める (transitivo) = você decide; 決まる (intransitivo) = algo fica decidido.",
-      "No cotidiano, aparece muito em agenda, compromissos, regras."
-    ],
-    patterns:[
-      "〜を決める (decidir ~)",
-      "〜が決まる (ficar decidido)"
-    ],
-    variations:[
-      "決め直す（きめなおす）= decidir de novo",
-      "決心（けっしん）= decisão firme (mais formal)"
-    ]
-  },
-
-  { lvl:"N4", tag:"daily", k:"予", hira:"よ (予定)", pt:"plano / previsão (em 予定)", words:[
-      {jp:"明日の予定は？", hira:"あした の よてい は？", pt:"quais são os planos de amanhã?"},
-      {jp:"予定を変更する", hira:"よてい を へんこう する", pt:"mudar os planos"}
-    ],
-    explain:[
-      "No dia a dia, 予定 é a palavra padrão pra 'plano/compromisso'.",
-      "予定がある = ter compromisso (bem comum)."
-    ],
-    patterns:[
-      "予定がある (ter compromisso)",
-      "予定を変更する (mudar planos)"
-    ],
-    variations:[
-      "予定が詰まっている = agenda lotada",
-      "予定を入れる = marcar algo"
-    ]
-  },
-
-  { lvl:"N4", tag:"daily", k:"変", hira:"か・える / か・わる", pt:"mudar (algo) / mudar (ficar diferente)", words:[
-      {jp:"服を変える", hira:"ふく を かえる", pt:"trocar de roupa"},
-      {jp:"天気が変わった", hira:"てんき が かわった", pt:"o tempo mudou"}
-    ],
-    explain:[
-      "変える = você muda algo; 変わる = algo muda por si.",
-      "Muito usado em rotina: mudar plano, roupa, caminho, humor."
-    ],
-    patterns:[
-      "〜を変える (mudar ~)",
-      "〜が変わる (mudar)"
-    ],
-    variations:[
-      "変更（へんこう）= alteração (mais formal)",
-      "変化（へんか）= mudança/transformação"
-    ]
-  },
-
-  { lvl:"N5", tag:"daily", k:"安", hira:"やす・い", pt:"barato / tranquilo (em 安心)", words:[
-      {jp:"この店は安い", hira:"この みせ は やすい", pt:"essa loja é barata"},
-      {jp:"安心する", hira:"あんしん する", pt:"ficar tranquilo"}
-    ],
-    explain:[
-      "安い = barato. Em compostos, aparece como segurança/tranquilidade: 安心.",
-      "Bem útil pra compras e conversa do dia a dia."
-    ],
-    patterns:[
-      "〜は安い (é barato)",
-      "安心する (ficar tranquilo)"
-    ],
-    variations:[
-      "安め（やすめ）= um pouco mais barato",
-      "安全（あんぜん）= segurança (safe)"
-    ]
-  },
-
-  { lvl:"N5", tag:"daily", k:"全", hira:"ぜん / まった・く", pt:"todo / completamente", words:[
-      {jp:"全部食べた", hira:"ぜんぶ たべた", pt:"comi tudo"},
-      {jp:"全然大丈夫", hira:"ぜんぜん だいじょうぶ", pt:"tá de boa / sem problemas"}
-    ],
-    explain:[
-      "全部/全然 são extremamente frequentes no cotidiano.",
-      "全然 + negativo é padrão; no informal, '全然OK' também aparece."
-    ],
-    patterns:[
-      "全部〜 (tudo)",
-      "全然〜ない (nada / nem um pouco)"
-    ],
-    variations:[
-      "完全（かんぜん）= completo (mais formal)",
-      "全員（ぜんいん）= todo mundo"
-    ]
-  },
-
-  { lvl:"N4", tag:"work", k:"連", hira:"れん (連絡)", pt:"contato (em 連絡)", words:[
-      {jp:"あとで連絡します", hira:"あとで れんらく します", pt:"te aviso depois"},
-      {jp:"先に連絡しておく", hira:"さき に れんらく して おく", pt:"avisar antes"}
-    ],
-    explain:[
-      "連絡 é o verbo social padrão: avisar, entrar em contato.",
-      "No trabalho e vida prática, é uma das palavras mais usadas."
-    ],
-    patterns:[
-      "連絡する (entrar em contato)",
-      "先に〜ておく (fazer antes)"
-    ],
-    variations:[
-      "連絡先（れんらくさき）= contato",
-      "連絡が来る = receber mensagem/aviso"
-    ]
-  },
-
-  { lvl:"N4", tag:"work", k:"絡", hira:"から・む (連絡の絡)", pt:"relacionado / envolver (em 連絡)", words:[
-      {jp:"連絡が遅れてすみません", hira:"れんらく が おくれて すみません", pt:"desculpa o atraso no contato"},
-      {jp:"仕事に絡む話", hira:"しごと に からむ はなし", pt:"assunto ligado ao trabalho"}
-    ],
-    explain:[
-      "No N4, você vê muito em 連絡 (contato).",
-      "絡む sozinho é mais nuance: 'envolver/estar ligado'."
-    ],
-    patterns:[
-      "〜に絡む (ser ligado a ~)",
-      "連絡が遅れる (atrasar o contato)"
-    ],
-    variations:[
-      "複雑に絡む = se entrelaçar (mais avançado)",
-      "絡み（からみ）= relação/envolvimento"
-    ]
-  },
-
-  { lvl:"N5", tag:"daily", k:"早", hira:"はや・い / はや・く", pt:"cedo / rápido", words:[
-      {jp:"今日は早く帰る", hira:"きょう は はやく かえる", pt:"hoje volto cedo"},
-      {jp:"早くして", hira:"はやくして", pt:"anda logo"}
-    ],
-    explain:[
-      "早い é dual: cedo (tempo) e rápido (velocidade).",
-      "Em conversa: 早く帰る / 早く起きる são frases padrão."
-    ],
-    patterns:[
-      "早く〜する (fazer logo)",
-      "早く帰る/起きる"
-    ],
-    variations:[
-      "早めに（はやめに）= mais cedo",
-      "早起き（はやおき）= acordar cedo"
-    ]
-  },
-
-  { lvl:"N4", tag:"daily", k:"遅", hira:"おそ・い / おく・れる", pt:"tarde / atrasar", words:[
-      {jp:"遅くなってすみません", hira:"おそく なって すみません", pt:"desculpa ter ficado tarde"},
-      {jp:"電車が遅れた", hira:"でんしゃ が おくれた", pt:"o trem atrasou"}
-    ],
-    explain:[
-      "遅い = tarde/lento; 遅れる = atrasar-se (trem, pessoa, resposta).",
-      "Muito útil em mensagens: 遅れます (vou me atrasar)."
-    ],
-    patterns:[
-      "遅れる (atrasar)",
-      "遅くなる (ficar tarde)"
-    ],
-    variations:[
-      "遅刻（ちこく）= atraso (substantivo)",
-      "遅め（おそめ）= um pouco tarde"
-    ]
-  },
-
-  { lvl:"N4", tag:"daily", k:"忘", hira:"わす・れる", pt:"esquecer", words:[
-      {jp:"鍵を忘れた", hira:"かぎ を わすれた", pt:"esqueci a chave"},
-      {jp:"忘れないで", hira:"わすれないで", pt:"não esquece"}
-    ],
-    explain:[
-      "Extremamente comum. Em pedido: 忘れないでね (não esquece, tá?).",
-      "Também aparece em 〜を忘れてしまう (acabei esquecendo)."
-    ],
-    patterns:[
-      "〜を忘れる (esquecer ~)",
-      "忘れないで (não esqueça)"
-    ],
-    variations:[
-      "忘れ物（わすれもの）= coisa esquecida",
-      "忘年会（ぼうねんかい）= festa de fim de ano (literalmente 'esquecer o ano')"
-    ]
-  },
-
-  { lvl:"N4", tag:"daily", k:"返", hira:"かえ・す / かえ・る", pt:"devolver / voltar", words:[
-      {jp:"本を返す", hira:"ほん を かえす", pt:"devolver o livro"},
-      {jp:"おつりを返す", hira:"おつり を かえす", pt:"devolver o troco"}
-    ],
-    explain:[
-      "返す = devolver (ação para alguém). 返る = voltar (objeto/estado).",
-      "Uso cotidiano forte em loja, biblioteca, aluguel."
-    ],
-    patterns:[
-      "〜を返す (devolver ~)",
-      "返事（へんじ）をする (responder)"
-    ],
-    variations:[
-      "返事（へんじ）= resposta",
-      "返却（へんきゃく）= devolução (formal)"
-    ]
-  },
-
-  { lvl:"N4", tag:"daily", k:"直", hira:"なお・す / なお・る", pt:"consertar / ficar consertado; também 'na hora'", words:[
-      {jp:"スマホを直す", hira:"すまほ を なおす", pt:"consertar o celular"},
-      {jp:"すぐに直る", hira:"すぐに なおる", pt:"consertar rápido (ficar bom)"}
-    ],
-    explain:[
-      "直す (você conserta) / 直る (fica consertado / melhora).",
-      "Também aparece em 直接 (diretamente) e 直ぐ (logo)."
-    ],
-    patterns:[
-      "〜を直す (consertar ~)",
-      "〜が直る (ficar bom/consertado)"
-    ],
-    variations:[
-      "やり直す = refazer",
-      "直前（ちょくぜん）= imediatamente antes"
-    ]
-  },
-
-  { lvl:"N4", tag:"daily", k:"置", hira:"お・く", pt:"colocar / deixar", words:[
-      {jp:"ここに置いてください", hira:"ここ に おいて ください", pt:"coloque aqui, por favor"},
-      {jp:"ちょっと置いとく", hira:"ちょっと おいとく", pt:"vou deixar aqui rapidinho"}
-    ],
-    explain:[
-      "置く = colocar/deixar (posição). Muito usado com pedidos.",
-      "No informal, 〜とく é redução de 〜ておく (estilo falado)."
-    ],
-    patterns:[
-      "〜に置く (colocar em ~)",
-      "〜ておく → 〜とく (falado)"
-    ],
-    variations:[
-      "置き場（おきば）= local para colocar",
-      "放置（ほうち）= deixar largado (formal)"
-    ]
-  },
-
-  { lvl:"N4", tag:"daily", k:"起", hira:"お・きる / お・こす", pt:"acordar / acordar alguém", words:[
-      {jp:"朝6時に起きる", hira:"あさ 6じ に おきる", pt:"acordar às 6"},
-      {jp:"子どもを起こす", hira:"こども を おこす", pt:"acordar a criança"}
-    ],
-    explain:[
-      "起きる = acordar/levantar; 起こす = acordar alguém / causar algo.",
-      "Base de rotina: 早起き (acordar cedo)."
-    ],
-    patterns:[
-      "〜時に起きる (acordar às ~)",
-      "〜を起こす (acordar alguém)"
-    ],
-    variations:[
-      "起きられない = não consigo acordar",
-      "起床（きしょう）= acordar (formal)"
-    ]
-  },
-
-  { lvl:"N4", tag:"daily", k:"眠", hira:"ねむ・い / ねむ・る", pt:"com sono / dormir", words:[
-      {jp:"今日は眠い", hira:"きょう は ねむい", pt:"hoje tô com sono"},
-      {jp:"眠れない", hira:"ねむれない", pt:"não consigo dormir"}
-    ],
-    explain:[
-      "眠い é a forma mais comum pra 'tô com sono'.",
-      "眠れない é muito usado em stress/ansiedade."
-    ],
-    patterns:[
-      "眠い (estar com sono)",
-      "眠れない (não conseguir dormir)"
-    ],
-    variations:[
-      "睡眠（すいみん）= sono (substantivo)",
-      "眠気（ねむけ）= sonolência"
-    ]
-  },
-
-  { lvl:"N4", tag:"daily", k:"乗", hira:"の・る / の・せる", pt:"pegar (transporte) / colocar em cima", words:[
-      {jp:"電車に乗る", hira:"でんしゃ に のる", pt:"pegar o trem"},
-      {jp:"自転車に乗れる", hira:"じてんしゃ に のれる", pt:"consigo andar de bicicleta"}
-    ],
-    explain:[
-      "乗る é básico de transporte. N4 aparece muito em 'conseguir': 乗れる.",
-      "No Japão, isso é rotina diária (trem/ônibus)."
-    ],
-    patterns:[
-      "〜に乗る (pegar ~)",
-      "〜に乗れる (conseguir pegar/andar)"
-    ],
-    variations:[
-      "乗り換える（のりかえる）= fazer baldeação",
-      "乗り遅れる（のりおくれる）= perder o transporte"
-    ]
-  },
-
-  { lvl:"N4", tag:"daily", k:"降", hira:"ふ・る / お・りる / お・ろす", pt:"chover / descer (transporte)", words:[
-      {jp:"雨が降る", hira:"あめ が ふる", pt:"chover"},
-      {jp:"次で降ります", hira:"つぎ で おります", pt:"desço na próxima"}
-    ],
-    explain:[
-      "降る (chover/nevar) e 降りる (descer do trem/ônibus) são cotidianos.",
-      "Muito útil em viagem e tempo."
-    ],
-    patterns:[
-      "雨が降る (chover)",
-      "〜で降りる (descer em ~)"
-    ],
-    variations:[
-      "降ろす（おろす）= fazer descer / baixar algo",
-      "降水（こうすい）= precipitação (formal)"
-    ]
-  },
-
-  { lvl:"N4", tag:"daily", k:"旅", hira:"たび", pt:"viagem", words:[
-      {jp:"一人旅", hira:"ひとりたび", pt:"viagem sozinho"},
-      {jp:"旅に出る", hira:"たび に でる", pt:"sair em viagem"}
-    ],
-    explain:[
-      "旅 é 'viagem' com nuance mais 'jornada'.",
-      "Muito usado em placas, mídia, planos de lazer."
-    ],
-    patterns:[
-      "旅に出る (ir viajar)",
-      "一人旅 (viagem solo)"
-    ],
-    variations:[
-      "旅行（りょこう）= viagem (mais neutro)",
-      "旅先（たびさき）= destino da viagem"
-    ]
-  },
-
-  { lvl:"N4", tag:"work", k:"説", hira:"せつ (説明)", pt:"explicação (em 説明)", words:[
-      {jp:"説明します", hira:"せつめい します", pt:"vou explicar"},
-      {jp:"説明が必要です", hira:"せつめい が ひつよう です", pt:"é necessário explicar"}
-    ],
-    explain:[
-      "Explicar no Japão é literalmente 'fazer explicação': 説明する.",
-      "Muito usado em atendimento, escola, trabalho."
-    ],
-    patterns:[
-      "説明する (explicar)",
-      "説明が必要 (explicação é necessária)"
-    ],
-    variations:[
-      "説明書（せつめいしょ）= manual",
-      "解説（かいせつ）= comentário/explicação (mais 'didático')"
-    ]
-  },
-
-  { lvl:"N4", tag:"work", k:"明", hira:"あき・らか / あ・ける / あ・く", pt:"claro / abrir (dia, porta)", words:[
-      {jp:"明日", hira:"あした", pt:"amanhã"},
-      {jp:"説明が明確", hira:"せつめい が めいかく", pt:"explicação clara"}
-    ],
-    explain:[
-      "明 aparece em 明日 (amanhã) e em compostos como 明確 (claro).",
-      "Também tem sentido de 'clarear/abrir', mas no N4 o uso em palavras é o principal."
-    ],
-    patterns:[
-      "明日 (amanhã)",
-      "明確（めいかく）= claro"
-    ],
-    variations:[
-      "明るい（あかるい）= claro/alegre",
-      "明ける（あける）= amanhecer/abrir (dependendo)"
-    ]
-  },
-
-  { lvl:"N4", tag:"work", k:"理", hira:"り (理由)", pt:"motivo / lógica (em 理由)", words:[
-      {jp:"理由を教えてください", hira:"りゆう を おしえて ください", pt:"me diga o motivo"},
-      {jp:"理由がある", hira:"りゆう が ある", pt:"ter um motivo"}
-    ],
-    explain:[
-      "理由 é o 'motivo/razão' padrão em conversa e trabalho.",
-      "Puxa explicação racional, não emocional."
-    ],
-    patterns:[
-      "理由がある (ter motivo)",
-      "理由を言う (dizer o motivo)"
-    ],
-    variations:[
-      "理屈（りくつ）= lógica/argumento (mais coloquial)",
-      "理由なく = sem motivo"
-    ]
-  },
-
-  { lvl:"N4", tag:"work", k:"由", hira:"ゆ (理由)", pt:"origem/motivo (em 理由)", words:[
-      {jp:"理由", hira:"りゆう", pt:"motivo"},
-      {jp:"理由は何ですか", hira:"りゆう は なん ですか", pt:"qual é o motivo?"}
-    ],
-    explain:[
-      "Sozinho é raro no básico; aparece principalmente em 理由.",
-      "Memorize como parte do bloco 理由."
-    ],
-    patterns:[
-      "理由は〜 (o motivo é ~)",
-      "理由を説明する"
-    ],
-    variations:[
-      "経由（けいゆ）= via/por meio de",
-      "由来（ゆらい）= origem (mais avançado)"
-    ]
-  },
-
-  { lvl:"N4", tag:"work", k:"経", hira:"けい (経験)", pt:"experiência (em 経験)", words:[
-      {jp:"経験がある", hira:"けいけん が ある", pt:"ter experiência"},
-      {jp:"いい経験になった", hira:"いい けいけん に なった", pt:"virou uma boa experiência"}
-    ],
-    explain:[
-      "経験 é uma palavra N4 muito útil em entrevista, trabalho, vida.",
-      "〜になった = 'virou' (mudança/resultado)."
-    ],
-    patterns:[
-      "経験がある (ter experiência)",
-      "〜になった (virou / resultou)"
-    ],
-    variations:[
-      "未経験（みけいけん）= sem experiência",
-      "経験者（けいけんしゃ）= pessoa experiente"
-    ]
-  },
-
-  { lvl:"N4", tag:"work", k:"験", hira:"けん (経験)", pt:"experiência (parte de 経験)", words:[
-      {jp:"経験", hira:"けいけん", pt:"experiência"},
-      {jp:"経験者", hira:"けいけんしゃ", pt:"pessoa experiente"}
-    ],
-    explain:[
-      "Sozinho aparece pouco; você aprende como parte de 経験.",
-      "Guarde o bloco: 経験（けいけん）."
-    ],
-    patterns:[
-      "経験を積む（つむ）= acumular experiência",
-      "経験者募集 = vaga para experiente"
-    ],
-    variations:[
-      "体験（たいけん）= vivência/experiência (mais 'experimentar')",
-      "実験（じっけん）= experimento"
-    ]
-  },
-
-  { lvl:"N4", tag:"daily", k:"運", hira:"うん / はこ・ぶ", pt:"sorte / transportar", words:[
-      {jp:"運がいい", hira:"うん が いい", pt:"ter sorte"},
-      {jp:"荷物を運ぶ", hira:"にもつ を はこぶ", pt:"carregar bagagem"}
-    ],
-    explain:[
-      "運 = sorte em conversa (運がいい).",
-      "運ぶ = transportar (bem usado em mudança/casa/trabalho)."
-    ],
-    patterns:[
-      "運がいい/悪い (ter sorte/azar)",
-      "〜を運ぶ (transportar ~)"
-    ],
-    variations:[
-      "運転（うんてん）= dirigir",
-      "運動（うんどう）= exercício"
-    ]
-  },
-
-  { lvl:"N4", tag:"daily", k:"合", hira:"あ・う / あ・わせる", pt:"combinar/encontrar-se / ajustar", words:[
-      {jp:"時間が合う", hira:"じかん が あう", pt:"os horários batem"},
-      {jp:"予定を合わせる", hira:"よてい を あわせる", pt:"ajustar a agenda"}
-    ],
-    explain:[
-      "合う = bater/combinar (horário, tamanho, gosto).",
-      "合わせる = ajustar algo para combinar."
-    ],
-    patterns:[
-      "〜が合う (combinar/bater)",
-      "〜を合わせる (ajustar ~)"
-    ],
-    variations:[
-      "待ち合わせ（まちあわせ）= encontro marcado",
-      "合格（ごうかく）= aprovação (passar)"
-    ]
-  },
-
-  { lvl:"N4", tag:"work", k:"申", hira:"もう・す", pt:"dizer (formal) / solicitar", words:[
-      {jp:"申し訳ありません", hira:"もうしわけ ありません", pt:"sinto muito (bem formal)"},
-      {jp:"申し込みます", hira:"もうしこみます", pt:"vou me inscrever"}
-    ],
-    explain:[
-      "申す é 'dizer' formal. Aparece em expressões prontas de atendimento.",
-      "申し訳ありません é fórmula padrão de desculpa forte."
-    ],
-    patterns:[
-      "申し訳ありません (desculpa formal)",
-      "申し込む (inscrever-se)"
-    ],
-    variations:[
-      "申請（しんせい）= solicitação (formal)",
-      "申告（しんこく）= declaração (formal)"
-    ]
-  },
-
-  { lvl:"N4", tag:"work", k:"込", hira:"こ・む / こ・める", pt:"estar lotado / colocar dentro", words:[
-      {jp:"電車が混みます", hira:"でんしゃ が こみます", pt:"o trem fica lotado"},
-      {jp:"申し込む", hira:"もうしこむ", pt:"inscrever-se"}
-    ],
-    explain:[
-      "No dia a dia, 'lotado' é 混む (こむ) — mesma leitura, kanji diferente (混).",
-      "込 aparece muito em 申し込む (inscrever)."
-    ],
-    patterns:[
-      "申し込む (inscrever-se)",
-      "混む（こむ）= lotar (kanji comum: 混)"
-    ],
-    variations:[
-      "混雑（こんざつ）= lotação (formal)",
-      "込める（こめる）= colocar/infundir (mais avançado)"
-    ]
-  },
-
-  { lvl:"N4", tag:"daily", k:"受", hira:"う・ける / う・かる", pt:"receber (aula/exame) / passar", words:[
-      {jp:"授業を受ける", hira:"じゅぎょう を うける", pt:"assistir aula"},
-      {jp:"試験に受かる", hira:"しけん に うかる", pt:"passar na prova"}
-    ],
-    explain:[
-      "受ける = receber (serviço, aula, exame).",
-      "受かる = passar (prova/seleção)."
-    ],
-    patterns:[
-      "〜を受ける (receber/assistir ~)",
-      "〜に受かる (passar em ~)"
-    ],
-    variations:[
-      "受付（うけつけ）= recepção/balcão",
-      "受験（じゅけん）= prestar exame"
-    ]
-  },
-
-  { lvl:"N4", tag:"work", k:"付", hira:"つ・ける / つ・く", pt:"anexar/colocar / ficar anexado", words:[
-      {jp:"名前を付ける", hira:"なまえ を つける", pt:"dar um nome"},
-      {jp:"気を付けて", hira:"きを つけて", pt:"cuidado"}
-    ],
-    explain:[
-      "付ける/付く = colocar/colar/anexar — aparece em muita coisa.",
-      "Frase fixa diária: 気を付けて (se cuida / cuidado)."
-    ],
-    patterns:[
-      "〜を付ける (colocar/dar ~)",
-      "気を付ける (prestar atenção)"
-    ],
-    variations:[
-      "付き合う（つきあう）= se relacionar/acompanhar",
-      "付近（ふきん）= proximidades"
-    ]
-  },
-
-/* ====== FIM DO BLOCO EXTRA ====== */
-
-];
-
-const PHRASES = [
+const WORDS = [
   {
-    lvl:"N5", tag:"daily",
-    jp:"すみません、もう一度言ってください。",
-    hira:"すみません、もう いちど いって ください。",
-    pt:"Com licença, pode dizer mais uma vez?",
-    lineByLine:[
-      {jp:"すみません", hira:"すみません", pt:"desculpa / com licença"},
-      {jp:"もう一度", hira:"もう いちど", pt:"mais uma vez"},
-      {jp:"言ってください", hira:"いって ください", pt:"por favor, diga"}
-    ],
-    explain:[
-      "Frase padrão para pedir repetição. Natural e educada.",
-      "Se estiver em ambiente bem formal: もう一度おっしゃってください (mais formal)."
-    ],
-    patterns:[
-      "もう一度〜てください (peça para repetir uma ação)",
-      "すみません + pedido (inicia pedido educadamente)"
-    ],
-    variations:[
-      "もう少しゆっくり言ってください。= pode falar mais devagar?",
-      "もう一度お願いします。= mais uma vez, por favor."
+    jp:"食べる",
+    hira:"たべる",
+    tipo:"verbo (ichidan)",
+    mean:"comer",
+    examples:[
+      {
+        jp:"朝ごはんを食べました。",
+        hira:"あさごはん を たべました。",
+        pt:"Comi café da manhã.",
+        exp:"朝ごはん = café da manhã; を marca o objeto; 〜ました = passado polido."
+      },
+      {
+        jp:"何を食べたいですか？",
+        hira:"なに を たべたい です か？",
+        pt:"O que você quer comer?",
+        exp:"〜たい = querer fazer algo; pergunta educada."
+      },
+      {
+        jp:"友だちと昼ごはんを食べに行く。",
+        hira:"ともだち と ひるごはん を たべ に いく。",
+        pt:"Vou almoçar com um amigo.",
+        exp:"〜に行く = ir para fazer algo; estrutura fixa muito usada."
+      }
     ]
   },
   {
-    lvl:"N4", tag:"work",
-    jp:"今日は残業になりそうなので、先に連絡しておきます。",
-    hira:"きょう は ざんぎょう に なりそう なので、さき に れんらく して おきます。",
-    pt:"Como parece que vou fazer hora extra hoje, vou avisar antes.",
-    lineByLine:[
-      {jp:"今日は", hira:"きょう は", pt:"hoje (tópico)"},
-      {jp:"残業になりそう", hira:"ざんぎょう に なりそう", pt:"parece que vai virar hora extra"},
-      {jp:"なので", hira:"なので", pt:"então / por isso"},
-      {jp:"先に", hira:"さき に", pt:"antes / adiantado"},
-      {jp:"連絡しておきます", hira:"れんらく して おきます", pt:"vou avisar previamente"}
-    ],
-    explain:[
-      "〜になりそう = “parece que vai virar/acontecer”. Aqui é previsão realista.",
-      "〜ておく = fazer algo adiantado para evitar problema depois (avisar antes)."
-    ],
-    patterns:[
-      "〜になりそう (parece que vai…)",
-      "先に〜ておく (fazer antes)"
-    ],
-    variations:[
-      "遅くなりそうなので、先に連絡します。= vou avisar porque devo me atrasar",
-      "今日は残業です。= hoje vou fazer hora extra (mais direto)"
+    jp:"元気",
+    hira:"げんき",
+    tipo:"adjetivo (な形容詞)",
+    mean:"saudável / animado / bem",
+    examples:[
+      {
+        jp:"元気ですか？",
+        hira:"げんき です か？",
+        pt:"Tudo bem?",
+        exp:"Pergunta-padrão. ですか = pergunta educada."
+      },
+      {
+        jp:"今日は元気がないね。",
+        hira:"きょう は げんき が ない ね。",
+        pt:"Você não parece bem hoje.",
+        exp:"〜がない = não ter (aqui, energia)."
+      },
+      {
+        jp:"子どもたちは元気に走っています。",
+        hira:"こどもたち は げんき に はしって います。",
+        pt:"As crianças estão correndo cheias de energia.",
+        exp:"〜に + verbo = com (modo). 元気に = com energia."
+      }
     ]
   },
   {
-    lvl:"N4", tag:"daily",
-    jp:"本当は早く寝たほうがいいと分かっているのに、ついスマホを見てしまう。",
-    hira:"ほんとう は はやく ねた ほう が いい と わかっている のに、つい すまほ を みて しまう。",
-    pt:"Eu sei que seria melhor dormir cedo, mas sem perceber acabo mexendo no celular.",
-    lineByLine:[
-      {jp:"本当は", hira:"ほんとう は", pt:"na verdade"},
-      {jp:"早く寝たほうがいい", hira:"はやく ねた ほう が いい", pt:"seria melhor dormir cedo"},
-      {jp:"と分かっているのに", hira:"と わかっている のに", pt:"mesmo sabendo disso"},
-      {jp:"つい", hira:"つい", pt:"sem perceber"},
-      {jp:"スマホを見てしまう", hira:"すまほ を みて しまう", pt:"acabo olhando o celular"}
-    ],
-    explain:[
-      "〜のに = “apesar de / mesmo sabendo”. Marca contraste com frustração leve.",
-      "つい + 〜てしまう é combo muito real para hábito involuntário."
-    ],
-    patterns:[
-      "〜たほうがいい (seria melhor)",
-      "〜のに (apesar de)",
-      "つい〜てしまう (acabar fazendo sem querer)"
-    ],
-    variations:[
-      "つい夜更かししてしまう。= acabo dormindo tarde",
-      "分かっているけどやめられない。= eu sei, mas não consigo parar"
+    jp:"大丈夫",
+    hira:"だいじょうぶ",
+    tipo:"adjetivo (な形容詞)",
+    mean:"tudo bem / sem problemas / tranquilo",
+    examples:[
+      {
+        jp:"大丈夫ですか？",
+        hira:"だいじょうぶ です か？",
+        pt:"Você está bem?",
+        exp:"Frase básica para checar alguém."
+      },
+      {
+        jp:"大丈夫、間に合うよ。",
+        hira:"だいじょうぶ、まにあう よ。",
+        pt:"Tranquilo, vai dar tempo.",
+        exp:"間に合う = dar tempo; よ dá segurança."
+      },
+      {
+        jp:"この服で大丈夫？",
+        hira:"この ふく で だいじょうぶ？",
+        pt:"Essa roupa tá boa assim?",
+        exp:"で marca condição; tom casual."
+      }
     ]
   },
   {
-    lvl:"N5", tag:"daily",
-    jp:"ちょっと待って、いま行く。",
-    hira:"ちょっと まって、いま いく。",
-    pt:"Espera um pouco, tô indo agora.",
-    lineByLine:[
-      {jp:"ちょっと待って", hira:"ちょっと まって", pt:"espera um pouco"},
-      {jp:"いま行く", hira:"いま いく", pt:"tô indo agora"}
-    ],
-    explain:[
-      "Super cotidiano. Em mensagem/voz, é exatamente assim.",
-      "Mais educado: 少し待ってください / いま行きます。"
-    ],
-    patterns:[
-      "ちょっと + verbo (tom casual)",
-      "いま〜 (agora)"
-    ],
-    variations:[
-      "すぐ行く。= já vou",
-      "あとで行く。= vou depois"
+    jp:"見る",
+    hira:"みる",
+    tipo:"verbo (ichidan)",
+    mean:"ver / assistir / olhar",
+    examples:[
+      {
+        jp:"テレビを見ます。",
+        hira:"てれび を みます。",
+        pt:"Eu assisto TV.",
+        exp:"を marca o objeto direto."
+      },
+      {
+        jp:"映画を見に行く。",
+        hira:"えいが を みに いく。",
+        pt:"Vou ao cinema (assistir filme).",
+        exp:"〜に行く = ir para fazer algo."
+      },
+      {
+        jp:"ちょっと見てもいいですか？",
+        hira:"ちょっと みても いい です か？",
+        pt:"Posso dar uma olhada?",
+        exp:"〜てもいいですか = pedir permissão de forma educada."
+      }
     ]
   }
 ];
 
-/* =========================
-   UI / State
-   ========================= */
-const state = {
-  tab: "kanji",
-  q: "",
-  filter: "all",
-  showKana: true,
-  showPT: true,
-  focus: false,
-  accentIndex: 0
-};
+// funções
+const results = document.getElementById("results");
+const grid = document.getElementById("kanjigrid");
+const q = document.getElementById("q");
 
-const ACCENTS = [
-  {a:"#8b5cf6", b:"#22d3ee", c:"#fb7185"},
-  {a:"#22c55e", b:"#60a5fa", c:"#f97316"},
-  {a:"#f43f5e", b:"#a78bfa", c:"#38bdf8"},
-  {a:"#fbbf24", b:"#34d399", c:"#60a5fa"}
-];
-
-const el = (id)=>document.getElementById(id);
-
-const tabs = document.querySelectorAll(".tab");
-tabs.forEach(t=>{
-  t.addEventListener("click", ()=>{
-    tabs.forEach(x=>x.classList.remove("active"));
-    t.classList.add("active");
-    state.tab = t.dataset.tab;
-    state.filter = "all";
-    state.q = "";
-    el("q").value = "";
-    render();
-    refreshFlash();
-  });
-});
-
-el("q").addEventListener("input", (e)=>{
-  state.q = e.target.value.trim();
-  render();
-});
-
-el("themeBtn").addEventListener("click", ()=>{
-  const root = document.documentElement;
-  root.dataset.theme = (root.dataset.theme === "paper") ? "ink" : "paper";
-});
-
-el("accentBtn").addEventListener("click", ()=>{
-  state.accentIndex = (state.accentIndex + 1) % ACCENTS.length;
-  const c = ACCENTS[state.accentIndex];
-  document.documentElement.style.setProperty("--accent", c.a);
-  document.documentElement.style.setProperty("--accent2", c.b);
-  document.documentElement.style.setProperty("--accent3", c.c);
-});
-
-el("studyFocusBtn").addEventListener("click", ()=>{
-  state.focus = !state.focus;
-  el("studyFocusBtn").classList.toggle("primary", state.focus);
-  // focus = hide PT and kana by default
-  state.showKana = !state.focus;
-  state.showPT = !state.focus;
-  render();
-  refreshFlash();
-});
-
-el("revealAllBtn").addEventListener("click", ()=>{
-  state.showKana = true;
-  state.showPT = true;
-  render();
-  refreshFlash();
-});
-
-/* Flashcard */
-el("flashNext").addEventListener("click", ()=>{
-  refreshFlash(true);
-});
-el("flashReveal").addEventListener("click", ()=>{
-  el("flashRevealBox").style.display = "block";
-});
-
-function getDataset(){
-  return state.tab === "kanji" ? KANJI : PHRASES;
+function openTab(id,el){
+  document.querySelectorAll('.section').forEach(s=>s.style.display='none');
+  document.getElementById(id).style.display='block';
+  document.querySelectorAll('nav a').forEach(a=>a.classList.remove('active'));
+  el.classList.add('active');
+  if(id==="kanji") renderKanji();
+  if(id==="dic") q.focus();
 }
 
-function getFilters(){
-  // collect tags
-  const items = getDataset();
-  const tags = new Set(items.map(i=>i.tag));
-  return ["all", ...Array.from(tags)];
-}
-
-function matchQuery(item, q){
-  if(!q) return true;
-  const s = JSON.stringify(item).toLowerCase();
-  return s.includes(q.toLowerCase());
-}
-
-function filterItems(){
-  const items = getDataset();
-  return items.filter(it=>{
-    if(state.filter !== "all" && it.tag !== state.filter) return false;
-    if(!matchQuery(it, state.q)) return false;
-    return true;
+function renderKanji(){
+  grid.innerHTML = "";
+  const all = ["日","一","人","大","本","中","学","行","見","食","飲","来","言","思","住","会","新","時","聞","読","書","買","友","車","先","今","名","話","何"];
+  all.forEach(k=>{
+    const div = document.createElement("div");
+    div.className="kanjiitem";
+    div.innerHTML=`<div class="k">${k}</div><div class="l">N5〜N4</div>`;
+    div.onclick=()=>searchWord(k);
+    grid.appendChild(div);
   });
 }
 
-/* Render */
-function render(){
-  // titles
-  if(state.tab === "kanji"){
-    el("leftTitle").textContent = "漢字（N4/N5）";
-    el("leftHint").textContent = "Clique em cada kanji para abrir análise, padrões e variações. Use busca e filtros.";
-    el("labelA").textContent = "kanji na base";
-    el("countA").textContent = KANJI.length;
-  }else{
-    el("leftTitle").textContent = "日常フレーズ（N5/N4）";
-    el("leftHint").textContent = "Frases do cotidiano com leitura em hiragana, tradução linha a linha e estruturas fixas.";
-    el("labelA").textContent = "frases na base";
-    el("countA").textContent = PHRASES.length;
-  }
-
-  // filters
-  const filters = getFilters();
-  const fWrap = el("filters");
-  fWrap.innerHTML = "";
-  filters.forEach(f=>{
-    const d = document.createElement("div");
-    d.className = "chip" + (state.filter === f ? " active" : "");
-    d.textContent = (f==="all") ? "Tudo" : (f==="daily" ? "Cotidiano" : f==="work" ? "Trabalho" : f);
-    d.addEventListener("click", ()=>{
-      state.filter = f;
-      render();
-      refreshFlash();
-    });
-    fWrap.appendChild(d);
-  });
-
-  // list
-  const list = el("list");
-  const items = filterItems();
-  el("countB").textContent = items.length;
-
-  list.innerHTML = "";
-  items.forEach((it, idx)=>{
-    list.appendChild(state.tab === "kanji" ? renderKanjiCard(it, idx) : renderPhraseCard(it, idx));
-  });
+function searchWord(term){
+  q.value = term;
+  handleSearch();
+  openTab("dic",document.querySelector('nav a[href="#"]'));
 }
 
-function badgeFor(it){
-  const b = document.createElement("div");
-  b.className = `badge ${it.lvl.toLowerCase()} ${it.tag}`;
-  const lvl = it.lvl;
-  const tag = it.tag === "daily" ? "Cotidiano" : it.tag === "work" ? "Trabalho" : it.tag;
-  b.textContent = `${lvl} • ${tag}`;
-  return b;
-}
+q.addEventListener("input", handleSearch);
 
-function makeMiniToggle(label, key){
-  const m = document.createElement("div");
-  m.className = "mini" + ((key==="kana" ? state.showKana : state.showPT) ? " on" : "");
-  m.textContent = label;
-  m.addEventListener("click", ()=>{
-    if(key==="kana") state.showKana = !state.showKana;
-    else state.showPT = !state.showPT;
-    render();
-    refreshFlash();
-  });
-  return m;
-}
-
-function renderKanjiCard(it, idx){
-  const card = document.createElement("div");
-  card.className = "card";
-
-  const top = document.createElement("div");
-  top.className = "row";
-
-  const left = document.createElement("div");
-  left.innerHTML = `
-    <div class="jp" style="font-size:22px;">
-      <span style="font-size:30px;font-weight:900;letter-spacing:1px;">${it.k}</span>
-      <span style="margin-left:10px;color:var(--muted);font-weight:600;">${it.pt}</span>
-    </div>
-  `;
-
-  if(state.showKana){
-    const kana = document.createElement("div");
-    kana.className = "kana";
-    kana.textContent = it.hira;
-    left.appendChild(kana);
-  }
-
-  top.appendChild(left);
-  top.appendChild(badgeFor(it));
-  card.appendChild(top);
-
-  const actions = document.createElement("div");
-  actions.className = "actions";
-  actions.appendChild(makeMiniToggle("Leitura", "kana"));
-  actions.appendChild(makeMiniToggle("PT", "pt"));
-  card.appendChild(actions);
-
-  const detail = document.createElement("details");
-  const sum = document.createElement("summary");
-  sum.textContent = "Abrir análise";
-  detail.appendChild(sum);
-
-  const body = document.createElement("div");
-  body.className = "detailBlock";
-
-  // Explain (PT)
-  if(state.showPT){
-    body.innerHTML += `<div class="block"><b>Explicação (PT-BR):</b><br>${it.explain.map(x=>`• ${x}`).join("<br>")}</div>`;
-  }
-
-  // Words
-  body.innerHTML += `<div class="block"><b>Exemplos reais:</b><br>${it.words.map(w=>`• ${w.jp}${state.showKana ? ` <span style="color:var(--accent2)">（${w.hira}）</span>` : ""} — ${state.showPT ? w.pt : ""}`).join("<br>")}</div>`;
-
-  // Patterns + variations
-  body.innerHTML += `<div class="block"><b>Estruturas fixas:</b><div class="mono">${it.patterns.join("\n")}</div></div>`;
-  body.innerHTML += `<div class="block"><b>Variações:</b><div class="mono">${it.variations.join("\n")}</div></div>`;
-
-  detail.appendChild(body);
-  card.appendChild(detail);
-
-  return card;
-}
-
-function renderPhraseCard(it, idx){
-  const card = document.createElement("div");
-  card.className = "card";
-
-  const top = document.createElement("div");
-  top.className = "row";
-
-  const left = document.createElement("div");
-  left.innerHTML = `<div class="jp">${it.jp}</div>`;
-
-  if(state.showKana){
-    const kana = document.createElement("div");
-    kana.className = "kana";
-    kana.textContent = it.hira;
-    left.appendChild(kana);
-  }
-
-  if(state.showPT){
-    const pt = document.createElement("div");
-    pt.className = "ptline";
-    pt.textContent = it.pt;
-    left.appendChild(pt);
-  }
-
-  top.appendChild(left);
-  top.appendChild(badgeFor(it));
-  card.appendChild(top);
-
-  const actions = document.createElement("div");
-  actions.className = "actions";
-  actions.appendChild(makeMiniToggle("Leitura", "kana"));
-  actions.appendChild(makeMiniToggle("PT", "pt"));
-  card.appendChild(actions);
-
-  const detail = document.createElement("details");
-  const sum = document.createElement("summary");
-  sum.textContent = "Abrir análise linha a linha";
-  detail.appendChild(sum);
-
-  const body = document.createElement("div");
-  body.className = "detailBlock";
-
-  // line-by-line translation
-  body.innerHTML += `<div class="block"><b>Tradução linha a linha (PT-BR):</b><br>${
-    it.lineByLine.map(l=>{
-      const kana = state.showKana ? ` <span style="color:var(--accent2)">（${l.hira}）</span>` : "";
-      const pt = state.showPT ? ` — ${l.pt}` : "";
-      return `• ${l.jp}${kana}${pt}`;
-    }).join("<br>")
-  }</div>`;
-
-  // explanation PT
-  if(state.showPT){
-    body.innerHTML += `<div class="block"><b>Explicação (PT-BR):</b><br>${it.explain.map(x=>`• ${x}`).join("<br>")}</div>`;
-  }
-
-  // patterns + variations
-  body.innerHTML += `<div class="block"><b>Estruturas fixas:</b><div class="mono">${it.patterns.join("\n")}</div></div>`;
-  body.innerHTML += `<div class="block"><b>Variações naturais:</b><div class="mono">${it.variations.join("\n")}</div></div>`;
-
-  detail.appendChild(body);
-  card.appendChild(detail);
-
-  return card;
-}
-
-/* Flashcard logic */
-function refreshFlash(next=false){
-  const items = filterItems();
-  const box = el("flashRevealBox");
-  box.style.display = "none";
-  box.innerHTML = "";
-
-  if(items.length === 0){
-    el("flashBig").textContent = "—";
-    el("flashSmall").textContent = "Sem itens com este filtro/busca.";
+function handleSearch(){
+  const text = q.value.trim();
+  results.innerHTML="";
+  if(!text){
+    results.innerHTML="<p style='color:var(--muted);text-align:center;'>Digite uma palavra japonesa acima.</p>";
     return;
   }
 
-  const pick = items[Math.floor(Math.random() * items.length)];
-  if(state.tab === "kanji"){
-    el("flashBig").textContent = pick.k;
-    el("flashSmall").textContent = state.focus ? "Pense no significado e no uso." : (pick.pt + (state.showKana ? ` • ${pick.hira}` : ""));
-    box.innerHTML = `
-      <div class="detailBlock">
-        <b>Resposta:</b><br>
-        ${pick.pt}${state.showKana ? ` <span style="color:var(--accent2)">（${pick.hira}）</span>` : ""}<br><br>
-        <b>Exemplo:</b> ${pick.words[0].jp}${state.showKana ? ` <span style="color:var(--accent2)">（${pick.words[0].hira}）</span>` : ""}${state.showPT ? ` — ${pick.words[0].pt}` : ""}
-      </div>
-    `;
-  } else {
-    el("flashBig").textContent = "フレーズ";
-    el("flashSmall").textContent = state.focus ? "Tente ler e traduzir." : (pick.jp + (state.showKana ? ` • ${pick.hira}` : ""));
-    box.innerHTML = `
-      <div class="detailBlock">
-        <b>Resposta (PT-BR):</b><br>
-        ${state.showPT ? pick.pt : "—"}<br><br>
-        <b>Linha a linha:</b><br>
-        ${pick.lineByLine.map(l=>`• ${l.jp}${state.showKana ? ` <span style="color:var(--accent2)">（${l.hira}）</span>` : ""}${state.showPT ? ` — ${l.pt}` : ""}`).join("<br>")}
-      </div>
-    `;
+  const found = WORDS.filter(w=>JSON.stringify(w).includes(text));
+  if(found.length===0){
+    results.innerHTML=`<p style='color:var(--muted);text-align:center;'>Nenhum resultado encontrado para “${text}”.</p>`;
+    return;
   }
+
+  found.forEach(w=>{
+    const card = document.createElement("div");
+    card.className="card";
+    card.innerHTML=`
+      <div class="jp">${w.jp}</div>
+      <div class="hira">${w.hira}</div>
+      <div class="mean">(${w.tipo}) — ${w.mean}</div>
+      <div class="tag">Exemplos:</div>
+      ${w.examples.map(e=>`
+        <div class="ex">
+          <div class="exline"><b>${e.jp}</b><br><span style="color:var(--accent2)">${e.hira}</span><br>${e.pt}</div>
+          <div class="exp">Explicação: ${e.exp}</div>
+        </div>
+      `).join("")}
+    `;
+    results.appendChild(card);
+  });
 }
 
-/* init */
-(function init(){
-  // set default theme marker so toggle works
-  if(!document.documentElement.dataset.theme) document.documentElement.dataset.theme = "ink";
-  render();
-  refreshFlash();
-})();
+handleSearch();
 </script>
-
 </body>
 </html>
