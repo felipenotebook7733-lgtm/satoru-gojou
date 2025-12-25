@@ -149,9 +149,10 @@ nav{
   margin-top:12px;
   display:flex;
   gap:10px;
+  flex-wrap:wrap;
 }
 .searchbox input{
-  width:100%;
+  flex: 1 1 320px;
   padding:12px 14px;
   border-radius:14px;
   border:1px solid var(--border);
@@ -161,12 +162,33 @@ nav{
 }
 .searchbox input::placeholder{ color:var(--muted2); }
 
+.row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+}
+.toggle{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:var(--muted);
+  font-size:12px;
+}
+.toggle input{ transform: translateY(1px); }
+
 .card{
   background: rgba(255,255,255,.07);
   border:1px solid var(--border);
   border-radius: var(--radius);
   padding:16px;
   margin-top:12px;
+}
+
+.card.exact{
+  border-color: rgba(54,209,220,.38);
+  box-shadow: 0 0 0 1px rgba(54,209,220,.08), var(--shadow);
 }
 
 .jp{
@@ -203,6 +225,7 @@ nav{
 .badge.n5{ border-color: rgba(52,211,153,.35); color: rgba(52,211,153,.95); }
 .badge.n4{ border-color: rgba(123,92,255,.45); color: rgba(123,92,255,.95); }
 .badge.tag{ border-color: rgba(54,209,220,.35); color: rgba(54,209,220,.95); }
+.badge.exact{ border-color: rgba(54,209,220,.55); color: rgba(54,209,220,.95); }
 
 .ex{
   margin-top:14px;
@@ -230,6 +253,7 @@ nav{
   align-items:center;
   gap:8px;
   margin-top:10px;
+  flex-wrap:wrap;
 }
 .btn{
   cursor:pointer;
@@ -297,6 +321,7 @@ hr.sep{
   color:var(--muted);
   font-size:13px;
 }
+.small b{ color:var(--text); }
 </style>
 </head>
 
@@ -325,8 +350,16 @@ hr.sep{
   <section id="dic" class="section active">
     <div class="grid">
       <div class="panel">
-        <h2>Dicionário (JP → PT-BR)</h2>
-        <p class="hint">Digite uma palavra em japonês (kanji/kana) ou português. Ex.: 食べる / げんき / “tranquilo”.</p>
+        <div class="row">
+          <div>
+            <h2>Dicionário (JP → PT-BR)</h2>
+            <p class="hint">Busca “certa”: resultado exato primeiro. Aceita kanji/kana/português. Ex.: 食べる / げんき / “atrasar”.</p>
+          </div>
+          <label class="toggle" title="Se ligar, só mostra a entrada exata quando existir.">
+            <input type="checkbox" id="onlyExact" />
+            mostrar só exato (quando houver)
+          </label>
+        </div>
 
         <div class="searchbox">
           <input id="q" type="text" placeholder="Buscar palavra..." autocomplete="off" />
@@ -339,16 +372,20 @@ hr.sep{
       <div class="panel">
         <h2>Como estudar (método simples)</h2>
         <p class="small">
-          1) Busque uma palavra → leia o significado.<br>
-          2) Leia as 3 frases em japonês (sem PT).<br>
-          3) Revele hiragana, depois a tradução.<br>
-          4) Compare as estruturas (partículas, tempos, padrão).<br>
+          1) Busque a palavra → confirme leitura e significado.<br>
+          2) Leia as 3 frases (Japonês → hiragana → PT).<br>
+          3) Repare nas estruturas fixas na explicação.<br>
+          4) Faça variações trocando só um elemento (tempo, lugar, objeto).<br>
         </p>
         <hr class="sep">
         <div class="mini">
           <div class="btn primary" onclick="randomWord()">Palavra aleatória</div>
           <div class="btn" onclick="openTab('kanji')">Ver kanji (N5→N4)</div>
         </div>
+        <hr class="sep">
+        <p class="small">
+          <b>Meta 2000:</b> este site já está pronto para isso. Você só vai adicionando itens no array <b>WORDS</b>.
+        </p>
       </div>
     </div>
   </section>
@@ -357,7 +394,7 @@ hr.sep{
   <section id="kanji" class="section">
     <div class="panel">
       <h2>Kanji — ordem N5 → N4</h2>
-      <p class="hint">Clique em um kanji para abrir o Dicionário e ver significado + exemplos. (N5 aparece primeiro, depois N4)</p>
+      <p class="hint">Clique em um kanji para abrir o Dicionário e buscar automaticamente.</p>
       <div class="kanjigrid" id="kanjigrid"></div>
     </div>
   </section>
@@ -367,17 +404,14 @@ hr.sep{
     <div class="panel">
       <h2>Sobre — ヴァンパイア全知全能</h2>
       <p class="small">
-        Este site é o <b>辞典 (dicionário)</b> do projeto <b>ヴァンパイア全知全能</b>.<br>
-        A proposta é estudo prático (N5→N4): palavra → frases reais → explicação detalhada em PT-BR.<br><br>
-
-        <b>Por que “ヴァンパイア全知全能”?</b><br>
-        “Vampiro” como metáfora do observador eterno: coleta, registra, compara e entende padrões na linguagem.<br>
-        “全知全能” como disciplina: aprender sistematicamente, sem pular fundamentos.
+        Este dicionário é parte do projeto <b>ヴァンパイア全知全能</b>.<br>
+        Aqui o foco é estudo real do cotidiano (N5→N4): <b>palavra → 3 frases → explicação detalhada em PT-BR</b>.<br><br>
+        “Vampiro” é metáfora do observador que coleta padrões e não deixa nada escapar.<br>
+        “全知全能” representa disciplina: aprender com método, consistência e contexto.
       </p>
       <hr class="sep">
       <p class="small">
-        Conteúdo e estrutura: <b>ヴァンパイア全知全能</b><br>
-        Objetivo: tornar o japonês do cotidiano estudável com precisão.
+        Conteúdo, estrutura e identidade: <b>ヴァンパイア全知全能</b> — versão web de estudo profundo.
       </p>
     </div>
   </section>
@@ -388,9 +422,10 @@ hr.sep{
 <script>
 /* =========================
    DADOS: PALAVRAS (DICIONÁRIO)
-   Adicione aqui para expandir.
+   Meta 2000: você só vai adicionando aqui (ou em lotes).
    ========================= */
 const WORDS = [
+  /* ===== Base inicial (você já tinha) ===== */
   {
     jp:"食べる",
     hira:"たべる",
@@ -408,13 +443,13 @@ const WORDS = [
         jp:"何を食べたいですか？",
         hira:"なに を たべたい です か？",
         pt:"O que você quer comer?",
-        exp:"〜たい = querer; ですか = pergunta educada; padrão de restaurante/conversa."
+        exp:"〜たい = querer; ですか = pergunta educada."
       },
       {
         jp:"友だちと昼ごはんを食べに行きます。",
         hira:"ともだち と ひるごはん を たべ に いきます。",
         pt:"Vou almoçar com um amigo.",
-        exp:"〜に行く = ir para fazer algo; estrutura fixa: V辞書+に行く / Vます-stem+に行く."
+        exp:"Vます-stem + に行く = ir para fazer algo (見に行く / 食べに行く)."
       }
     ]
   },
@@ -429,19 +464,19 @@ const WORDS = [
         jp:"元気ですか？",
         hira:"げんき です か？",
         pt:"Tudo bem?",
-        exp:"Pergunta padrão. です = polido; か = interrogativa."
+        exp:"Pergunta padrão. です + か = pergunta educada."
       },
       {
         jp:"今日は元気がないね。",
         hira:"きょう は げんき が ない ね。",
         pt:"Hoje você não parece bem.",
-        exp:"〜がない = não ter; ね suaviza e pede concordância (tom de conversa)."
+        exp:"〜がない = não ter (energia/ânimo). ね suaviza e pede concordância."
       },
       {
         jp:"子どもたちは元気に走っています。",
         hira:"こどもたち は げんき に はしって います。",
         pt:"As crianças estão correndo cheias de energia.",
-        exp:"元気に = 'com energia' (advérbio); 〜ている = ação em andamento."
+        exp:"元気に = advérbio ('com energia'); 〜ている = ação em andamento."
       }
     ]
   },
@@ -456,7 +491,7 @@ const WORDS = [
         jp:"大丈夫ですか？",
         hira:"だいじょうぶ です か？",
         pt:"Você está bem?",
-        exp:"Padrão de checagem/atenção. Pode ser saúde, situação, entendimento."
+        exp:"Serve para saúde, situação e também entendimento ('entendeu?')."
       },
       {
         jp:"大丈夫、間に合うよ。",
@@ -489,7 +524,7 @@ const WORDS = [
         jp:"映画を見に行きます。",
         hira:"えいが を み に いきます。",
         pt:"Vou assistir um filme (vou ao cinema).",
-        exp:"Vます-stem + に行く = ir para fazer algo. (見ます→見)."
+        exp:"Vます-stem + に行く = ir para fazer algo (見ます→見)."
       },
       {
         jp:"ちょっと見てもいいですか？",
@@ -500,55 +535,135 @@ const WORDS = [
     ]
   },
 
-  /* Kanji como entradas também ajuda na busca por 1 caractere */
+  /* ===== MUITO MAIS (bloco grande) ===== */
   {
-    jp:"行",
-    hira:"いく / おこなう",
-    tipo:"kanji (base)",
-    mean:"ir; realizar",
-    tags:["N5","kanji"],
+    jp:"行く",
+    hira:"いく",
+    tipo:"verbo (godan)",
+    mean:"ir",
+    tags:["N5","cotidiano"],
     examples:[
-      {
-        jp:"駅まで歩いて行きます。",
-        hira:"えき まで あるいて いきます。",
-        pt:"Vou até a estação caminhando.",
-        exp:"まで = até; 〜て行く = ir fazendo (aqui literal: ir)."
-      },
-      {
-        jp:"来週、病院に行く予定です。",
-        hira:"らいしゅう、びょういん に いく よてい です。",
-        pt:"Semana que vem, planejo ir ao hospital.",
-        exp:"予定です = plano (N4); estrutura: V辞書 + 予定です."
-      },
-      {
-        jp:"会議を行います。",
-        hira:"かいぎ を おこないます。",
-        pt:"Vamos realizar a reunião.",
-        exp:"行う (おこなう) é leitura/uso mais formal: realizar, executar."
-      }
+      { jp:"これから駅に行きます。", hira:"これから えき に いきます。", pt:"Agora vou para a estação.", exp:"これから = a partir de agora; に = destino; ます = polido." },
+      { jp:"週末、友だちと買い物に行く。", hira:"しゅうまつ、ともだち と かいもの に いく。", pt:"No fim de semana, vou fazer compras com um amigo.", exp:"N + に行く = ir para fazer algo; tom casual sem ます." },
+      { jp:"あとで行ってもいい？", hira:"あとで いっても いい？", pt:"Posso ir mais tarde?", exp:"〜てもいい？ = pedir permissão (casual)." }
+    ]
+  },
+  {
+    jp:"帰る",
+    hira:"かえる",
+    tipo:"verbo (godan)",
+    mean:"voltar (para casa, etc.)",
+    tags:["N5","cotidiano"],
+    examples:[
+      { jp:"今日は早く帰ります。", hira:"きょう は はやく かえります。", pt:"Hoje volto cedo.", exp:"早く = cedo/rápido (advérbio); rotina." },
+      { jp:"家に帰ったら、すぐシャワーを浴びる。", hira:"いえ に かえったら、すぐ しゃわー を あびる。", pt:"Quando eu chegar em casa, tomo banho na hora.", exp:"〜たら = quando/assim que; すぐ = imediatamente." },
+      { jp:"何時に帰ってくる？", hira:"なんじ に かえってくる？", pt:"Que horas você volta?", exp:"〜てくる = voltar vindo; pergunta cotidiana." }
+    ]
+  },
+  {
+    jp:"休む",
+    hira:"やすむ",
+    tipo:"verbo (godan)",
+    mean:"descansar; faltar",
+    tags:["N5","cotidiano"],
+    examples:[
+      { jp:"今日は体調が悪いので休みます。", hira:"きょう は たいちょう が わるい ので やすみます。", pt:"Hoje vou descansar porque não estou bem.", exp:"ので = motivo (mais neutro/objetivo)." },
+      { jp:"日曜日はゆっくり休んだ。", hira:"にちようび は ゆっくり やすんだ。", pt:"Domingo eu descansei tranquilo.", exp:"ゆっくり = devagar/relaxado; passado casual." },
+      { jp:"明日、仕事を休んでもいいですか。", hira:"あした、しごと を やすんでも いい ですか。", pt:"Amanhã posso faltar ao trabalho?", exp:"〜てもいいですか = pedir permissão (polido)." }
+    ]
+  },
+  {
+    jp:"忙しい",
+    hira:"いそがしい",
+    tipo:"い-adjetivo",
+    mean:"ocupado; corrido",
+    tags:["N4","cotidiano"],
+    examples:[
+      { jp:"最近、仕事が忙しいです。", hira:"さいきん、しごと が いそがしい です。", pt:"Ultimamente o trabalho está corrido.", exp:"最近 = ultimamente; padrão muito comum." },
+      { jp:"忙しくて、返信が遅れました。", hira:"いそがしくて、へんしん が おくれました。", pt:"Eu estava ocupado e a resposta atrasou.", exp:"〜くて = causa; 遅れる = atrasar." },
+      { jp:"今日は忙しそうだね。", hira:"きょう は いそがしそう だね。", pt:"Hoje você parece ocupado.", exp:"〜そう = aparência; だね = conversa." }
+    ]
+  },
+  {
+    jp:"遅れる",
+    hira:"おくれる",
+    tipo:"verbo (ichidan)",
+    mean:"atrasar-se; atrasar",
+    tags:["N4","cotidiano"],
+    examples:[
+      { jp:"ごめん、少し遅れる。", hira:"ごめん、すこし おくれる。", pt:"Foi mal, vou me atrasar um pouco.", exp:"Frase de mensagem real. すこし = um pouco." },
+      { jp:"電車が遅れている。", hira:"でんしゃ が おくれている。", pt:"O trem está atrasado.", exp:"〜ている = estado atual (está atrasado agora)." },
+      { jp:"連絡が遅れてすみません。", hira:"れんらく が おくれて すみません。", pt:"Desculpa a demora em responder/avisar.", exp:"Expressão padrão de e-mail/mensagem." }
+    ]
+  },
+  {
+    jp:"間に合う",
+    hira:"まにあう",
+    tipo:"verbo (godan)",
+    mean:"dar tempo; chegar a tempo",
+    tags:["N4","cotidiano"],
+    examples:[
+      { jp:"急げば間に合うよ。", hira:"いそげば まにあう よ。", pt:"Se correr, dá tempo.", exp:"〜ば = condicional; よ = garante/assegura." },
+      { jp:"時間に間に合わなかった。", hira:"じかん に まにあわなかった。", pt:"Não deu tempo.", exp:"Forma negativa passada casual." },
+      { jp:"この電車に乗れば間に合います。", hira:"この でんしゃ に のれば まにあいます。", pt:"Se pegar esse trem, dá tempo.", exp:"Estrutura bem prática: 乗れば + 間に合う." }
+    ]
+  },
+  {
+    jp:"必要",
+    hira:"ひつよう",
+    tipo:"な-adjetivo / substantivo",
+    mean:"necessário",
+    tags:["N4","cotidiano"],
+    examples:[
+      { jp:"パスポートが必要です。", hira:"ぱすぽーと が ひつよう です。", pt:"Precisa de passaporte.", exp:"が = sujeito/necessidade; padrão de instrução." },
+      { jp:"必要なら、手伝います。", hira:"ひつよう なら、てつだいます。", pt:"Se precisar, eu ajudo.", exp:"なら = se for o caso; oferta natural." },
+      { jp:"それは必要ないと思う。", hira:"それ は ひつよう ない と おもう。", pt:"Acho que isso não é necessário.", exp:"必要ない = não precisar; と思う = acho que." }
+    ]
+  },
+  {
+    jp:"便利",
+    hira:"べんり",
+    tipo:"な-adjetivo",
+    mean:"conveniente; prático",
+    tags:["N4","cotidiano"],
+    examples:[
+      { jp:"このアプリは便利です。", hira:"この あぷり は べんり です。", pt:"Esse app é prático.", exp:"Frase cotidiana de avaliação." },
+      { jp:"駅の近くは便利だよ。", hira:"えき の ちかく は べんり だよ。", pt:"Perto da estação é conveniente.", exp:"だよ = casual afirmativo." },
+      { jp:"便利だけど、少し高い。", hira:"べんり だけど、すこし たかい。", pt:"É prático, mas é um pouco caro.", exp:"だけど = mas (casual)." }
+    ]
+  },
+
+  /* ===== Entrada kanji como item (para buscar por 1 kanji também) ===== */
+  {
+    jp:"考",
+    hira:"かんが・える（考える）",
+    tipo:"kanji / verbo relacionado",
+    mean:"pensar; refletir",
+    tags:["N4","kanji"],
+    examples:[
+      { jp:"将来について考える。", hira:"しょうらい に ついて かんがえる。", pt:"Pensar sobre o futuro.", exp:"〜について = sobre; padrão de tema." },
+      { jp:"よく考えてから答えてください。", hira:"よく かんがえて から こたえて ください。", pt:"Pense bem antes de responder, por favor.", exp:"〜てから = depois de; ください = pedido." },
+      { jp:"一人で考え込んでしまった。", hira:"ひとり で かんがえこんで しまった。", pt:"Acabei ficando pensando sozinho (demais).", exp:"考え込む = pensar profundamente; 〜てしまう = acabou acontecendo." }
     ]
   }
 ];
 
 /* =========================
    DADOS: KANJI (ORDEM N5→N4)
-   Clique no kanji = abre o dicionário e busca.
    ========================= */
 const KANJI_ORDER = [
-  // N5 (primeiro)
-  {k:"日", lvl:"N5"}, {k:"一", lvl:"N5"}, {k:"人", lvl:"N5"}, {k:"大", lvl:"N5"}, {k:"本", lvl:"N5"},
-  {k:"中", lvl:"N5"}, {k:"学", lvl:"N5"}, {k:"行", lvl:"N5"}, {k:"見", lvl:"N5"}, {k:"食", lvl:"N5"},
-  {k:"飲", lvl:"N5"}, {k:"来", lvl:"N5"}, {k:"言", lvl:"N5"}, {k:"思", lvl:"N5"}, {k:"会", lvl:"N5"},
-  {k:"今", lvl:"N5"}, {k:"名", lvl:"N5"}, {k:"話", lvl:"N5"}, {k:"何", lvl:"N5"}, {k:"車", lvl:"N5"},
-  {k:"先", lvl:"N5"}, {k:"友", lvl:"N5"}, {k:"書", lvl:"N5"}, {k:"読", lvl:"N5"}, {k:"聞", lvl:"N5"},
-  {k:"買", lvl:"N5"}, {k:"新", lvl:"N5"}, {k:"時", lvl:"N5"}, {k:"住", lvl:"N5"},
+  // N5
+  {k:"日", lvl:"N5"},{k:"一", lvl:"N5"},{k:"人", lvl:"N5"},{k:"大", lvl:"N5"},{k:"本", lvl:"N5"},
+  {k:"中", lvl:"N5"},{k:"学", lvl:"N5"},{k:"行", lvl:"N5"},{k:"見", lvl:"N5"},{k:"食", lvl:"N5"},
+  {k:"飲", lvl:"N5"},{k:"来", lvl:"N5"},{k:"言", lvl:"N5"},{k:"思", lvl:"N5"},{k:"会", lvl:"N5"},
+  {k:"今", lvl:"N5"},{k:"名", lvl:"N5"},{k:"話", lvl:"N5"},{k:"何", lvl:"N5"},{k:"車", lvl:"N5"},
+  {k:"先", lvl:"N5"},{k:"友", lvl:"N5"},{k:"書", lvl:"N5"},{k:"読", lvl:"N5"},{k:"聞", lvl:"N5"},
+  {k:"買", lvl:"N5"},{k:"新", lvl:"N5"},{k:"時", lvl:"N5"},{k:"住", lvl:"N5"},
 
-  // N4 (depois)
-  {k:"考", lvl:"N4"}, {k:"続", lvl:"N4"}, {k:"困", lvl:"N4"}, {k:"決", lvl:"N4"}, {k:"予", lvl:"N4"},
-  {k:"変", lvl:"N4"}, {k:"遅", lvl:"N4"}, {k:"忘", lvl:"N4"}, {k:"返", lvl:"N4"}, {k:"直", lvl:"N4"},
-  {k:"置", lvl:"N4"}, {k:"起", lvl:"N4"}, {k:"眠", lvl:"N4"}, {k:"乗", lvl:"N4"}, {k:"降", lvl:"N4"},
-  {k:"旅", lvl:"N4"}, {k:"説", lvl:"N4"}, {k:"理", lvl:"N4"}, {k:"由", lvl:"N4"}, {k:"経", lvl:"N4"},
-  {k:"験", lvl:"N4"}, {k:"運", lvl:"N4"}, {k:"合", lvl:"N4"}, {k:"申", lvl:"N4"}, {k:"付", lvl:"N4"}
+  // N4 (amostra; você vai aumentando)
+  {k:"考", lvl:"N4"},{k:"続", lvl:"N4"},{k:"困", lvl:"N4"},{k:"決", lvl:"N4"},{k:"予", lvl:"N4"},
+  {k:"変", lvl:"N4"},{k:"遅", lvl:"N4"},{k:"忘", lvl:"N4"},{k:"返", lvl:"N4"},{k:"直", lvl:"N4"},
+  {k:"置", lvl:"N4"},{k:"起", lvl:"N4"},{k:"眠", lvl:"N4"},{k:"乗", lvl:"N4"},{k:"降", lvl:"N4"}
 ];
 
 /* =========================
@@ -569,37 +684,75 @@ const tabs = {
 const q = document.getElementById("q");
 const results = document.getElementById("results");
 const kanjigrid = document.getElementById("kanjigrid");
+const onlyExactEl = document.getElementById("onlyExact");
 
 function openTab(id){
-  // sections
   Object.values(sections).forEach(s=>s.classList.remove("active"));
   sections[id].classList.add("active");
 
-  // tabs
   Object.values(tabs).forEach(t=>t.classList.remove("active"));
   tabs[id].classList.add("active");
 
-  // per-tab actions
   if(id === "kanji") renderKanjiGrid();
   if(id === "dic") setTimeout(()=>q.focus(), 0);
 }
 
 function normalize(s){
-  return (s ?? "").toString().trim().toLowerCase();
+  return (s ?? "")
+    .toString()
+    .trim()
+    .toLowerCase()
+    // remove espaços japoneses/ocidentais e pontuações comuns
+    .replace(/[\s　]+/g, "")
+    .replace(/[。、，,.!?！？「」『』（）()【】\[\]""'’]/g, "");
 }
 
-function matchesWord(word, query){
-  const qn = normalize(query);
-  if(!qn) return true;
+function isExactHeadword(word, queryNorm){
+  const jp = normalize(word.jp);
+  const hira = normalize(word.hira);
+  const mean = normalize(word.mean);
+  return (jp && jp === queryNorm) || (hira && hira === queryNorm) || (mean && mean === queryNorm);
+}
 
-  // searchable fields
-  const fields = [
-    word.jp, word.hira, word.tipo, word.mean,
-    ...(word.tags || []),
-    ...(word.examples || []).flatMap(e => [e.jp, e.hira, e.pt, e.exp])
-  ].map(normalize);
+function scoreWord(word, queryNorm){
+  // Scores altos = vem primeiro.
+  const jp = normalize(word.jp);
+  const hira = normalize(word.hira);
+  const mean = normalize(word.mean);
 
-  return fields.some(f => f.includes(qn));
+  // 1) Exato na entrada
+  if(jp === queryNorm) return 1000;
+  if(hira === queryNorm) return 950;
+  if(mean === queryNorm) return 900;
+
+  // 2) Começa com…
+  if(jp.startsWith(queryNorm)) return 780;
+  if(hira.startsWith(queryNorm)) return 740;
+  if(mean.startsWith(queryNorm)) return 700;
+
+  // 3) Contém…
+  if(jp.includes(queryNorm)) return 520;
+  if(hira.includes(queryNorm)) return 500;
+  if(mean.includes(queryNorm)) return 480;
+
+  // 4) Procura nos exemplos (mais fraco)
+  const ex = (word.examples || []);
+  let best = 0;
+  for(const e of ex){
+    const ejp = normalize(e.jp);
+    const ehira = normalize(e.hira);
+    const ept = normalize(e.pt);
+    if(ejp === queryNorm || ehira === queryNorm || ept === queryNorm) best = Math.max(best, 360);
+    else if(ejp.includes(queryNorm) || ehira.includes(queryNorm) || ept.includes(queryNorm)) best = Math.max(best, 220);
+  }
+
+  // 5) Tags/Tipo
+  const tags = (word.tags || []).map(normalize);
+  const tipo = normalize(word.tipo);
+  if(tags.some(t => t.includes(queryNorm))) best = Math.max(best, 180);
+  if(tipo.includes(queryNorm)) best = Math.max(best, 160);
+
+  return best;
 }
 
 function clearSearch(){
@@ -609,30 +762,60 @@ function clearSearch(){
 }
 
 function randomWord(){
-  const pool = WORDS;
-  if(pool.length === 0) return;
-  const pick = pool[Math.floor(Math.random() * pool.length)];
+  if(!WORDS.length) return;
+  const pick = WORDS[Math.floor(Math.random() * WORDS.length)];
   q.value = pick.jp;
   renderResults(pick.jp);
 }
 
 function renderResults(query){
-  const text = (query ?? q.value).trim();
+  const raw = (query ?? q.value).trim();
   results.innerHTML = "";
 
-  if(!text){
-    results.innerHTML = `<div class="card"><div class="mean" style="color:var(--muted)">Digite algo para buscar. Ex.: 食べる / げんき / “tranquilo”.</div></div>`;
+  if(!raw){
+    results.innerHTML = `<div class="card"><div class="mean" style="color:var(--muted)">Digite algo para buscar. Ex.: 食べる / げんき / “atrasar”.</div></div>`;
     return;
   }
 
-  const found = WORDS.filter(w => matchesWord(w, text));
+  const qNorm = normalize(raw);
 
-  if(found.length === 0){
-    results.innerHTML = `<div class="card"><div class="mean">Nenhum resultado para “${escapeHtml(text)}”.</div><div class="hira">Dica: tente kana (ひらがな), kanji, ou português.</div></div>`;
+  // rankeia e filtra
+  const ranked = WORDS
+    .map(w => ({ w, s: scoreWord(w, qNorm) }))
+    .filter(x => x.s > 0)
+    .sort((a,b) => b.s - a.s);
+
+  if(ranked.length === 0){
+    results.innerHTML = `<div class="card"><div class="mean">Nenhum resultado para “${escapeHtml(raw)}”.</div><div class="hira">Dica: tente kana (ひらがな), kanji, ou português.</div></div>`;
     return;
   }
 
-  found.forEach(w=>{
+  // Se existe resultado exato na entrada (jp/hira/mean), destaca.
+  const exact = ranked.filter(x => isExactHeadword(x.w, qNorm));
+  const nonExact = ranked.filter(x => !isExactHeadword(x.w, qNorm));
+
+  const onlyExact = !!onlyExactEl.checked;
+  const finalList = exact.length ? (onlyExact ? exact : [...exact, ...nonExact]) : ranked;
+
+  // Cabeçalho de contexto
+  const header = document.createElement("div");
+  header.className = "card";
+  header.innerHTML = `
+    <div class="mean">
+      Busca: <b>${escapeHtml(raw)}</b> — resultados: <b>${finalList.length}</b>
+      ${exact.length ? `&nbsp;&nbsp;<span class="badge exact">exato encontrado</span>` : ``}
+    </div>
+    <div class="hira">
+      Dica: se quiser só a entrada exata, ative “mostrar só exato (quando houver)”.
+    </div>
+  `;
+  results.appendChild(header);
+
+  // Render
+  finalList.slice(0, 30).forEach((item, idx) => { // limite UI (o dataset pode ser 2000; renderiza top 30)
+    const w = item.w;
+    const isExact = isExactHeadword(w, qNorm);
+
     const levelBadges = (w.tags || []).map(t=>{
       const low = t.toLowerCase();
       if(low === "n5") return `<span class="badge n5">N5</span>`;
@@ -641,23 +824,35 @@ function renderResults(query){
     }).join("");
 
     const card = document.createElement("div");
-    card.className = "card";
-
+    card.className = "card" + (isExact ? " exact" : "");
     card.innerHTML = `
       <div class="jp">${escapeHtml(w.jp)}</div>
       <div class="hira">${escapeHtml(w.hira || "—")}</div>
       <div class="mean">(${escapeHtml(w.tipo || "—")}) — ${escapeHtml(w.mean || "—")}</div>
-      <div class="badges">${levelBadges}</div>
-
+      <div class="badges">
+        ${isExact ? `<span class="badge exact">resultado exato</span>` : ``}
+        ${levelBadges}
+      </div>
       ${renderExamples(w.examples || [])}
     `;
     results.appendChild(card);
   });
+
+  // Se tiver mais, avisa
+  if(finalList.length > 30){
+    const more = document.createElement("div");
+    more.className = "card";
+    more.innerHTML = `
+      <div class="mean">Mostrando os <b>30</b> melhores resultados (de ${finalList.length}).</div>
+      <div class="hira">Para refinamento: digite mais específico (ex.: まにあう, 間に合う, “necessário”).</div>
+    `;
+    results.appendChild(more);
+  }
 }
 
 function renderExamples(examples){
   if(!examples.length){
-    return `<div class="ex"><h4>Exemplos</h4><div class="exp">Sem exemplos ainda. (Você pode adicionar 3 aqui.)</div></div>`;
+    return `<div class="ex"><h4>Exemplos</h4><div class="exp">Sem exemplos ainda. (Adicione 3 aqui.)</div></div>`;
   }
   const exHtml = examples.slice(0,3).map((e, idx)=>`
     <div class="ex">
@@ -675,8 +870,6 @@ function renderExamples(examples){
 
 function renderKanjiGrid(){
   kanjigrid.innerHTML = "";
-
-  // order N5 first then N4 (already arranged), but just in case:
   const rank = (lvl)=> lvl === "N5" ? 0 : 1;
   const list = [...KANJI_ORDER].sort((a,b)=> rank(a.lvl) - rank(b.lvl));
 
@@ -708,6 +901,7 @@ function escapeHtml(str){
 
 // Events
 q.addEventListener("input", ()=> renderResults(q.value));
+onlyExactEl.addEventListener("change", ()=> renderResults(q.value));
 
 // init
 renderResults("");
